@@ -94,8 +94,8 @@ function saveQuote(q) {
   const idx = indexSheet();
   let row = findRow(idx, q.id);
   const oldTab = row > 0 ? idx.getRange(row, 8).getValue() : '';
-  const base = cleanName(q.client) + ' - ' + dmy(q.date).replace(/\//g, '-');
-  let tabName = oldTab && oldTab.indexOf(cleanName(q.client)) === 0 ? oldTab : uniqueName(base, oldTab);
+  const base = (q.type === 'invoice' ? 'فاتورة - ' : '') + cleanName(q.client) + ' - ' + dmy(q.date).replace(/\//g, '-');
+  let tabName = oldTab && oldTab.indexOf(base) === 0 ? oldTab : uniqueName(base, oldTab);
 
   let sh = oldTab ? ss.getSheetByName(oldTab) : null;
   if (!sh) sh = ss.insertSheet(tabName);
@@ -122,7 +122,8 @@ function writeQuoteTab(sh, q) {
     ? { title: 'QUOTATION', client: 'Client:', date: 'Date:', greet: 'We are pleased to submit the following quotation:', no: '#', desc: 'Description', qty: 'Qty', price: 'Unit Price', total: 'Total', notes: 'Notes:', contact: 'Contact Us:', regards: 'Best regards' }
     : { title: 'عـرض سعـر', client: 'اسم العميل /', date: 'التاريخ:', greet: 'تحية طيبة وبعد، نتشرف بتقديم عرض السعر التالي:', no: 'م', desc: 'البيان والمواصفات', qty: 'الكمية', price: 'السعر', total: 'الإجمالي', notes: 'ملاحظات:', contact: 'Contact US :', regards: 'مع خالص التحية والشكر' };
   const items = (q.items || []).filter(it => String(it.d || '').trim());
-  const notes = (q.notes || []).filter(n => String(n || '').trim());
+  if (q.type === 'invoice') L.title = en ? 'INVOICE' : 'فـاتـورة';
+  const notes = q.showNotes === false ? [] : (q.notes || []).filter(n => String(n || '').trim());
   const LINE = '#E6E1D6';
   const S = SpreadsheetApp.BorderStyle;
 
