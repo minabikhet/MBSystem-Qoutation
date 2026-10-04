@@ -113,6 +113,10 @@ function saveQuote(q) {
 
 const LOGO_URL = 'https://minabikhet.github.io/MBSystem-Qoutation/logo.png';
 const PHONES = ['01017886248', '01222455495'];
+const SITE = 'https://minabikhet.github.io/MBSystem-Qoutation/';
+const SIG_URL = SITE + 'signature.png';
+const ICON_PW = SITE + 'icon-phone-wa.png';
+const ICON_FB = SITE + 'icon-fb.png';
 const FB_URL = 'https://www.facebook.com/share/1CAqvtfLLw/';
 
 /** Draws the quote tab to look like the printed quotation in the app. */
@@ -122,7 +126,10 @@ function writeQuoteTab(sh, q) {
     ? { title: 'QUOTATION', client: 'Client:', date: 'Date:', greet: 'We are pleased to submit the following quotation:', no: '#', desc: 'Description', qty: 'Qty', price: 'Unit Price', total: 'Total', notes: 'Notes:', contact: 'Contact Us:', regards: 'Best regards' }
     : { title: 'عـرض سعـر', client: 'اسم العميل /', date: 'التاريخ:', greet: 'تحية طيبة وبعد، نتشرف بتقديم عرض السعر التالي:', no: 'م', desc: 'البيان والمواصفات', qty: 'الكمية', price: 'السعر', total: 'الإجمالي', notes: 'ملاحظات:', contact: 'Contact US :', regards: 'مع خالص التحية والشكر' };
   const items = (q.items || []).filter(it => String(it.d || '').trim());
-  if (q.type === 'invoice') L.title = en ? 'INVOICE' : 'فـاتـورة';
+  if (q.type === 'invoice') {
+    L.title = en ? 'INVOICE' : 'فـاتـورة';
+    L.greet = en ? 'Please find below the invoice for the following works and supplies:' : 'تحية طيبة وبعد، مرفق لسيادتكم الفاتورة الخاصة بالأعمال والمشتريات التالية:';
+  }
   const notes = q.showNotes === false ? [] : (q.notes || []).filter(n => String(n || '').trim());
   const LINE = '#E6E1D6';
   const S = SpreadsheetApp.BorderStyle;
@@ -205,13 +212,23 @@ function writeQuoteTab(sh, q) {
   const ft = r;
   sh.getRange(ft, 2, 1, 5).setBorder(true, null, null, null, null, null, GOLD, S.SOLID_MEDIUM);
   M(sh.getRange(ft, 2, 1, 2)).setValue(L.contact).setFontFamily('Arial').setFontWeight('bold').setFontColor(NAVY).setHorizontalAlignment(start);
-  M(sh.getRange(ft + 1, 2, 1, 2)).setValue("'" + PHONES[0]).setFontFamily('Arial').setFontWeight('bold').setHorizontalAlignment(start);
-  M(sh.getRange(ft + 2, 2, 1, 2)).setValue("'" + PHONES[1]).setFontFamily('Arial').setFontWeight('bold').setHorizontalAlignment(start);
-  M(sh.getRange(ft + 3, 2, 1, 2)).setFormula('=HYPERLINK("' + FB_URL + '","' + String(q.fb || 'MB Systems').replace(/"/g, '""') + '")')
+  // phone + WhatsApp icons in column B, the number beside them in column C
+  [PHONES[0], PHONES[1]].forEach((p, i) => {
+    sh.getRange(ft + 1 + i, 2).setFormula('=IMAGE("' + ICON_PW + '",1)');
+    sh.getRange(ft + 1 + i, 3).setValue("'" + p).setFontFamily('Arial').setFontWeight('bold').setHorizontalAlignment(start);
+  });
+  sh.getRange(ft + 3, 2).setFormula('=IMAGE("' + ICON_FB + '",1)');
+  sh.getRange(ft + 3, 3).setFormula('=HYPERLINK("' + FB_URL + '","' + String(q.fb || 'MB Systems').replace(/"/g, '""') + '")')
     .setFontFamily('Arial').setFontWeight('bold').setFontColor('#1f5fbf').setHorizontalAlignment(start);
+  [ft + 1, ft + 2, ft + 3].forEach(rr => sh.setRowHeight(rr, 22));
   M(sh.getRange(ft, 4, 1, 3)).setValue(L.regards).setFontColor('#5d6773').setHorizontalAlignment(end);
   M(sh.getRange(ft + 1, 4, 1, 3)).setValue('MB Systems').setFontFamily('Arial').setFontWeight('bold').setFontColor(NAVY).setHorizontalAlignment(end);
-  M(sh.getRange(ft + 2, 4, 1, 3)).setValue('Security Solutions').setFontFamily('Arial').setFontSize(9).setFontColor('#5d6773').setHorizontalAlignment(end);
+  if (q.sign === true) {
+    // signature replaces "Security Solutions"
+    M(sh.getRange(ft + 2, 5, 2, 2)).setFormula('=IMAGE("' + SIG_URL + '",1)');
+  } else {
+    M(sh.getRange(ft + 2, 4, 1, 3)).setValue('Security Solutions').setFontFamily('Arial').setFontSize(9).setFontColor('#5d6773').setHorizontalAlignment(end);
+  }
   const last = ft + 4;
   sh.setRowHeight(last, 16);
 

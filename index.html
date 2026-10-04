@@ -369,9 +369,9 @@ const UI={
 };
 /* ---------- quote sheet text ---------- */
 const SHEET={
- ar:{title:"عـرض سعـر",client:"اسم العميل /",date:"التاريخ:",greet:"تحية طيبة وبعد، نتشرف بتقديم عرض السعر التالي:",no:"م",desc:"البيان والمواصفات",qty:"الكمية",price:"السعر",total:"الإجمالي",
+ ar:{title:"عـرض سعـر",client:"اسم العميل /",date:"التاريخ:",greet:"تحية طيبة وبعد، نتشرف بتقديم عرض السعر التالي:",greetInv:"تحية طيبة وبعد، مرفق لسيادتكم الفاتورة الخاصة بالأعمال والمشتريات التالية:",no:"م",desc:"البيان والمواصفات",qty:"الكمية",price:"السعر",total:"الإجمالي",
   notes:"ملاحظات:",contact:"Contact US :",regards:"مع خالص التحية والشكر",fname:"عرض سعر"},
- en:{title:"QUOTATION",client:"Client:",date:"Date:",greet:"We are pleased to submit the following quotation:",no:"#",desc:"Description",qty:"Qty",price:"Unit Price",total:"Total",
+ en:{title:"QUOTATION",client:"Client:",date:"Date:",greet:"We are pleased to submit the following quotation:",greetInv:"Please find below the invoice for the following works and supplies:",no:"#",desc:"Description",qty:"Qty",price:"Unit Price",total:"Total",
   notes:"Notes:",contact:"Contact Us:",regards:"Best regards",fname:"Quotation"}
 };
 
@@ -481,7 +481,7 @@ function paperHTML(q){
     <div class="lg"><img src="${LOGO}" alt=""></div></div>
    <div class="main">
    <div class="meta"><div>${L.client}<b>${esc(q.client)}</b></div><div>${L.date}<b style="direction:ltr;display:inline-block">${esc(dmy(q.date))}</b></div></div>
-   <div class="greet">${L.greet}</div>
+   <div class="greet">${q.type==="invoice"?L.greetInv:L.greet}</div>
    <table><thead><tr><th style="width:7%">${L.no}</th><th>${L.desc}</th><th style="width:11%">${L.qty}</th><th style="width:16%">${L.price}</th><th style="width:18%">${L.total}</th></tr></thead>
    <tbody>${rows.map((x,i)=>`<tr><td>${i+1}</td><td class="d" dir="auto">${esc(x.it.d)}</td><td class="num">${x.s.q.toLocaleString("en-US")}</td><td class="num">${fmt(x.s.p)}</td><td class="num">${fmt(x.s.t)}</td></tr>`).join("")}</tbody></table>
    <div class="tot"><span class="l">${L.total}</span><span class="v">${fmt(total)}<small>${esc(q.currency)}</small></span></div>
