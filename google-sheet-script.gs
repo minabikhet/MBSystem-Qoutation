@@ -11,10 +11,13 @@ function doGet(e) {
   const action = e && e.parameter && e.parameter.action;
   if (action === 'list') return out({ ok: true, quotes: listQuotes() });
   if (action === 'ping') return out({ ok: true });
-  return HtmlService.createHtmlOutputFromFile('Index')
-    .setTitle('MB System Quotations')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover')
-    ;
+  try {
+    return HtmlService.createHtmlOutputFromFile('Index')
+      .setTitle('MB System Quotations')
+      .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
+  } catch (err) {
+    return out({ ok: true });
+  }
 }
 
 function doPost(e) {
@@ -108,45 +111,129 @@ function saveQuote(q) {
   idx.getRange(row, 7).setNumberFormat('dd/MM/yyyy HH:mm');
 }
 
+const LOGO_URL = 'https://minabikhet.github.io/MBSystem-Qoutation/logo.png';
+const PHONES = ['01017886248', '01222455495'];
+const FB_URL = 'https://www.facebook.com/share/1CAqvtfLLw/';
+
+/** Draws the quote tab to look like the printed quotation in the app. */
 function writeQuoteTab(sh, q) {
   const en = q.lang === 'en';
   const L = en
-    ? { title: 'QUOTATION - MB System', client: 'Client', date: 'Date', no: '#', desc: 'Description', qty: 'Qty', price: 'Unit Price', total: 'Total', notes: 'Notes' }
-    : { title: 'عرض سعر - MB System', client: 'اسم العميل', date: 'التاريخ', no: 'م', desc: 'البيان والمواصفات', qty: 'الكمية', price: 'السعر', total: 'الإجمالي', notes: 'ملاحظات' };
-  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).breakApart();
-  sh.clear();
-  const need = 30 + ((q.items || []).length) + ((q.notes || []).length);
-  if (sh.getMaxRows() < need) sh.insertRowsAfter(sh.getMaxRows(), need - sh.getMaxRows());
-  sh.setRightToLeft(!en);
-  sh.getRange(1, 1, 1, 5).merge().setValue(L.title).setFontSize(16).setFontWeight('bold').setFontColor(NAVY);
-  sh.getRange(3, 1, 2, 2).setValues([[L.client, q.client], [L.date, dmy(q.date)]]);
-  sh.getRange(3, 1, 2, 1).setFontWeight('bold').setFontColor(GOLD);
-
-  const head = 6;
-  sh.getRange(head, 1, 1, 5).setValues([[L.no, L.desc, L.qty, L.price, L.total]])
-    .setFontWeight('bold').setBackground(SOFT).setFontColor(NAVY).setHorizontalAlignment('center');
+    ? { title: 'QUOTATION', client: 'Client:', date: 'Date:', greet: 'We are pleased to submit the following quotation:', no: '#', desc: 'Description', qty: 'Qty', price: 'Unit Price', total: 'Total', notes: 'Notes:', contact: 'Contact Us:', regards: 'Best regards' }
+    : { title: 'عـرض سعـر', client: 'اسم العميل /', date: 'التاريخ:', greet: 'تحية طيبة وبعد، نتشرف بتقديم عرض السعر التالي:', no: 'م', desc: 'البيان والمواصفات', qty: 'الكمية', price: 'السعر', total: 'الإجمالي', notes: 'ملاحظات:', contact: 'Contact US :', regards: 'مع خالص التحية والشكر' };
   const items = (q.items || []).filter(it => String(it.d || '').trim());
-  const rows = items.map((it, i) => [i + 1, it.d, num(it.q), num(it.p), Math.round(num(it.q) * num(it.p) * 100) / 100]);
-  if (rows.length) {
-    sh.getRange(head + 1, 1, rows.length, 5).setValues(rows);
-    sh.getRange(head + 1, 4, rows.length, 2).setNumberFormat('#,##0.00');
-    sh.getRange(head + 1, 1, rows.length, 1).setHorizontalAlignment('center');
-    sh.getRange(head + 1, 3, rows.length, 1).setHorizontalAlignment('center');
-  }
-  const tr = head + rows.length + 1;
-  sh.getRange(tr, 1, 1, 5).setBackground(SOFT).setFontWeight('bold');
-  sh.getRange(tr, 2).setValue(L.total);
-  sh.getRange(tr, 4).setValue(q.currency || '');
-  sh.getRange(tr, 5).setValue(Number(q.total) || 0).setNumberFormat('#,##0.00');
-  sh.getRange(head, 1, rows.length + 2, 5).setBorder(true, true, true, true, true, true, '#d8cfbd', SpreadsheetApp.BorderStyle.SOLID);
-
   const notes = (q.notes || []).filter(n => String(n || '').trim());
-  if (notes.length) {
-    sh.getRange(tr + 2, 1).setValue(L.notes).setFontWeight('bold').setFontColor(GOLD);
-    notes.forEach((n, i) => sh.getRange(tr + 3 + i, 2, 1, 4).merge().setValue(n).setWrap(true));
+  const LINE = '#E6E1D6';
+  const S = SpreadsheetApp.BorderStyle;
+
+  // reset the tab
+  const need = 40 + items.length + notes.length;
+  if (sh.getMaxRows() < need) sh.insertRowsAfter(sh.getMaxRows(), need - sh.getMaxRows());
+  if (sh.getMaxColumns() < 7) sh.insertColumnsAfter(sh.getMaxColumns(), 7 - sh.getMaxColumns());
+  const all = sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns());
+  all.breakApart(); sh.clear(); all.setBorder(false, false, false, false, false, false);
+  sh.setRightToLeft(!en);
+  sh.setHiddenGridlines(true);
+  all.setFontFamily('Cairo').setFontSize(10).setFontColor(INK_()).setVerticalAlignment('middle');
+  const end = en ? 'right' : 'left', start = en ? 'left' : 'right';
+
+  // columns: margin | # | description | qty | price | total | margin
+  [14, 42, 330, 70, 105, 125, 14].forEach((w, i) => sh.setColumnWidth(i + 1, w));
+
+  // header: title block + logo
+  sh.setRowHeight(1, 16);
+  [2, 3, 4, 5].forEach(r => sh.setRowHeight(r, 26));
+  M(sh.getRange('B2:D3')).setValue(L.title).setFontSize(22).setFontWeight('bold').setFontColor(NAVY).setHorizontalAlignment('center');
+  M(sh.getRange('B4:D4')).setValue('MB SYSTEM').setFontFamily('Arial').setFontSize(13).setFontWeight('bold').setFontColor(GOLD).setHorizontalAlignment('center');
+  M(sh.getRange('B5:D5')).setValue('SECURITY SOLUTIONS').setFontFamily('Arial').setFontSize(8).setFontColor('#5d6773').setHorizontalAlignment('center').setVerticalAlignment('top');
+  M(sh.getRange('E2:F5')).setFormula('=IMAGE("' + LOGO_URL + '",1)');
+  sh.setRowHeight(6, 8);
+  sh.getRange('B6:F6').setBorder(null, null, true, null, null, null, GOLD, S.SOLID_MEDIUM);
+
+  // client + date
+  sh.setRowHeight(7, 30);
+  const cname = String(q.client || '');
+  let rt = SpreadsheetApp.newRichTextValue().setText(L.client + ' ' + cname);
+  if (cname) rt = rt.setTextStyle(L.client.length + 1, L.client.length + 1 + cname.length,
+    SpreadsheetApp.newTextStyle().setBold(true).setForegroundColor(NAVY).build());
+  M(sh.getRange('B7:C7')).setRichTextValue(rt.build()).setFontSize(11).setHorizontalAlignment(start);
+  M(sh.getRange('D7:F7')).setValue(L.date + ' ' + dmy(q.date)).setFontSize(11).setFontWeight('bold').setHorizontalAlignment(end);
+  M(sh.getRange('B8:F8')).setValue(L.greet).setFontColor('#3a4552').setHorizontalAlignment(start);
+
+  // table
+  const head = 9;
+  sh.setRowHeight(head, 30);
+  sh.getRange(head, 2, 1, 5).setValues([[L.no, L.desc, L.qty, L.price, L.total]])
+    .setFontWeight('bold').setBackground(SOFT).setFontColor(NAVY).setHorizontalAlignment('center')
+    .setBorder(null, null, true, null, null, null, GOLD, S.SOLID_MEDIUM);
+  const rows = items.map((it, i) => [i + 1, it.d, num(it.q), num(it.p), Math.round(num(it.q) * num(it.p) * 100) / 100]);
+  const pad = Math.max(0, 12 - rows.length - notes.length);
+  const bodyN = rows.length + pad;
+  if (rows.length) sh.getRange(head + 1, 2, rows.length, 5).setValues(rows);
+  if (bodyN) {
+    const body = sh.getRange(head + 1, 2, bodyN, 5);
+    body.setHorizontalAlignment('center').setBorder(null, null, null, null, null, true, LINE, S.SOLID);
+    sh.getRange(head + bodyN, 2, 1, 5).setBorder(null, null, true, null, null, null, LINE, S.SOLID);
+    sh.getRange(head + 1, 3, bodyN, 1).setHorizontalAlignment(start);
+    sh.getRange(head + 1, 4, bodyN, 1).setNumberFormat('#,##0.##');
+    sh.getRange(head + 1, 5, bodyN, 2).setNumberFormat('#,##0.00');
+    for (let r = head + 1; r <= head + bodyN; r++) sh.setRowHeight(r, 26);
   }
-  trimSheet(sh, 6, tr + 3 + notes.length);
-  sh.setColumnWidth(1, 45); sh.setColumnWidth(2, 320); sh.setColumnWidth(3, 70); sh.setColumnWidth(4, 110); sh.setColumnWidth(5, 120);
+
+  // total
+  const tr = head + bodyN + 1;
+  sh.setRowHeight(tr, 38);
+  const tot = sh.getRange(tr, 2, 1, 5).setBackground(SOFT).setBorder(true, null, null, null, null, null, GOLD, S.SOLID_MEDIUM);
+  M(sh.getRange(tr, 2, 1, 3)).setValue(L.total).setFontSize(13).setFontWeight('bold').setFontColor(NAVY).setHorizontalAlignment(start);
+  sh.getRange(tr, 5).setValue(q.currency || '').setFontSize(9).setFontColor('#5d6773').setHorizontalAlignment(end);
+  sh.getRange(tr, 6).setValue(Number(q.total) || 0).setNumberFormat('#,##0.00').setFontSize(14).setFontWeight('bold').setHorizontalAlignment('center');
+
+  // notes
+  let r = tr + 2;
+  if (notes.length) {
+    M(sh.getRange(r, 2, 1, 5)).setValue(L.notes).setFontWeight('bold').setFontColor(GOLD).setHorizontalAlignment(start);
+    r++;
+    notes.forEach(n => {
+      M(sh.getRange(r, 2, 1, 5)).setValue(n).setWrap(true).setFontColor('#2c3540').setHorizontalAlignment(start);
+      sh.setRowHeight(r, 30); r++;
+    });
+  }
+
+  // footer
+  r += 1;
+  const ft = r;
+  sh.getRange(ft, 2, 1, 5).setBorder(true, null, null, null, null, null, GOLD, S.SOLID_MEDIUM);
+  M(sh.getRange(ft, 2, 1, 2)).setValue(L.contact).setFontFamily('Arial').setFontWeight('bold').setFontColor(NAVY).setHorizontalAlignment(start);
+  M(sh.getRange(ft + 1, 2, 1, 2)).setValue("'" + PHONES[0]).setFontFamily('Arial').setFontWeight('bold').setHorizontalAlignment(start);
+  M(sh.getRange(ft + 2, 2, 1, 2)).setValue("'" + PHONES[1]).setFontFamily('Arial').setFontWeight('bold').setHorizontalAlignment(start);
+  M(sh.getRange(ft + 3, 2, 1, 2)).setFormula('=HYPERLINK("' + FB_URL + '","' + String(q.fb || 'MB Systems').replace(/"/g, '""') + '")')
+    .setFontFamily('Arial').setFontWeight('bold').setFontColor('#1f5fbf').setHorizontalAlignment(start);
+  M(sh.getRange(ft, 4, 1, 3)).setValue(L.regards).setFontColor('#5d6773').setHorizontalAlignment(end);
+  M(sh.getRange(ft + 1, 4, 1, 3)).setValue('MB Systems').setFontFamily('Arial').setFontWeight('bold').setFontColor(NAVY).setHorizontalAlignment(end);
+  M(sh.getRange(ft + 2, 4, 1, 3)).setValue('Security Solutions').setFontFamily('Arial').setFontSize(9).setFontColor('#5d6773').setHorizontalAlignment(end);
+  const last = ft + 4;
+  sh.setRowHeight(last, 16);
+
+  // gold frame around the page
+  sh.getRange(2, 2, last - 2, 5).setBorder(true, true, true, true, null, null, GOLD, S.SOLID);
+  trimSheet(sh, 7, last + 1);
+}
+function INK_() { return '#1b2430'; }
+/** Merge a block and hand back its top-left cell, where the value and formatting belong. */
+function M(range) { range.merge(); return range.getCell(1, 1); }
+
+/** Run once from the editor (choose rebuildAllTabs, then Run) to redraw old quote tabs in the new design. */
+function rebuildAllTabs() {
+  const ss = SpreadsheetApp.getActive();
+  const idx = indexSheet();
+  const n = idx.getLastRow();
+  if (n < 2) return;
+  const data = idx.getRange(2, 1, n - 1, 9).getValues();
+  data.forEach(row => {
+    let q; try { q = JSON.parse(row[8]); } catch (e) { return; }
+    const sh = ss.getSheetByName(row[7]);
+    if (sh) writeQuoteTab(sh, q);
+  });
 }
 
 function deleteQuote(id) {
