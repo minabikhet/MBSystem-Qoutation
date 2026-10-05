@@ -25,8 +25,8 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     const body = JSON.parse(e.postData.contents);
-    if (body.action === 'save') { saveQuote(body.quote); return out({ ok: true }); }
-    if (body.action === 'delete') { deleteQuote(body.id); return out({ ok: true }); }
+    if (body.action === 'save') { saveQuote(body.quote); safeProfit(); return out({ ok: true }); }
+    if (body.action === 'delete') { deleteQuote(body.id); safeProfit(); return out({ ok: true }); }
     return out({ ok: false, error: 'unknown action' });
   } catch (err) {
     return out({ ok: false, error: String(err) });
@@ -94,7 +94,7 @@ function saveQuote(q) {
   const idx = indexSheet();
   let row = findRow(idx, q.id);
   const oldTab = row > 0 ? idx.getRange(row, 8).getValue() : '';
-  const base = (q.type === 'invoice' ? 'فاتورة - ' : '') + cleanName(q.client) + ' - ' + dmy(q.date).replace(/\//g, '-');
+  const base = (q.type === 'invoice' ? 'فاتورة - ' : q.type === 'purchase' ? 'شراء - ' : '') + cleanName(q.client) + ' - ' + dmy(q.date).replace(/\//g, '-');
   let tabName = oldTab && oldTab.indexOf(base) === 0 ? oldTab : uniqueName(base, oldTab);
 
   let sh = oldTab ? ss.getSheetByName(oldTab) : null;
@@ -126,6 +126,10 @@ function writeQuoteTab(sh, q) {
     ? { title: 'QUOTATION', client: 'Client:', date: 'Date:', greet: 'We are pleased to submit the following quotation:', no: '#', desc: 'Description', qty: 'Qty', price: 'Unit Price', total: 'Total', notes: 'Notes:', contact: 'Contact Us:', regards: 'Best regards' }
     : { title: 'عـرض سعـر', client: 'اسم العميل /', date: 'التاريخ:', greet: 'تحية طيبة وبعد، نتشرف بتقديم عرض السعر التالي:', no: 'م', desc: 'البيان والمواصفات', qty: 'الكمية', price: 'السعر', total: 'الإجمالي', notes: 'ملاحظات:', contact: 'Contact US :', regards: 'مع خالص التحية والشكر' };
   const items = (q.items || []).filter(it => String(it.d || '').trim());
+  if (q.type === 'purchase') {
+    L.title = en ? 'PURCHASE INVOICE' : 'فاتورة شراء';
+    L.greet = en ? 'Purchase cost of the supplies for this client:' : 'بيان بأسعار شراء المستلزمات الخاصة بالعميل:';
+  }
   if (q.type === 'invoice') {
     L.title = en ? 'INVOICE' : 'فـاتـورة';
     L.greet = en ? 'Please find below the invoice for the following works and supplies:' : 'تحية طيبة وبعد، مرفق لسيادتكم الفاتورة الخاصة بالأعمال والمشتريات التالية:';
@@ -252,6 +256,7 @@ function rebuildAllTabs() {
     const sh = ss.getSheetByName(row[7]);
     if (sh) writeQuoteTab(sh, q);
   });
+  safeProfit();
 }
 
 function deleteQuote(id) {
@@ -288,4 +293,75 @@ function trimSheet(sh, cols, rows) {
   if (mr > rows) sh.deleteRows(rows + 1, mr - rows);
   else if (mr < rows) sh.insertRowsAfter(mr, rows - mr);
   if (mc > cols) sh.deleteColumns(cols + 1, mc - cols);
+}
+
+/* ---------- profit tab: sales invoices minus their purchase invoices, grouped by month ---------- */
+const PROFIT = 'الأرباح';
+function safeProfit() { try { buildProfitTab(); } catch (e) { console.error(e); } }
+function normName(n) { return String(n || '').trim().toLowerCase().replace(/\s+/g, ' '); }
+function buildProfitTab() {
+  const ss = SpreadsheetApp.getActive();
+  const all = listQuotes();
+  const sales = all.filter(x => x.type === 'invoice');
+  const buys = all.filter(x => x.type === 'purchase');
+  const deals = {};
+  sales.forEach(s => deals[s.id] = { s: s, cost: 0 });
+  const orphans = [];
+  buys.forEach(p => {
+    let id = p.linkTo && deals[p.linkTo] ? p.linkTo : '';
+    if (!id) {
+      const c = sales.filter(s => normName(s.client) === normName(p.client));
+      if (c.length) {
+        const pd = Date.parse(p.date) || 0;
+        c.sort((a, b) => Math.abs((Date.parse(a.date) || 0) - pd) - Math.abs((Date.parse(b.date) || 0) - pd));
+        id = c[0].id;
+      }
+    }
+    if (id) deals[id].cost += Number(p.total) || 0; else orphans.push(p);
+  });
+  const months = {};
+  const M = k => months[k] || (months[k] = { sales: 0, cost: 0, rows: [] });
+  Object.keys(deals).forEach(id => {
+    const d = deals[id], m = M(String(d.s.date || '').slice(0, 7)), sale = Number(d.s.total) || 0;
+    m.sales += sale; m.cost += d.cost;
+    m.rows.push([dmy(d.s.date), d.s.client, sale, d.cost, sale - d.cost, d.cost ? '' : 'مفيش فاتورة شراء']);
+  });
+  orphans.forEach(p => {
+    const m = M(String(p.date || '').slice(0, 7)), c = Number(p.total) || 0;
+    m.cost += c; m.rows.push([dmy(p.date), p.client, 0, c, -c, 'شراء مش مربوط بفاتورة بيع']);
+  });
+
+  let sh = ss.getSheetByName(PROFIT);
+  if (!sh) sh = ss.insertSheet(PROFIT, 1);
+  sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns()).breakApart();
+  sh.clear();
+  sh.setRightToLeft(true);
+  sh.setHiddenGridlines(true);
+  [110, 200, 120, 120, 120, 190].forEach((w, i) => sh.setColumnWidth(i + 1, w));
+  const keys = Object.keys(months).sort().reverse();
+  let S = 0, C = 0; keys.forEach(k => { S += months[k].sales; C += months[k].cost; });
+  const out = [];
+  const fmtRows = [];
+  out.push(['إجمالي المكسب', '', S, C, S - C, '']); fmtRows.push(['total', out.length]);
+  out.push(['', '', 'المبيعات', 'المشتريات', 'المكسب', '']); fmtRows.push(['sub', out.length]);
+  out.push(['', '', '', '', '', '']);
+  keys.forEach(k => {
+    const m = months[k];
+    out.push([k, '', m.sales, m.cost, m.sales - m.cost, m.sales ? Math.round((m.sales - m.cost) / m.sales * 100) + '%' : '']); fmtRows.push(['month', out.length]);
+    out.push(['التاريخ', 'العميل', 'البيع', 'الشراء', 'المكسب', 'ملاحظة']); fmtRows.push(['head', out.length]);
+    m.rows.forEach(r => out.push(r));
+    out.push(['', '', '', '', '', '']);
+  });
+  const need = out.length + 2;
+  if (sh.getMaxRows() < need) sh.insertRowsAfter(sh.getMaxRows(), need - sh.getMaxRows());
+  sh.getRange(1, 1, out.length, 6).setValues(out).setFontFamily('Cairo').setVerticalAlignment('middle');
+  sh.getRange(1, 3, out.length, 3).setNumberFormat('#,##0.00').setHorizontalAlignment('center');
+  fmtRows.forEach(([kind, r]) => {
+    const rg = sh.getRange(r, 1, 1, 6);
+    if (kind === 'total') { rg.setBackground(NAVY).setFontColor('#ffffff').setFontWeight('bold').setFontSize(13); sh.setRowHeight(r, 34); }
+    if (kind === 'sub') rg.setFontColor('#5d6773').setFontSize(9).setHorizontalAlignment('center');
+    if (kind === 'month') { rg.setBackground(SOFT).setFontWeight('bold').setFontColor(NAVY).setBorder(true, null, true, null, null, null, GOLD, SpreadsheetApp.BorderStyle.SOLID_MEDIUM); sh.setRowHeight(r, 30); }
+    if (kind === 'head') rg.setFontWeight('bold').setFontColor('#5d6773');
+  });
+  sh.setFrozenRows(2);
 }
