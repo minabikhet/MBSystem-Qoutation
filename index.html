@@ -96,6 +96,10 @@ input[inputmode="decimal"]{direction:ltr;font-variant-numeric:tabular-nums}
 .sw[aria-checked="true"] i::after{inset-inline-start:21px}
 .sw:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .notes.off{opacity:.5}
+.ntog{background:none;border:0;padding:4px 0;display:inline-flex;align-items:center;gap:8px;font:inherit;font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--ink)}
+.ntog .chev{display:inline-block;transition:transform .15s;color:var(--gold)}
+[dir="rtl"] .ntog .chev{transform:scaleX(-1)}
+.ntog[aria-expanded="true"] .chev{transform:rotate(90deg)}
 .sigpad{width:100%;height:170px;border:1.5px dashed var(--line);border-radius:10px;background:#fff;touch-action:none;display:block;cursor:crosshair}
 .sigprev{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;justify-content:center}
 .sigprev img{max-height:90px;max-width:100%}
@@ -147,6 +151,31 @@ button{font:inherit;cursor:pointer}
 .q .tag{font-size:11px;border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-inline-start:6px;color:var(--muted)}
 .q .acts{grid-column:1/-1;display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 .q .acts .btn{min-height:36px;padding:6px 12px;font-size:13px}
+.client{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.chd{width:100%;background:none;border:0;padding:13px 14px;display:flex;align-items:center;gap:10px;font:inherit;color:var(--ink);text-align:start;cursor:pointer}
+.chd .nm{font-family:var(--f-display);font-weight:700;font-size:16px;min-width:0;overflow-wrap:anywhere}
+.chd .cnt{font-size:12px;color:var(--muted)}
+.chd b{margin-inline-start:auto;font-variant-numeric:tabular-nums;direction:ltr}
+.chd[aria-expanded="true"]{background:var(--gold-soft)}
+.csum{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+.csum b{display:block;color:var(--ink);font-size:14px;font-variant-numeric:tabular-nums;direction:ltr}
+.crow{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.crow:last-child{border-bottom:0}
+.crow .r1{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.crow .kind{font-weight:700;font-size:13.5px}
+.crow.deal .kind{color:var(--ok)}.crow.sale .kind{color:var(--gold)}.crow.buy .kind{color:var(--danger)}
+.crow .dt{font-size:12px;color:var(--muted)}
+.crow .amt{margin-inline-start:auto;font-variant-numeric:tabular-nums;direction:ltr}
+.crow .r2{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.crow .r2 b{color:var(--ink);font-variant-numeric:tabular-nums}
+.crow .acts{display:flex;gap:6px;flex-wrap:wrap}
+.crow .acts .btn{min-height:36px;padding:6px 12px;font-size:13px}
+.crow .buyb{color:var(--danger)}
+.duetag{font-size:11.5px;color:var(--danger);border:1px solid var(--danger);border-radius:6px;padding:0 6px;white-space:nowrap}
+.paidtag{font-size:11.5px;color:var(--ok);border:1px solid var(--ok);border-radius:6px;padding:0 6px}
+.paybox{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.payrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pline{display:flex;gap:10px;align-items:center;font-size:13px}.pline b{margin-inline-start:auto;font-variant-numeric:tabular-nums}
 .empty{text-align:center;color:var(--muted);padding:28px 12px;border:1.5px dashed var(--line);border-radius:var(--r)}
 .empty strong{display:block;color:var(--ink);font-family:var(--f-display);font-size:16px;margin-bottom:4px}
 nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
@@ -182,6 +211,9 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
 .paper td.d{text-align:start}
 .paper td.num{direction:ltr}
 .paper tr.blank td{height:2.55em}
+.paper .vatrows{margin-top:2px;font-size:1em}
+.paper .vatrows div{display:flex;justify-content:space-between;padding:.4em 1.1em;border-bottom:1px solid #e6e1d6}
+.paper .vatrows .v{font-weight:700;direction:ltr;font-variant-numeric:tabular-nums}
 .paper .tot{display:flex;align-items:center;justify-content:space-between;background:#f3ead9;border-top:2px solid #ae8037;padding:.85em 1.1em;margin-top:2px}
 .paper .tot .l{font-weight:800;font-size:1.2em;color:#233548}
 .paper .tot .v{font-weight:800;font-size:1.4em;color:#1b2430;direction:ltr;display:inline-flex;align-items:baseline;gap:8px}
@@ -244,6 +276,10 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
         <p class="hint" style="margin-top:4px" data-t="linkHint"></p>
       </div>
       <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
+        <span style="font-size:13.5px;font-weight:600" data-t="vatLabel"></span>
+        <button type="button" class="sw" data-sw="vat" role="switch" aria-checked="false"><span data-swtxt></span><i></i></button>
+      </div>
+      <div style="margin-top:12px;display:flex;align-items:center;gap:10px">
         <span style="font-size:13.5px;font-weight:600" data-t="sigLabel"></span>
         <button type="button" class="sw" data-sw="sig" role="switch" aria-checked="false"><span data-swtxt></span><i></i></button>
       </div>
@@ -260,14 +296,16 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
     </div>
 
     <div class="card">
-      <h2><span data-t="notes"></span><button type="button" class="sw" id="swNotes" role="switch" aria-checked="true"><span id="swNotesTxt"></span><i></i></button></h2>
-      <div class="notes" id="notes"></div>
-      <button class="btn add block" id="btnAddNote" type="button" style="margin-top:10px" data-t="addNote"></button>
+      <h2 style="margin:0"><button type="button" id="notesToggle" class="ntog" aria-expanded="false"><span class="chev">▸</span><span data-t="notes"></span></button><button type="button" class="sw" id="swNotes" role="switch" aria-checked="true"><span id="swNotesTxt"></span><i></i></button></h2>
+      <div id="notesBody" hidden style="margin-top:10px">
+        <div class="notes" id="notes"></div>
+        <button class="btn add block" id="btnAddNote" type="button" style="margin-top:10px" data-t="addNote"></button>
+      </div>
     </div>
 
     <div class="card">
       <div class="totalbar">
-        <div class="t"><span data-t="total"></span><strong id="sumTotal">0.00</strong><span id="sumProfit" hidden style="font-size:13px;color:var(--ink)"></span></div>
+        <div class="t"><span data-t="total"></span><strong id="sumTotal">0.00</strong><span id="sumVat" hidden style="font-size:12.5px;color:var(--muted)"></span><span id="sumProfit" hidden style="font-size:13px;color:var(--ink)"></span><span id="sumPaid" hidden style="font-size:13px"></span></div>
         <div class="acts">
           <button class="btn ghost" id="btnPreview" type="button" data-t="preview"></button>
           <button class="btn gold" id="btnSave" type="button" data-t="save"></button>
@@ -350,6 +388,7 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
 </div>
 
 <div id="sheetHost" aria-hidden="true"></div>
+<datalist id="catalogList"></datalist>
 
 <nav class="tabs" role="tablist">
   <button class="tab" role="tab" data-v="edit" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span data-t="tabEdit"></span></button>
@@ -374,7 +413,7 @@ const CUR={ar:"جنيه مصري",en:"EGP"};
 /* ---------- UI text ---------- */
 const UI={
  ar:{appTitle:"عروض الأسعار",startNew:"ابدأ عرض جديد",quoteInfo:"بيانات العرض",client:"اسم العميل",date:"التاريخ",currency:"العملة",fbName:"اسم صفحة فيسبوك",
-  quoteLang:"اللغة",docType:"نوع المستند",tQuote:"عرض سعر",tInvoice:"فاتورة بيع",tPurchase:"فاتورة شراء",linkLabel:"مربوطة بفاتورة البيع",linkHint:"فاتورة الشراء مش بتتبعت للعميل. بتستخدم بس عشان تحسب مكسبك من فاتورة البيع.",linkAuto:"تلقائي: آخر فاتورة بيع بنفس اسم العميل",purchaseTag:"شراء",addPurchase:"+ فاتورة شراء",purchaseReady:"اكتب سعر الشراء لكل بند واحفظ",addSale:"+ فاتورة بيع",saleReady:"اكتب سعر البيع لكل بند واحفظ",boughtAt:(p,g)=>`اشتريته بـ ${p}`+(g==null?"":` · مكسب ${g}`),pendingSale:"مستنية فاتورة البيع",invProfit:"المكسب",tabProfit:"الأرباح",profitTotal:"إجمالي المكسب",salesTotal:"إجمالي المبيعات",costTotal:"إجمالي المشتريات",thisMonth:"مكسب الشهر ده",monthSales:"مبيعات",monthCost:"مشتريات",monthProfit:"المكسب",noCost:"لسه مفيش فاتورة شراء",orphan:"مشتريات مش مربوطة بفاتورة بيع",profitEmpty:"لسه مفيش فواتير بيع",profitEmptyB:"ابدأ بفاتورة شراء بأسعار الشراء، وبعدين من «المحفوظة» اضغط «+ فاتورة بيع» عليها واكتب أسعار البيع.",colItem:"البند",colBuy:"شراء",colSell:"بيع",colGain:"المكسب",invoicesN:n=>`${n} فاتورة`,margin:"نسبة المكسب",profitChip:"المكسب",notesOn:"ظاهرة في الورقة",sigTitle:"التوقيع",sigSmall:"تشغّلها لكل عرض أو فاتورة من زرار «الإمضاء»",sigHint:"امضي بصباعك في المربع.",sigSave:"حفظ التوقيع",sigDraw:"امضي بصباعك",sigUpload:"رفع صورة إمضاء",sigReset:"رجوع لتوقيعي الأصلي",sigLabel:"الإمضاء",sigOn:"ظاهرة مكان Security Solutions",sigOff:"مش ظاهرة",sigResetDone:"رجع التوقيع الأصلي",sigSaved:"التوقيع اتحفظ",sigEmpty:"امضي الأول في المربع",sigRemoved:"التوقيع اتشال",sigBad:"مقدرناش نقرا الصورة دي",notesOff:"مخفية من الورقة",invoiceTag:"فاتورة",items:"البنود",autoTotal:"الإجمالي بيتحسب لوحده",addItem:"+ إضافة بند",notes:"ملاحظات العميل",notesHint:"بتظهر تحت الجدول",addNote:"+ إضافة ملاحظة",
+  quoteLang:"اللغة",docType:"نوع المستند",tQuote:"عرض سعر",tInvoice:"فاتورة بيع",tPurchase:"فاتورة شراء",saveInv:"حفظ الفاتورة",waitBuy:"مستنية فاتورة الشراء (مش محسوبة في المكسب)",lastBuy:p=>`آخر شراء ${p}`,lastSell:p=>`آخر بيع ${p}`,dueShort:"باقي",cDue:"باقي على العميل",paidL:"مدفوع",dueL:"باقي",fullyPaid:"خالص",payBtn:"تسجيل دفعة",payAmt:"المبلغ",paySave:"حفظ الدفعة",payBad:"اكتب مبلغ صحيح",paySaved:d=>`اتسجلت الدفعة، الباقي ${d}`,toInvoice:"حوّل لفاتورة",convDone:"اتحوّل لفاتورة بيع، راجعه واضغط حفظ الفاتورة",converted:"اتحوّل لفاتورة",outstanding:"فلوس برة (باقي على العملاء)",saveBuy:"حفظ فاتورة الشراء",vatLabel:"ضريبة 14%",vatOn:"مضافة على الإجمالي",vatOff:"مش مضافة",vatSub:"قبل الضريبة",vatShort:"ضريبة",notesShow:"إظهار",notesHide:"إخفاء",cBought:"اشتريت",cSold:"بعت",cProfit:"المكسب",cDocs:n=>`${n} مستند`,openSale:"فاتورة البيع",openBuy:"فاتورة الشراء",cmpItems:"البنود بالتفصيل",more:"المزيد",delSale:"مسح فاتورة البيع",delBuy:"مسح فاتورة الشراء",quoteRow:"عرض سعر",saleRow:"فاتورة بيع",buyRow:"فاتورة شراء",dealRow:"شراء وبيع",linkLabel:"مربوطة بفاتورة البيع",linkHint:"فاتورة الشراء مش بتتبعت للعميل. بتستخدم بس عشان تحسب مكسبك من فاتورة البيع.",linkAuto:"تلقائي: آخر فاتورة بيع بنفس اسم العميل",purchaseTag:"شراء",addPurchase:"+ فاتورة شراء",purchaseReady:"اكتب سعر الشراء لكل بند واحفظ",addSale:"+ فاتورة بيع",saleReady:"اكتب سعر البيع لكل بند واحفظ",boughtAt:(p,g)=>`اشتريته بـ ${p}`+(g==null?"":` · مكسب ${g}`),pendingSale:"مستنية فاتورة البيع",invProfit:"المكسب",tabProfit:"الأرباح",profitTotal:"إجمالي المكسب",salesTotal:"إجمالي المبيعات",costTotal:"إجمالي المشتريات",thisMonth:"مكسب الشهر ده",monthSales:"مبيعات",monthCost:"مشتريات",monthProfit:"المكسب",noCost:"لسه مفيش فاتورة شراء",orphan:"مشتريات مش مربوطة بفاتورة بيع",profitEmpty:"لسه مفيش فواتير بيع",profitEmptyB:"ابدأ بفاتورة شراء بأسعار الشراء، وبعدين من «المحفوظة» اضغط «+ فاتورة بيع» عليها واكتب أسعار البيع.",colItem:"البند",colBuy:"شراء",colSell:"بيع",colGain:"المكسب",invoicesN:n=>`${n} فاتورة`,margin:"نسبة المكسب",profitChip:"المكسب",notesOn:"ظاهرة في الورقة",sigTitle:"التوقيع",sigSmall:"تشغّلها لكل عرض أو فاتورة من زرار «الإمضاء»",sigHint:"امضي بصباعك في المربع.",sigSave:"حفظ التوقيع",sigDraw:"امضي بصباعك",sigUpload:"رفع صورة إمضاء",sigReset:"رجوع لتوقيعي الأصلي",sigLabel:"الإمضاء",sigOn:"ظاهرة مكان Security Solutions",sigOff:"مش ظاهرة",sigResetDone:"رجع التوقيع الأصلي",sigSaved:"التوقيع اتحفظ",sigEmpty:"امضي الأول في المربع",sigRemoved:"التوقيع اتشال",sigBad:"مقدرناش نقرا الصورة دي",notesOff:"مخفية من الورقة",invoiceTag:"فاتورة",items:"البنود",autoTotal:"الإجمالي بيتحسب لوحده",addItem:"+ إضافة بند",notes:"ملاحظات العميل",notesHint:"بتظهر تحت الجدول",addNote:"+ إضافة ملاحظة",
   total:"الإجمالي",preview:"معاينة",save:"حفظ العرض",newQuote:"عرض جديد",sendPdf:"إرسال PDF (واتساب)",print:"طباعة / حفظ PDF",sendImg:"إرسال كصورة",copyText:"نسخ كنص",
   back:"رجوع للتعديل",prevHint:"الملف بيتحفظ ويتبعت باسم العميل، والعرض بيتحفظ في «المحفوظة» تلقائيًا.",backup:"نسخة احتياطية",backupSmall:"العروض متخزنة على الجهاز ده بس",
   backupHint:"خد نسخة كل فترة واحفظها على درايف أو واتساب، عشان لو مسحت بيانات المتصفح أو غيرت الموبايل ترجعها.",exportBackup:"تصدير نسخة احتياطية",restore:"استرجاع نسخة",
@@ -393,7 +432,7 @@ const UI={
   synced:(u,d)=>`اتزامن: ${u} اترفع، ${d} اتنزل`,pending:"لسه ماترفعش",
   excelTitle:"ملف Excel",excelHint:"ملف فيه تاب «العروض» بكل العروض، وتاب لكل عميل فيه عرض السعر بتاعه.",excelBtn:"تحميل كل العروض Excel",gasHint:"التطبيق شغال من جوه الشيت بتاعك، وكل عرض بتحفظه بيتسجل فيه في تاب لوحده باسم العميل. افتح الشيت من تطبيق Google Sheets على الموبايل وهتلاقيه.",driveSaved:"نسخة الـPDF اتحفظت على Google Drive.",openDrive:"افتحها"},
  en:{appTitle:"Quotations",startNew:"Start a new quote",quoteInfo:"Quote details",client:"Client name",date:"Date",currency:"Currency",fbName:"Facebook page name",
-  quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",linkLabel:"Linked to sales invoice",linkHint:"Purchase invoices are never sent to the client. They are used only to work out your profit on the sales invoice.",linkAuto:"Automatic: latest sales invoice with the same client name",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",addSale:"+ Sales invoice",saleReady:"Enter the selling price for each item and save",boughtAt:(p,g)=>`Bought at ${p}`+(g==null?"":` · profit ${g}`),pendingSale:"Waiting for the sales invoice",invProfit:"Profit",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Start with a purchase invoice at your cost prices, then in Saved tap «+ Sales invoice» on it and enter your selling prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Hidden from the document",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
+  quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",saveInv:"Save invoice",waitBuy:"Waiting for the purchase invoice (not counted)",lastBuy:p=>`Last bought ${p}`,lastSell:p=>`Last sold ${p}`,dueShort:"Due",cDue:"Client owes",paidL:"Paid",dueL:"Due",fullyPaid:"Paid in full",payBtn:"Record payment",payAmt:"Amount",paySave:"Save payment",payBad:"Enter a valid amount",paySaved:d=>`Payment saved, ${d} still due`,toInvoice:"Convert to invoice",convDone:"Converted to a sales invoice; review it and tap Save invoice",converted:"Converted",outstanding:"Outstanding (owed by clients)",saveBuy:"Save purchase invoice",vatLabel:"VAT 14%",vatOn:"Added to the total",vatOff:"Not added",vatSub:"Subtotal",vatShort:"VAT",notesShow:"Show",notesHide:"Hide",cBought:"Bought",cSold:"Sold",cProfit:"Profit",cDocs:n=>`${n} documents`,openSale:"Sales invoice",openBuy:"Purchase invoice",cmpItems:"Item details",more:"More",delSale:"Delete sales invoice",delBuy:"Delete purchase invoice",quoteRow:"Quotation",saleRow:"Sales invoice",buyRow:"Purchase invoice",dealRow:"Purchase & sale",linkLabel:"Linked to sales invoice",linkHint:"Purchase invoices are never sent to the client. They are used only to work out your profit on the sales invoice.",linkAuto:"Automatic: latest sales invoice with the same client name",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",addSale:"+ Sales invoice",saleReady:"Enter the selling price for each item and save",boughtAt:(p,g)=>`Bought at ${p}`+(g==null?"":` · profit ${g}`),pendingSale:"Waiting for the sales invoice",invProfit:"Profit",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Start with a purchase invoice at your cost prices, then in Saved tap «+ Sales invoice» on it and enter your selling prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Hidden from the document",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
   total:"Total",preview:"Preview",save:"Save quote",newQuote:"New quote",sendPdf:"Send PDF (WhatsApp)",print:"Print / Save PDF",sendImg:"Send as image",copyText:"Copy as text",
   back:"Back to editing",prevHint:"Files are named after the client, and the quote is saved to Saved automatically.",backup:"Backup",backupSmall:"Quotes are stored on this device only",
   backupHint:"Export a backup now and then and keep it on Drive or WhatsApp, so you can restore it if browser data is cleared or you change phones.",exportBackup:"Export backup",restore:"Restore backup",
@@ -414,9 +453,9 @@ const UI={
 };
 /* ---------- quote sheet text ---------- */
 const SHEET={
- ar:{title:"عـرض سعـر",client:"اسم العميل /",date:"التاريخ:",greet:"تحية طيبة وبعد، نتشرف بتقديم عرض السعر التالي:",greetInv:"تحية طيبة وبعد، مرفق لسيادتكم الفاتورة الخاصة بالأعمال والمشتريات التالية:",greetBuy:"بيان بأسعار شراء المستلزمات الخاصة بالعميل:",no:"م",desc:"البيان والمواصفات",qty:"الكمية",price:"السعر",total:"الإجمالي",
+ ar:{title:"عـرض سعـر",client:"اسم العميل /",date:"التاريخ:",greet:"تحية طيبة وبعد، نتشرف بتقديم عرض السعر التالي:",greetInv:"تحية طيبة وبعد، مرفق لسيادتكم الفاتورة الخاصة بالأعمال والمشتريات التالية:",greetBuy:"بيان بأسعار شراء المستلزمات الخاصة بالعميل:",noL:"رقم:",subtotal:"الإجمالي قبل الضريبة",vatL:"ضريبة القيمة المضافة 14%",totalVat:"الإجمالي شامل الضريبة",no:"م",desc:"البيان والمواصفات",qty:"الكمية",price:"السعر",total:"الإجمالي",
   notes:"ملاحظات:",contact:"Contact US :",regards:"مع خالص التحية والشكر",fname:"عرض سعر"},
- en:{title:"QUOTATION",client:"Client:",date:"Date:",greet:"We are pleased to submit the following quotation:",greetInv:"Please find below the invoice for the following works and supplies:",greetBuy:"Purchase cost of the supplies for this client:",no:"#",desc:"Description",qty:"Qty",price:"Unit Price",total:"Total",
+ en:{title:"QUOTATION",client:"Client:",date:"Date:",greet:"We are pleased to submit the following quotation:",greetInv:"Please find below the invoice for the following works and supplies:",greetBuy:"Purchase cost of the supplies for this client:",noL:"No.:",subtotal:"Subtotal",vatL:"VAT 14%",totalVat:"Total incl. VAT",no:"#",desc:"Description",qty:"Qty",price:"Unit Price",total:"Total",
   notes:"Notes:",contact:"Contact Us:",regards:"Best regards",fname:"Quotation"}
 };
 
@@ -434,7 +473,7 @@ let ui=ls("mbq-ui")||"ar";
 const t=(k,...a)=>{const v=UI[ui][k];return typeof v==="function"?v(...a):v};
 
 /* ---------- state ---------- */
-function blank(lang,notes){lang=lang||"ar";return{id:null,type:"quote",showNotes:true,sign:false,lang,client:"",date:today(),currency:CUR[lang],fb:"MB Systems",items:[{d:"",q:"",p:""},{d:"",q:"",p:""},{d:"",q:"",p:""}],notes:(notes&&notes.length?notes:NOTES[lang]).slice()}}
+function blank(lang,notes){lang=lang||"ar";return{id:null,type:"quote",showNotes:true,sign:false,vat:false,lang,client:"",date:today(),currency:CUR[lang],fb:"MB Systems",items:[{d:"",q:"",p:""},{d:"",q:"",p:""},{d:"",q:"",p:""}],notes:(notes&&notes.length?notes:NOTES[lang]).slice()}}
 let cur=ls("mbq-draft")||blank(ui);
 if(!cur.lang)cur.lang="ar";
 let saved=[]; let filter=""; let pendingDelete=null;
@@ -448,7 +487,9 @@ function rowState(it){
   if(q<=0||p<0)return{msg:"checkQP"};
   return{ok:true,q,p,t:Math.round(q*p*100)/100};
 }
-function calc(){let total=0,bad=0,count=0;cur.items.forEach(it=>{const s=rowState(it);if(s.ok){total+=s.t;count++}else if(s.msg)bad++});return{total:Math.round(total*100)/100,bad,count}}
+const VAT_RATE=0.14;
+function vatOf(sub,on){const v=on?Math.round(sub*VAT_RATE*100)/100:0;return{sub,vat:v,total:Math.round((sub+v)*100)/100}}
+function calc(){let total=0,bad=0,count=0;cur.items.forEach(it=>{const s=rowState(it);if(s.ok){total+=s.t;count++}else if(s.msg)bad++});const sub=Math.round(total*100)/100;const V=vatOf(sub,cur.vat===true);return{sub,vat:V.vat,total:V.total,bad,count}}
 function persist(){ls("mbq-draft",cur)}
 
 /* ---------- UI language ---------- */
@@ -467,13 +508,15 @@ function renderHead(){$("#fClient").value=cur.client;$("#fDate").value=cur.date;
   document.querySelectorAll("[data-dt]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.dt===(cur.type||"quote"))));
   document.querySelectorAll('[data-sw="sig"]').forEach(b=>{const v=cur.sign===true;b.setAttribute("aria-checked",String(v));b.querySelector("[data-swtxt]").textContent=t(v?"sigOn":"sigOff")});
   $("#linkBox").hidden=cur.type!=="purchase";if(cur.type==="purchase")fillLink();
+  document.querySelectorAll('[data-sw="vat"]').forEach(b=>{const v=cur.vat===true;b.setAttribute("aria-checked",String(v));b.querySelector("[data-swtxt]").textContent=t(v?"vatOn":"vatOff")});
+  $("#btnSave").dataset.t=cur.type==="invoice"?"saveInv":cur.type==="purchase"?"saveBuy":"save";$("#btnSave").textContent=t($("#btnSave").dataset.t);
   const on=cur.showNotes!==false;$("#swNotes").setAttribute("aria-checked",String(on));$("#swNotesTxt").textContent=t(on?"notesOn":"notesOff");$("#notes").classList.toggle("off",!on);
-  const bar=$("#editingBar");bar.hidden=!cur.id;if(cur.id)$("#editingTxt").textContent=t("editing",cur.client||"—")}
+  const bar=$("#editingBar");bar.hidden=!cur.id;if(cur.id)$("#editingTxt").textContent=t("editing",(cur.no?cur.no+" · ":"")+(cur.client||"—"))}
 function renderItems(){
   $("#items").innerHTML=cur.items.map((it,i)=>`<div class="item" data-i="${i}">
     <div class="n">${i+1}</div>
     <div class="body">
-      <input data-k="d" value="${esc(it.d)}" placeholder="${esc(t("desc"))}" aria-label="${esc(t("desc"))} ${i+1}" id="it-d-${i}">
+      <input data-k="d" list="catalogList" autocomplete="off" value="${esc(it.d)}" placeholder="${esc(t("desc"))}" aria-label="${esc(t("desc"))} ${i+1}" id="it-d-${i}">
       <div class="row">
         <label class="f">${esc(t("qty"))}<input data-k="q" inputmode="decimal" value="${esc(it.q)}" id="it-q-${i}"></label>
         <label class="f">${esc(t("price"))}<input data-k="p" inputmode="decimal" value="${esc(it.p)}" id="it-p-${i}"></label>
@@ -485,23 +528,31 @@ function renderItems(){
     </div></div>`).join("");
   refreshRows();
 }
+let CAT=null;
 function refreshRows(){
+  if(!CAT)CAT=catalog();
   document.querySelectorAll(".item").forEach(el=>{const s=rowState(cur.items[+el.dataset.i]);
     el.classList.toggle("bad",!!s.msg);el.querySelector("[data-lt]").textContent=s.ok?fmt(s.t):"—";
     const m=el.querySelector("[data-msg]");m.hidden=!s.msg;m.textContent=s.msg?t(s.msg):""});
   const bm=buyMap();
   document.querySelectorAll(".item").forEach(el=>{const it=cur.items[+el.dataset.i];const h=el.querySelector("[data-bh]");const b=bm&&bm.get(normDesc(it.d));
-    if(!b){h.hidden=true;return}const s=rowState(it);h.hidden=false;h.textContent=t("boughtAt",fmt(b),s.ok?fmt((s.p-b)*s.q):null)});
-  const c=calc();$("#sumTotal").textContent=fmt(c.total);
-  const pf=$("#sumProfit");if(bm){const cost=[...cur.items].reduce((a,it)=>{const s=rowState(it);const b=bm.get(normDesc(it.d));return a+(s.ok&&b!=null?b*s.q:0)},0);pf.hidden=false;const g=c.total-cost;pf.innerHTML=`${t("invProfit")}: <b class="${g<0?"neg":"pos"}">${fmt(g)}</b>`}else pf.hidden=true;
+    if(b!=null&&b!==undefined){const s=rowState(it);h.hidden=false;h.textContent=t("boughtAt",fmt(b),s.ok?fmt((s.p-b)*s.q):null);return}
+    const c=CAT&&CAT.get(normDesc(it.d));if(!c||(c.buy==null&&c.sell==null)){h.hidden=true;return}
+    h.hidden=false;h.textContent=[c.buy!=null?t("lastBuy",fmt(c.buy)):"",c.sell!=null?t("lastSell",fmt(c.sell)):""].filter(Boolean).join(" · ")});
+  const c=calc();$("#sumTotal").textContent=fmt(c.total);const sv=$("#sumVat");sv.hidden=!cur.vat;if(cur.vat)sv.textContent=`${t("vatSub")} ${fmt(c.sub)} + ${t("vatShort")} ${fmt(c.vat)}`;
+  const pf=$("#sumProfit");if(bm){const cost=[...cur.items].reduce((a,it)=>{const s=rowState(it);const b=bm.get(normDesc(it.d));return a+(s.ok&&b!=null?b*s.q:0)},0);pf.hidden=false;const g=c.sub-cost;pf.innerHTML=`${t("invProfit")}: <b class="${g<0?"neg":"pos"}">${fmt(g)}</b>`}else pf.hidden=true;
+  const sp=$("#sumPaid");if(cur.type==="invoice"&&(cur.payments||[]).length){const pd=(cur.payments||[]).reduce((a,p)=>a+(+p.amt||0),0);const du=Math.max(0,c.total-pd);sp.hidden=false;sp.innerHTML=du<=0?`<span class="paidtag">${t("fullyPaid")}</span>`:`${t("paidL")} ${fmt(pd)} · ${t("dueL")} <b class="neg">${fmt(du)}</b>`}else sp.hidden=true;
   const w=$("#warn");w.hidden=!c.bad;w.textContent=c.bad?t("fixMissing"):""
 }
 function renderNotes(){
   $("#notes").innerHTML=cur.notes.map((n,i)=>`<div class="note" data-i="${i}"><textarea id="nt-${i}" rows="2" dir="auto" placeholder="${esc(t("note"))} ${i+1}">${esc(n)}</textarea><button class="btn ghost" data-ndel type="button" aria-label="${esc(t("del"))}" style="min-height:44px;padding:8px 10px">✕</button></div>`).join("");
 }
-function renderEditor(){renderHead();renderItems();renderNotes()}
+function renderEditor(){CAT=catalog();fillCatalogList();renderHead();renderItems();renderNotes()}
 
-$("#items").addEventListener("input",e=>{const k=e.target.dataset.k;if(!k)return;const i=+e.target.closest(".item").dataset.i;cur.items[i][k]=e.target.value;refreshRows();persist()});
+$("#items").addEventListener("input",e=>{const k=e.target.dataset.k;if(!k)return;const i=+e.target.closest(".item").dataset.i;cur.items[i][k]=e.target.value;
+  if(k==="d"&&!String(cur.items[i].p).trim()){const c=(CAT||catalog()).get(normDesc(e.target.value));const p=c&&(cur.type==="purchase"?c.buy:(c.sell!=null?c.sell:c.quote));
+    if(p!=null){cur.items[i].p=String(p);const pi=document.getElementById("it-p-"+i);if(pi)pi.value=String(p)}}
+  refreshRows();persist()});
 $("#items").addEventListener("click",e=>{if(!e.target.closest("[data-del]"))return;const i=+e.target.closest(".item").dataset.i;cur.items.splice(i,1);if(!cur.items.length)cur.items.push({d:"",q:"",p:""});renderItems();persist()});
 $("#btnAdd").onclick=()=>{cur.items.push({d:"",q:"",p:""});renderItems();persist();document.getElementById("it-d-"+(cur.items.length-1)).focus()};
 $("#notes").addEventListener("input",e=>{const i=+e.target.closest(".note").dataset.i;cur.notes[i]=e.target.value;persist()});
@@ -515,6 +566,8 @@ document.querySelectorAll("[data-ql]").forEach(b=>b.onclick=()=>{
   persist();renderEditor();if(!$("#v-prev").hidden)renderPreview()});
 document.querySelectorAll("[data-dt]").forEach(b=>b.onclick=()=>{cur.type=b.dataset.dt;persist();renderHead();if(!$("#v-prev").hidden)renderPreview()});
 document.querySelectorAll('[data-sw="sig"]').forEach(b=>b.onclick=()=>{cur.sign=cur.sign!==true;persist();renderHead();if(!$("#v-prev").hidden)renderPreview()});
+document.querySelectorAll('[data-sw="vat"]').forEach(b=>b.onclick=()=>{cur.vat=cur.vat!==true;persist();renderHead();refreshRows();if(!$("#v-prev").hidden)renderPreview()});
+$("#notesToggle").onclick=()=>{const b=$("#notesToggle");const o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",String(o));$("#notesBody").hidden=!o};
 $("#swNotes").onclick=()=>{cur.showNotes=cur.showNotes===false;persist();renderHead()};
 function fillLink(){const sel=$("#fLink");const nm=normName(cur.client);
   const inv=saved.filter(x=>x.type==="invoice").sort((a,b)=>(normName(b.client)===nm)-(normName(a.client)===nm)||(b.date||"").localeCompare(a.date||""));
@@ -536,11 +589,11 @@ function paperHTML(q){
     <div class="ttl"><div class="a">${docTitle(q)}</div><div class="b">MB SYSTEM</div><div class="c">SECURITY SOLUTIONS</div></div>
     <div class="lg"><img src="${LOGO}" alt=""></div></div>
    <div class="main">
-   <div class="meta"><div>${L.client}<b>${esc(q.client)}</b></div><div>${L.date}<b style="direction:ltr;display:inline-block">${esc(dmy(q.date))}</b></div></div>
+   <div class="meta"><div>${L.client}<b>${esc(q.client)}</b></div>${q.no?`<div>${L.noL}<b style="direction:ltr;display:inline-block">${esc(q.no)}</b></div>`:""}<div>${L.date}<b style="direction:ltr;display:inline-block">${esc(dmy(q.date))}</b></div></div>
    <div class="greet">${q.type==="invoice"?L.greetInv:q.type==="purchase"?L.greetBuy:L.greet}</div>
    <table><thead><tr><th style="width:7%">${L.no}</th><th>${L.desc}</th><th style="width:11%">${L.qty}</th><th style="width:16%">${L.price}</th><th style="width:18%">${L.total}</th></tr></thead>
    <tbody>${rows.map((x,i)=>`<tr><td>${i+1}</td><td class="d" dir="auto">${esc(x.it.d)}</td><td class="num">${x.s.q.toLocaleString("en-US")}</td><td class="num">${fmt(x.s.p)}</td><td class="num">${fmt(x.s.t)}</td></tr>`).join("")}</tbody></table>
-   <div class="tot"><span class="l">${L.total}</span><span class="v">${fmt(total)}<small>${esc(q.currency)}</small></span></div>
+   ${q.vat===true?(()=>{const V=vatOf(Math.round(total*100)/100,true);return`<div class="vatrows"><div><span>${L.subtotal}</span><span class="v">${fmt(V.sub)}</span></div><div><span>${L.vatL}</span><span class="v">${fmt(V.vat)}</span></div></div><div class="tot"><span class="l">${L.totalVat}</span><span class="v">${fmt(V.total)}<small>${esc(q.currency)}</small></span></div>`})():`<div class="tot"><span class="l">${L.total}</span><span class="v">${fmt(total)}<small>${esc(q.currency)}</small></span></div>`}
    ${notes.length?`<div class="nt"><h4>${L.notes}</h4>${notes.map(n=>`<p dir="auto">${esc(n)}</p>`).join("")}</div>`:""}
    </div>
    <div class="ft">
@@ -578,11 +631,11 @@ function saveQuote(silent){
   const c=validate();if(!c)return false;
   const body={id:cur.id||("q"+Date.now()),type:["invoice","purchase"].includes(cur.type)?cur.type:"quote",linkTo:cur.type==="purchase"?(cur.linkTo||""):"",showNotes:cur.showNotes!==false,sign:cur.sign===true,lang:cur.lang,client:cur.client.trim(),date:cur.date,currency:cur.currency,fb:cur.fb,
     items:cur.items.filter(it=>!rowState(it).empty).map(it=>({d:it.d.trim(),q:String(it.q),p:String(it.p)})),
-    notes:cur.notes.filter(n=>(n||"").trim()),total:c.total,savedAt:new Date().toISOString()};
+    no:(cur.no&&cur.no.startsWith((NO_PREFIX[cur.type]||"Q")+"-"))?cur.no:nextNo(cur.type),payments:(cur.payments||[]).slice(),fromQuote:cur.fromQuote||"",notes:cur.notes.filter(n=>(n||"").trim()),vat:cur.vat===true,sub:c.sub,vatAmount:c.vat,total:c.total,savedAt:new Date().toISOString()};
   const all=ls("mbq-saved")||[];const i=all.findIndex(x=>x.id===body.id);if(i>=0)all[i]=body;else all.unshift(body);
   if(!writeAll(all))return false;
   let linked=null;if(body.type==="invoice"&&cur.fromPurchase){linked=all.find(x=>x.id===cur.fromPurchase&&x.type==="purchase");if(linked){linked.linkTo=body.id;linked.savedAt=new Date().toISOString();writeAll(all)}cur.fromPurchase=""}
-  saved=all;cur.id=body.id;persist();renderHead();renderList();if(!silent)toast(t("saved",body.client));pushQuote(body,!silent);if(linked)pushQuote(linked,false);return true;
+  saved=all;cur.id=body.id;cur.no=body.no;persist();renderHead();renderList();if(!silent)toast(t("saved",body.client));pushQuote(body,!silent);if(linked)pushQuote(linked,false);return true;
 }
 $("#btnSave").onclick=()=>saveQuote(false);
 
@@ -622,9 +675,9 @@ $("#btnPrint").onclick=()=>{if(!saveQuote(true))return;mountSheet($("#sheetHost"
   const restore=()=>{document.title=old;removeEventListener("afterprint",restore)};addEventListener("afterprint",restore);setTimeout(()=>window.print(),60)};
 $("#btnCopy").onclick=async()=>{
   const L=SHEET[cur.lang];
-  const lines=[`*${docTitle(cur).replace(/ـ/g,"")} - MB System*`,`${L.client.replace(/[\/:]/g,"").trim()}: ${cur.client}`,`${L.date.replace(":","")}: ${dmy(cur.date)}`,""];
+  const lines=[`*${docTitle(cur).replace(/ـ/g,"")} - MB System*`+(cur.no?` (${cur.no})`:""),`${L.client.replace(/[\/:]/g,"").trim()}: ${cur.client}`,`${L.date.replace(":","")}: ${dmy(cur.date)}`,""];
   let i=0;cur.items.forEach(it=>{const s=rowState(it);if(s.ok)lines.push(`${++i}. ${it.d.trim()} — ${s.q} × ${fmt(s.p)} = ${fmt(s.t)}`)});
-  lines.push("",`*${L.total}: ${fmt(calc().total)} ${cur.currency}*`);
+  {const C=calc();if(cur.vat)lines.push("",`${L.subtotal}: ${fmt(C.sub)}`,`${L.vatL}: ${fmt(C.vat)}`,`*${L.totalVat}: ${fmt(C.total)} ${cur.currency}*`);else lines.push("",`*${L.total}: ${fmt(C.total)} ${cur.currency}*`)}
   const n=cur.showNotes===false?[]:cur.notes.map(x=>(x||"").trim()).filter(Boolean);if(n.length){lines.push("",L.notes);n.forEach(x=>lines.push("- "+x))}
   lines.push("",`${L.contact} ${PHONES.join(" / ")}`);
   const txt=lines.join("\n");
@@ -742,37 +795,95 @@ $("#fRestore").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{con
 
 /* ---------- archive ---------- */
 function when(iso){try{const d=new Date(iso);return d.toLocaleDateString("en-GB")+" "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}catch(e){return""}}
+let openClients=new Set(),openCmp=null,openMore=null,openPay=null;
+function docBtn(cls,act,id,label){return`<button class="btn ${cls}" data-a="${act}" data-id="${esc(id)}">${label}</button>`}
+function confirmRow(id){return`<span class="confirm">${t("delQ")} ${docBtn("danger","del-yes",id,t("delYes"))}${docBtn("ghost","del-no",id,t("cancel"))}</span>`}
 function renderList(){
   try{updateChip()}catch(e){}
-  const q=filter.trim().toLowerCase();
-  const rows=saved.filter(x=>!q||(x.client||"").toLowerCase().includes(q));
   if(!saved.length){$("#list").innerHTML=`<div class="empty"><strong>${t("emptyT")}</strong>${t("emptyB")}</div>`;return}
-  if(!rows.length){$("#list").innerHTML=`<div class="empty"><strong>${t("noRes")}</strong>${t("noResB")}</div>`;return}
-  $("#list").innerHTML=rows.map(x=>`<div class="q" data-id="${esc(x.id)}" role="button" tabindex="0">
-    <div class="nm">${esc(x.client)}<span class="tag">${x.lang==="en"?"EN":"ع"}</span>${x.type==="invoice"?`<span class="tag" style="color:var(--gold);border-color:var(--gold)">${t("invoiceTag")}</span>`:x.type==="purchase"?`<span class="tag" style="color:var(--danger);border-color:var(--danger)">${t("purchaseTag")}</span>`:""}${sheetUrl()&&x.synced===false?`<span class="tag" style="color:var(--danger)">${t("pending")}</span>`:""}</div><div class="am">${fmt(x.total)} <span class="meta">${esc(x.currency||"")}</span></div>
-    <div class="meta">${esc(t("quoteOf",dmy(x.date)))} · ${esc(t("itemsN",(x.items||[]).length))}</div><div class="meta">${esc(t("lastSave",when(x.savedAt)))}</div>
-    <div class="acts">
-     ${pendingDelete===x.id?`<span class="confirm">${t("delQ")} <button class="btn danger" data-a="del-yes">${t("delYes")}</button><button class="btn ghost" data-a="del-no">${t("cancel")}</button></span>`:
-     `<button class="btn navy" data-a="open">${t("open")}</button><button class="btn ghost" data-a="view">${t("view")}</button><button class="btn ghost" data-a="dup">${t("dup")}</button>${x.type==="purchase"?`<button class="btn gold" data-a="sell">${t("addSale")}</button>`:""}${x.type==="invoice"?`<button class="btn ghost" data-a="buy" style="color:var(--danger)">${t("addPurchase")}</button>`:""}<button class="btn ghost" data-a="del">${t("del")}</button>`}
-    </div></div>`).join("");
+  const P=computeProfit();
+  const dealOf=new Map();P.months.forEach(m=>m.deals.forEach(d=>dealOf.set(d.s.id,d)));
+  const inDeal=new Set();dealOf.forEach(d=>d.buys.forEach(p=>inDeal.add(p.id)));
+  const groups=new Map();
+  saved.forEach(x=>{const k=normName(x.client)||"—";if(!groups.has(k))groups.set(k,{name:x.client,docs:[],last:""});const g=groups.get(k);g.docs.push(x);if((x.savedAt||"")>g.last)g.last=x.savedAt||""});
+  const q=normName(filter);
+  let list=[...groups.entries()].filter(([k])=>!q||k.includes(q)).sort((a,b)=>b[1].last.localeCompare(a[1].last));
+  if(!list.length){$("#list").innerHTML=`<div class="empty"><strong>${t("noRes")}</strong>${t("noResB")}</div>`;return}
+  const autoOpen=q&&list.length<=3;
+  $("#list").innerHTML=list.map(([k,g])=>{
+    let bought=0,sold=0,profit=0,due=0;const rows=[];
+    g.docs.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).forEach(x=>{
+      if(x.type==="invoice"){const d=dealOf.get(x.id);sold+=net(x);due+=dueOf(x);if(d&&d.buys.length){bought+=d.cost;profit+=d.profit}rows.push({kind:d&&d.buys.length?"deal":"sale",x,d})}
+      else if(x.type==="purchase"){if(inDeal.has(x.id))return;bought+=net(x);rows.push({kind:"buy",x})}
+      else rows.push({kind:"quote",x})});
+    const open=autoOpen||openClients.has(k);
+    return`<div class="client"><button class="chd" data-client="${esc(k)}" aria-expanded="${open}"><span class="nm">${esc(g.name)}</span><span class="cnt">${t("cDocs",g.docs.length)}</span>${due>0?`<span class="duetag">${t("dueShort")} ${fmt(due)}</span>`:""}${profit?`<b class="${sgn(profit)}">${fmt(profit)}</b>`:""}</button>
+     ${open?`<div class="csum"><div>${t("cBought")}<b>${fmt(bought)}</b></div><div>${t("cSold")}<b>${fmt(sold)}</b></div><div>${t("cProfit")}<b class="${sgn(profit)}">${fmt(profit)}</b></div>${due>0?`<div style="grid-column:1/-1">${t("cDue")}<b class="neg">${fmt(due)}</b></div>`:""}</div>
+     ${rows.map(r=>rowHTML(r)).join("")}`:""}</div>`}).join("");
 }
-function loadQuote(x,asCopy){cur={id:asCopy?null:x.id,type:["invoice","purchase"].includes(x.type)?x.type:"quote",linkTo:x.linkTo||"",showNotes:x.showNotes!==false,sign:x.sign===true,lang:x.lang||"ar",client:asCopy?"":x.client,date:asCopy?today():x.date,currency:x.currency||CUR[x.lang||"ar"],fb:x.fb||"MB Systems",
+function payLine(x){if(x.type!=="invoice")return"";const pd=paidOf(x),du=dueOf(x);
+  return`<div class="r2">${du<=0?`<span class="paidtag">${t("fullyPaid")}</span>`:`<span>${t("paidL")} <b>${fmt(pd)}</b></span><span>${t("dueL")} <b class="neg">${fmt(du)}</b></span>`}</div>`}
+function payPanel(x){if(openPay!==x.id)return"";const list=(x.payments||[]).map((p,i)=>`<div class="pline"><span>${esc(dmy(p.date))}</span><b>${fmt(p.amt)}</b><button class="x" data-a="paydel" data-id="${esc(x.id)}" data-i="${i}">✕</button></div>`).join("");
+  return`<div class="paybox">${list}<div class="payrow"><input id="payAmt" inputmode="decimal" placeholder="${esc(t("payAmt"))}" value="${dueOf(x)>0?dueOf(x):""}"><input id="payDate" type="date" value="${today()}"></div>
+   <div class="acts">${docBtn("gold","paysave",x.id,t("paySave"))}${docBtn("ghost","pay",x.id,t("cancel"))}</div></div>`}
+function rowHTML(r){
+  const x=r.x;const lang=`<span class="tag">${x.lang==="en"?"EN":"ع"}</span>`;const pend=sheetUrl()&&x.synced===false?`<span class="tag" style="color:var(--danger)">${t("pending")}</span>`:"";
+  if(r.kind==="deal"){const d=r.d;const p=d.buys[0];const more=openMore===x.id;
+    return`<div class="crow deal"><div class="r1"><span class="kind">${t("dealRow")}</span>${x.no?`<span class="dt" dir="ltr">${esc(x.no)}</span>`:""}${lang}${pend}<span class="dt">${esc(dmy(x.date))}</span></div>
+     <div class="r2"><span>${t("colBuy")} <b>${fmt(d.cost)}</b></span><span>${t("colSell")} <b>${fmt(d.sale)}</b></span><span>${t("colGain")} <b class="${sgn(d.profit)}">${fmt(d.profit)}</b></span></div>
+     ${payLine(x)}
+     <div class="acts">${docBtn("navy","open",x.id,t("openSale"))}${docBtn("ghost buyb","open",p.id,t("openBuy"))}${docBtn("ghost","cmp",x.id,t("cmpItems"))}${dueOf(x)>0?docBtn("ghost","pay",x.id,t("payBtn")):""}${docBtn("ghost","more",x.id,"⋯")}</div>
+     ${payPanel(x)}
+     ${openCmp===x.id?itemCompare(d):""}
+     ${more?`<div class="acts">${docBtn("ghost","view",x.id,t("view"))}${docBtn("ghost","dup",x.id,t("dup"))}${pendingDelete===x.id?confirmRow(x.id):docBtn("ghost","del",x.id,t("delSale"))}${pendingDelete===p.id?confirmRow(p.id):docBtn("ghost","del",p.id,t("delBuy"))}</div>`:""}</div>`}
+  const label={quote:t("quoteRow"),sale:t("saleRow"),buy:t("buyRow")}[r.kind];
+  const conv=x.type==="quote"&&saved.some(s=>s.fromQuote===x.id);
+  const extra=r.kind==="buy"?docBtn("gold","sell",x.id,t("addSale")):r.kind==="sale"?docBtn("ghost buyb","buy",x.id,t("addPurchase"))+(dueOf(x)>0?docBtn("ghost","pay",x.id,t("payBtn")):""):r.kind==="quote"?docBtn("gold","conv",x.id,t("toInvoice")):"";
+  const more=openMore===x.id;
+  return`<div class="crow ${r.kind}"><div class="r1"><span class="kind">${label}</span>${x.no?`<span class="dt" dir="ltr">${esc(x.no)}</span>`:""}${lang}${pend}${conv?`<span class="tag">${t("converted")}</span>`:""}<span class="dt">${esc(dmy(x.date))}</span><b class="amt">${fmt(x.total)}</b></div>
+   ${payLine(x)}
+   <div class="acts">${docBtn("navy","open",x.id,t("open"))}${extra}${docBtn("ghost","more",x.id,"⋯")}</div>
+   ${payPanel(x)}
+   ${more?`<div class="acts">${docBtn("ghost","view",x.id,t("view"))}${docBtn("ghost","dup",x.id,t("dup"))}${pendingDelete===x.id?confirmRow(x.id):docBtn("ghost","del",x.id,t("del"))}</div>`:""}</div>`;
+}
+function loadQuote(x,asCopy){cur={no:asCopy?"":(x.no||""),payments:asCopy?[]:(x.payments||[]).slice(),fromQuote:asCopy?"":(x.fromQuote||""),vat:x.vat===true,id:asCopy?null:x.id,type:["invoice","purchase"].includes(x.type)?x.type:"quote",linkTo:x.linkTo||"",showNotes:x.showNotes!==false,sign:x.sign===true,lang:x.lang||"ar",client:asCopy?"":x.client,date:asCopy?today():x.date,currency:x.currency||CUR[x.lang||"ar"],fb:x.fb||"MB Systems",
   items:(x.items||[]).map(i=>({d:i.d||"",q:String(i.q??""),p:String(i.p??"")})),notes:(x.notes||[]).slice()};
   if(!cur.items.length)cur.items.push({d:"",q:"",p:""});persist();renderEditor()}
 $("#list").addEventListener("click",e=>{
-  const card=e.target.closest(".q");if(!card)return;const x=saved.find(s=>s.id===card.dataset.id);if(!x)return;
-  const a=e.target.closest("[data-a]")?.dataset.a||"open";
+  const ch=e.target.closest("[data-client]");if(ch){const k=ch.dataset.client;openClients.has(k)?openClients.delete(k):openClients.add(k);renderList();return}
+  const btn=e.target.closest("[data-a]");if(!btn)return;const x=saved.find(s=>s.id===btn.dataset.id);if(!x)return;const a=btn.dataset.a;
   if(a==="open"){loadQuote(x);show("edit");toast(t("opened",x.client))}
   else if(a==="view"){loadQuote(x);show("prev")}
   else if(a==="dup"){loadQuote(x,true);show("edit");toast(t("dupDone"));$("#fClient").focus()}
+  else if(a==="cmp"){openCmp=openCmp===x.id?null:x.id;renderList()}
+  else if(a==="more"){openMore=openMore===x.id?null:x.id;pendingDelete=null;renderList()}
   else if(a==="sell"){const ex=x.linkTo&&saved.find(s=>s.id===x.linkTo&&s.type==="invoice");if(ex){loadQuote(ex)}else{const lastInv=saved.find(s=>s.type==="invoice"&&(s.lang||"ar")===(x.lang||"ar"));loadQuote(x,true);cur.client=x.client;cur.date=today();cur.type="invoice";cur.fromPurchase=x.id;cur.showNotes=true;cur.notes=(lastInv&&lastInv.notes||NOTES[cur.lang]).slice();cur.sign=lastInv?lastInv.sign===true:false;cur.items=cur.items.map(i=>({d:i.d,q:i.q,p:""}));persist();renderEditor()}show("edit");toast(t("saleReady"))}
   else if(a==="buy"){const ex=saved.find(s=>s.type==="purchase"&&s.linkTo===x.id);if(ex){loadQuote(ex)}else{loadQuote(x,true);cur.client=x.client;cur.date=x.date;cur.type="purchase";cur.linkTo=x.id;cur.sign=false;cur.showNotes=false;cur.notes=[];cur.items=cur.items.map(i=>({d:i.d,q:i.q,p:""}));persist();renderEditor()}show("edit");toast(t("purchaseReady"))}
+  else if(a==="pay"){openPay=openPay===x.id?null:x.id;renderList();const el=$("#payAmt");if(el)el.focus()}
+  else if(a==="paysave"){const amt=num($("#payAmt").value);if(amt==null||amt<=0){toast(t("payBad"));return}const all=ls("mbq-saved")||[];const d=all.find(s=>s.id===x.id);if(!d)return;
+    d.payments=(d.payments||[]).concat([{amt,date:$("#payDate").value||today()}]);d.savedAt=new Date().toISOString();writeAll(all);saved=all;openPay=null;if(cur.id===d.id)cur.payments=d.payments.slice();renderList();pushQuote(d,false);toast(dueOf(d)<=0?t("fullyPaid"):t("paySaved",fmt(dueOf(d))))}
+  else if(a==="paydel"){const all=ls("mbq-saved")||[];const d=all.find(s=>s.id===x.id);if(!d)return;d.payments=(d.payments||[]).filter((_,i)=>i!==+btn.dataset.i);d.savedAt=new Date().toISOString();writeAll(all);saved=all;if(cur.id===d.id)cur.payments=d.payments.slice();renderList();pushQuote(d,false)}
+  else if(a==="conv"){const ex=saved.find(s=>s.fromQuote===x.id);if(ex){loadQuote(ex)}else{loadQuote(x,true);cur.client=x.client;cur.type="invoice";cur.fromQuote=x.id;persist();renderEditor()}show("edit");toast(t("convDone"))}
   else if(a==="del"){pendingDelete=x.id;renderList()}
   else if(a==="del-no"){pendingDelete=null;renderList()}
   else if(a==="del-yes"){pendingDelete=null;sheetCall({action:"delete",id:x.id}).catch(()=>{});const all=saved.filter(s=>s.id!==x.id);writeAll(all);saved=all;if(cur.id===x.id){cur.id=null;persist();renderHead()}renderList();toast(t("deleted"))}
 });
-$("#list").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.classList.contains("q"))e.target.click()});
 $("#fSearch").addEventListener("input",e=>{filter=e.target.value;renderList()});
+
+/* ---------- numbering: Q-2026-001 / INV-2026-001 / PO-2026-001 ---------- */
+const NO_PREFIX={quote:"Q",invoice:"INV",purchase:"PO"};
+function nextNo(type){const p=NO_PREFIX[type]||"Q",y=new Date().getFullYear(),re=new RegExp("^"+p+"-"+y+"-(\\d+)$");let mx=0;
+  saved.forEach(x=>{const m=re.exec(x.no||"");if(m)mx=Math.max(mx,+m[1])});return`${p}-${y}-${String(mx+1).padStart(3,"0")}`}
+
+/* ---------- payments ---------- */
+const paidOf=x=>(x.payments||[]).reduce((a,p)=>a+(+p.amt||0),0);
+const dueOf=x=>Math.max(0,Math.round(((+x.total||0)-paidOf(x))*100)/100);
+
+/* ---------- item catalog: last buy / sell price per description ---------- */
+function catalog(){const m=new Map();
+  saved.slice().sort((a,b)=>(a.savedAt||"").localeCompare(b.savedAt||"")).forEach(x=>(x.items||[]).forEach(it=>{const k=normDesc(it.d);if(!k)return;const o=m.get(k)||{d:it.d.trim()};const p=num(it.p);
+    if(p!=null){if(x.type==="purchase")o.buy=p;else if(x.type==="invoice")o.sell=p;else if(o.sell==null||x.type==="quote")o.quote=p}o.d=it.d.trim();m.set(k,o)}));return m}
+function fillCatalogList(){const dl=$("#catalogList");if(!dl)return;dl.innerHTML=[...catalog().values()].map(o=>`<option value="${esc(o.d)}"></option>`).join("")}
 
 /* ---------- profit ---------- */
 /* purchase prices that belong to the sales invoice being edited: desc -> unit cost */
@@ -783,6 +894,7 @@ function buyMap(){if(cur.type!=="invoice")return null;const nm=normName(cur.clie
   const r=new Map();m.forEach((v,k)=>r.set(k,q.get(k)?v/q.get(k):0));return r}
 const normName=n=>String(n||"").trim().toLowerCase().replace(/\s+/g," ");
 const normDesc=n=>String(n||"").trim().toLowerCase().replace(/\s+/g," ");
+const net=x=>+(x.sub!=null?x.sub:x.total)||0;
 function computeProfit(){
   const sales=saved.filter(x=>x.type==="invoice"),buys=saved.filter(x=>x.type==="purchase");
   const deals=new Map(sales.map(s=>[s.id,{s,buys:[]}]));const orphans=[];
@@ -790,9 +902,9 @@ function computeProfit(){
     if(!id){const nm=normName(p.client);const cands=sales.filter(s=>normName(s.client)===nm);
       if(cands.length){const pd=Date.parse(p.date)||0;cands.sort((a,b)=>Math.abs((Date.parse(a.date)||0)-pd)-Math.abs((Date.parse(b.date)||0)-pd));id=cands[0].id}}
     if(id)deals.get(id).buys.push(p);else orphans.push(p)});
-  const months=new Map();const mk=k=>{if(!months.has(k))months.set(k,{key:k,sales:0,cost:0,deals:[],orphans:[]});return months.get(k)};
+  const months=new Map();const mk=k=>{if(!months.has(k))months.set(k,{key:k,sales:0,cost:0,deals:[],orphans:[],waiting:[]});return months.get(k)};
   let S=0,C=0;
-  deals.forEach(d=>{d.cost=d.buys.reduce((a,p)=>a+(+p.total||0),0);d.sale=+d.s.total||0;d.profit=d.sale-d.cost;const m=mk((d.s.date||"").slice(0,7));m.sales+=d.sale;m.cost+=d.cost;m.deals.push(d);S+=d.sale;C+=d.cost});
+  deals.forEach(d=>{d.cost=d.buys.reduce((a,p)=>a+net(p),0);d.sale=net(d.s);d.profit=d.sale-d.cost;const m=mk((d.s.date||"").slice(0,7));if(!d.buys.length){m.waiting.push(d);return}m.sales+=d.sale;m.cost+=d.cost;m.deals.push(d);S+=d.sale;C+=d.cost});
   orphans.forEach(p=>{mk((p.date||"").slice(0,7)).orphans.push(p)});
   const list=[...months.values()].sort((a,b)=>b.key.localeCompare(a.key));
   list.forEach(m=>{m.profit=m.sales-m.cost;m.deals.sort((a,b)=>(b.s.date||"").localeCompare(a.s.date||""))});
@@ -815,17 +927,19 @@ function renderProfit(){
   const thisM=P.months.find(m=>m.key===today().slice(0,7));
   $("#pTot").innerHTML=`<div class="big"><span>${t("profitTotal")}</span><strong class="${P.profit<0?"neg":""}">${fmt(P.profit)}</strong></div>
    <div class="sm"><span>${t("salesTotal")}</span><strong>${fmt(P.sales)}</strong></div><div class="sm"><span>${t("costTotal")}</span><strong>${fmt(P.cost)}</strong></div>
-   <div class="sm" style="grid-column:1/-1"><span>${t("thisMonth")}</span><strong class="${sgn(thisM?thisM.profit:0)}">${fmt(thisM?thisM.profit:0)}</strong></div>`;
+   <div class="sm"><span>${t("outstanding")}</span><strong class="${saved.some(x=>x.type==="invoice"&&dueOf(x)>0)?"neg":""}">${fmt(saved.filter(x=>x.type==="invoice").reduce((a,x)=>a+dueOf(x),0))}</strong></div>
+   <div class="sm"><span>${t("thisMonth")}</span><strong class="${sgn(thisM?thisM.profit:0)}">${fmt(thisM?thisM.profit:0)}</strong></div>`;
   if(!P.months.length){$("#pMonths").innerHTML=`<div class="empty"><strong>${t("profitEmpty")}</strong>${t("profitEmptyB")}</div>`;return}
   $("#pMonths").innerHTML=P.months.map(m=>`<div class="month"><h3>${esc(monthName(m.key))}<small>${t("invoicesN",m.deals.length)}</small><b class="${sgn(m.profit)}">${fmt(m.profit)}</b></h3>
     <div class="msum"><div>${t("monthSales")}<b>${fmt(m.sales)}</b></div><div>${t("monthCost")}<b>${fmt(m.cost)}</b></div><div>${t("margin")}<b>${m.sales?Math.round(m.profit/m.sales*100):0}%</b></div></div>
     ${m.deals.map(d=>`<div class="inv" data-deal="${esc(d.s.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(d.s.client)}</span><b class="${sgn(d.profit)}">${fmt(d.profit)}</b></div>
       <div class="r2"><span>${esc(dmy(d.s.date))}</span><span>${t("colSell")} ${fmt(d.sale)}</span><span>${t("colBuy")} ${fmt(d.cost)}</span></div>
       ${d.buys.length?"":`<div class="warn2">${t("noCost")}</div>`}${openDeal===d.s.id?itemCompare(d):""}</div>`).join("")}
+    ${m.waiting.map(d=>`<div class="inv" data-wait="${esc(d.s.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(d.s.client)}</span><b style="color:var(--muted)">${t("colSell")} ${fmt(d.sale)}</b></div><div class="r2"><span>${esc(dmy(d.s.date))}</span><span class="warn2">${t("waitBuy")} · ${t("addPurchase")}</span></div></div>`).join("")}
     ${m.orphans.map(p=>`<div class="inv" data-pend="${esc(p.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(p.client)}</span><b style="color:var(--muted)">${t("colBuy")} ${fmt(p.total)}</b></div><div class="r2"><span>${esc(dmy(p.date))}</span><span class="warn2">${t("pendingSale")} · ${t("addSale")}</span></div></div>`).join("")}
   </div>`).join("");
 }
-$("#pMonths").addEventListener("click",e=>{const pe=e.target.closest("[data-pend]");if(pe){const x=saved.find(s=>s.id===pe.dataset.pend);if(x){show("arch");filter="";$("#fSearch").value="";renderList();const card=document.querySelector(`.q[data-id="${CSS.escape(x.id)}"] [data-a="sell"]`);if(card)card.click()}return}const el=e.target.closest("[data-deal]");if(!el)return;openDeal=openDeal===el.dataset.deal?null:el.dataset.deal;renderProfit()});
+$("#pMonths").addEventListener("click",e=>{const wt=e.target.closest("[data-wait]");if(wt){const x=saved.find(s=>s.id===wt.dataset.wait);if(x){show("arch");filter="";$("#fSearch").value="";openClients.add(normName(x.client));renderList();const bb=document.querySelector(`[data-a="buy"][data-id="${CSS.escape(x.id)}"]`);if(bb)bb.click()}return}const pe=e.target.closest("[data-pend]");if(pe){const x=saved.find(s=>s.id===pe.dataset.pend);if(x){show("arch");filter="";$("#fSearch").value="";openClients.add(normName(x.client));renderList();const card=document.querySelector(`[data-a="sell"][data-id="${CSS.escape(x.id)}"]`);if(card)card.click()}return}const el=e.target.closest("[data-deal]");if(!el)return;openDeal=openDeal===el.dataset.deal?null:el.dataset.deal;renderProfit()});
 $("#pChip").onclick=()=>show("profit");
 
 /* ---------- tabs / toast ---------- */

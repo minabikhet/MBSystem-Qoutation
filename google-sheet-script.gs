@@ -139,7 +139,7 @@ function writeQuoteTab(sh, q) {
   const S = SpreadsheetApp.BorderStyle;
 
   // reset the tab
-  const need = 40 + items.length + notes.length;
+  const need = 44 + items.length + notes.length;
   if (sh.getMaxRows() < need) sh.insertRowsAfter(sh.getMaxRows(), need - sh.getMaxRows());
   if (sh.getMaxColumns() < 7) sh.insertColumnsAfter(sh.getMaxColumns(), 7 - sh.getMaxColumns());
   const all = sh.getRange(1, 1, sh.getMaxRows(), sh.getMaxColumns());
@@ -169,7 +169,7 @@ function writeQuoteTab(sh, q) {
   if (cname) rt = rt.setTextStyle(L.client.length + 1, L.client.length + 1 + cname.length,
     SpreadsheetApp.newTextStyle().setBold(true).setForegroundColor(NAVY).build());
   M(sh.getRange('B7:C7')).setRichTextValue(rt.build()).setFontSize(11).setHorizontalAlignment(start);
-  M(sh.getRange('D7:F7')).setValue(L.date + ' ' + dmy(q.date)).setFontSize(11).setFontWeight('bold').setHorizontalAlignment(end);
+  M(sh.getRange('D7:F7')).setValue((q.no ? q.no + '   ·   ' : '') + L.date + ' ' + dmy(q.date)).setFontSize(11).setFontWeight('bold').setHorizontalAlignment(end);
   M(sh.getRange('B8:F8')).setValue(L.greet).setFontColor('#3a4552').setHorizontalAlignment(start);
 
   // table
@@ -193,7 +193,17 @@ function writeQuoteTab(sh, q) {
   }
 
   // total
-  const tr = head + bodyN + 1;
+  let tr = head + bodyN + 1;
+  if (q.vat === true) {
+    const sub = Number(q.sub) || 0, vat = Number(q.vatAmount) || 0;
+    [[en ? 'Subtotal' : 'الإجمالي قبل الضريبة', sub], [en ? 'VAT 14%' : 'ضريبة القيمة المضافة 14%', vat]].forEach(([lab, val]) => {
+      M(sh.getRange(tr, 2, 1, 4)).setValue(lab).setHorizontalAlignment(start);
+      sh.getRange(tr, 6).setValue(val).setNumberFormat('#,##0.00').setFontWeight('bold').setHorizontalAlignment('center');
+      sh.getRange(tr, 2, 1, 5).setBorder(null, null, true, null, null, null, '#E6E1D6', S.SOLID);
+      sh.setRowHeight(tr, 26); tr++;
+    });
+    L.total = en ? 'Total incl. VAT' : 'الإجمالي شامل الضريبة';
+  }
   sh.setRowHeight(tr, 38);
   const tot = sh.getRange(tr, 2, 1, 5).setBackground(SOFT).setBorder(true, null, null, null, null, null, GOLD, S.SOLID_MEDIUM);
   M(sh.getRange(tr, 2, 1, 3)).setValue(L.total).setFontSize(13).setFontWeight('bold').setFontColor(NAVY).setHorizontalAlignment(start);
@@ -298,6 +308,7 @@ function trimSheet(sh, cols, rows) {
 /* ---------- profit tab: sales invoices minus their purchase invoices, grouped by month ---------- */
 const PROFIT = 'الأرباح';
 function safeProfit() { try { buildProfitTab(); } catch (e) { console.error(e); } }
+function netOf(x) { return Number(x.sub != null ? x.sub : x.total) || 0; }
 function normName(n) { return String(n || '').trim().toLowerCase().replace(/\s+/g, ' '); }
 function buildProfitTab() {
   const ss = SpreadsheetApp.getActive();
@@ -305,7 +316,7 @@ function buildProfitTab() {
   const sales = all.filter(x => x.type === 'invoice');
   const buys = all.filter(x => x.type === 'purchase');
   const deals = {};
-  sales.forEach(s => deals[s.id] = { s: s, cost: 0 });
+  sales.forEach(s => deals[s.id] = { s: s, cost: 0, n: 0 });
   const orphans = [];
   buys.forEach(p => {
     let id = p.linkTo && deals[p.linkTo] ? p.linkTo : '';
@@ -317,17 +328,18 @@ function buildProfitTab() {
         id = c[0].id;
       }
     }
-    if (id) deals[id].cost += Number(p.total) || 0; else orphans.push(p);
+    if (id) { deals[id].cost += netOf(p); deals[id].n++; } else orphans.push(p);
   });
   const months = {};
   const M = k => months[k] || (months[k] = { sales: 0, cost: 0, rows: [] });
   Object.keys(deals).forEach(id => {
-    const d = deals[id], m = M(String(d.s.date || '').slice(0, 7)), sale = Number(d.s.total) || 0;
+    const d = deals[id], m = M(String(d.s.date || '').slice(0, 7)), sale = netOf(d.s);
+    if (!d.n) { m.rows.push([dmy(d.s.date), d.s.client, sale, '', '', 'مستنية فاتورة الشراء (مش محسوبة)']); return; }
     m.sales += sale; m.cost += d.cost;
-    m.rows.push([dmy(d.s.date), d.s.client, sale, d.cost, sale - d.cost, d.cost ? '' : 'مفيش فاتورة شراء']);
+    m.rows.push([dmy(d.s.date), d.s.client, sale, d.cost, sale - d.cost, d.s.no || '']);
   });
   orphans.forEach(p => {
-    const m = M(String(p.date || '').slice(0, 7)), c = Number(p.total) || 0;
+    const m = M(String(p.date || '').slice(0, 7)), c = netOf(p);
     m.rows.push([dmy(p.date), p.client, '', c, '', 'مستنية فاتورة البيع (مش محسوبة)']);
   });
 
