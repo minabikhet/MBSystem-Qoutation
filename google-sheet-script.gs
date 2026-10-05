@@ -328,7 +328,7 @@ function buildProfitTab() {
   });
   orphans.forEach(p => {
     const m = M(String(p.date || '').slice(0, 7)), c = Number(p.total) || 0;
-    m.cost += c; m.rows.push([dmy(p.date), p.client, 0, c, -c, 'شراء مش مربوط بفاتورة بيع']);
+    m.rows.push([dmy(p.date), p.client, '', c, '', 'مستنية فاتورة البيع (مش محسوبة)']);
   });
 
   let sh = ss.getSheetByName(PROFIT);

@@ -107,6 +107,7 @@ input[inputmode="decimal"]{direction:ltr;font-variant-numeric:tabular-nums}
 .item .body{display:flex;flex-direction:column;gap:8px;min-width:0}
 .item .row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
 .item .lt{font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;padding:10px 4px;white-space:nowrap;direction:ltr;min-width:84px;text-align:end}
+.item .bh{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 .item .msg{font-size:12px;color:var(--danger)}
 .x{background:none;border:0;color:var(--muted);font-size:13px;padding:4px 2px;cursor:pointer;justify-self:start}
 .x:hover{color:var(--danger)}
@@ -266,7 +267,7 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
 
     <div class="card">
       <div class="totalbar">
-        <div class="t"><span data-t="total"></span><strong id="sumTotal">0.00</strong></div>
+        <div class="t"><span data-t="total"></span><strong id="sumTotal">0.00</strong><span id="sumProfit" hidden style="font-size:13px;color:var(--ink)"></span></div>
         <div class="acts">
           <button class="btn ghost" id="btnPreview" type="button" data-t="preview"></button>
           <button class="btn gold" id="btnSave" type="button" data-t="save"></button>
@@ -373,7 +374,7 @@ const CUR={ar:"جنيه مصري",en:"EGP"};
 /* ---------- UI text ---------- */
 const UI={
  ar:{appTitle:"عروض الأسعار",startNew:"ابدأ عرض جديد",quoteInfo:"بيانات العرض",client:"اسم العميل",date:"التاريخ",currency:"العملة",fbName:"اسم صفحة فيسبوك",
-  quoteLang:"اللغة",docType:"نوع المستند",tQuote:"عرض سعر",tInvoice:"فاتورة بيع",tPurchase:"فاتورة شراء",linkLabel:"مربوطة بفاتورة البيع",linkHint:"فاتورة الشراء مش بتتبعت للعميل. بتستخدم بس عشان تحسب مكسبك من فاتورة البيع.",linkAuto:"تلقائي: آخر فاتورة بيع بنفس اسم العميل",purchaseTag:"شراء",addPurchase:"+ فاتورة شراء",purchaseReady:"اكتب سعر الشراء لكل بند واحفظ",tabProfit:"الأرباح",profitTotal:"إجمالي المكسب",salesTotal:"إجمالي المبيعات",costTotal:"إجمالي المشتريات",thisMonth:"مكسب الشهر ده",monthSales:"مبيعات",monthCost:"مشتريات",monthProfit:"المكسب",noCost:"لسه مفيش فاتورة شراء",orphan:"مشتريات مش مربوطة بفاتورة بيع",profitEmpty:"لسه مفيش فواتير بيع",profitEmptyB:"اعمل فاتورة بيع، وبعدين من «المحفوظة» اضغط «+ فاتورة شراء» عليها واكتب أسعار الشراء.",colItem:"البند",colBuy:"شراء",colSell:"بيع",colGain:"المكسب",invoicesN:n=>`${n} فاتورة`,margin:"نسبة المكسب",profitChip:"المكسب",notesOn:"ظاهرة في الورقة",sigTitle:"التوقيع",sigSmall:"تشغّلها لكل عرض أو فاتورة من زرار «الإمضاء»",sigHint:"امضي بصباعك في المربع.",sigSave:"حفظ التوقيع",sigDraw:"امضي بصباعك",sigUpload:"رفع صورة إمضاء",sigReset:"رجوع لتوقيعي الأصلي",sigLabel:"الإمضاء",sigOn:"ظاهرة مكان Security Solutions",sigOff:"مش ظاهرة",sigResetDone:"رجع التوقيع الأصلي",sigSaved:"التوقيع اتحفظ",sigEmpty:"امضي الأول في المربع",sigRemoved:"التوقيع اتشال",sigBad:"مقدرناش نقرا الصورة دي",notesOff:"مخفية من الورقة",invoiceTag:"فاتورة",items:"البنود",autoTotal:"الإجمالي بيتحسب لوحده",addItem:"+ إضافة بند",notes:"ملاحظات العميل",notesHint:"بتظهر تحت الجدول",addNote:"+ إضافة ملاحظة",
+  quoteLang:"اللغة",docType:"نوع المستند",tQuote:"عرض سعر",tInvoice:"فاتورة بيع",tPurchase:"فاتورة شراء",linkLabel:"مربوطة بفاتورة البيع",linkHint:"فاتورة الشراء مش بتتبعت للعميل. بتستخدم بس عشان تحسب مكسبك من فاتورة البيع.",linkAuto:"تلقائي: آخر فاتورة بيع بنفس اسم العميل",purchaseTag:"شراء",addPurchase:"+ فاتورة شراء",purchaseReady:"اكتب سعر الشراء لكل بند واحفظ",addSale:"+ فاتورة بيع",saleReady:"اكتب سعر البيع لكل بند واحفظ",boughtAt:(p,g)=>`اشتريته بـ ${p}`+(g==null?"":` · مكسب ${g}`),pendingSale:"مستنية فاتورة البيع",invProfit:"المكسب",tabProfit:"الأرباح",profitTotal:"إجمالي المكسب",salesTotal:"إجمالي المبيعات",costTotal:"إجمالي المشتريات",thisMonth:"مكسب الشهر ده",monthSales:"مبيعات",monthCost:"مشتريات",monthProfit:"المكسب",noCost:"لسه مفيش فاتورة شراء",orphan:"مشتريات مش مربوطة بفاتورة بيع",profitEmpty:"لسه مفيش فواتير بيع",profitEmptyB:"ابدأ بفاتورة شراء بأسعار الشراء، وبعدين من «المحفوظة» اضغط «+ فاتورة بيع» عليها واكتب أسعار البيع.",colItem:"البند",colBuy:"شراء",colSell:"بيع",colGain:"المكسب",invoicesN:n=>`${n} فاتورة`,margin:"نسبة المكسب",profitChip:"المكسب",notesOn:"ظاهرة في الورقة",sigTitle:"التوقيع",sigSmall:"تشغّلها لكل عرض أو فاتورة من زرار «الإمضاء»",sigHint:"امضي بصباعك في المربع.",sigSave:"حفظ التوقيع",sigDraw:"امضي بصباعك",sigUpload:"رفع صورة إمضاء",sigReset:"رجوع لتوقيعي الأصلي",sigLabel:"الإمضاء",sigOn:"ظاهرة مكان Security Solutions",sigOff:"مش ظاهرة",sigResetDone:"رجع التوقيع الأصلي",sigSaved:"التوقيع اتحفظ",sigEmpty:"امضي الأول في المربع",sigRemoved:"التوقيع اتشال",sigBad:"مقدرناش نقرا الصورة دي",notesOff:"مخفية من الورقة",invoiceTag:"فاتورة",items:"البنود",autoTotal:"الإجمالي بيتحسب لوحده",addItem:"+ إضافة بند",notes:"ملاحظات العميل",notesHint:"بتظهر تحت الجدول",addNote:"+ إضافة ملاحظة",
   total:"الإجمالي",preview:"معاينة",save:"حفظ العرض",newQuote:"عرض جديد",sendPdf:"إرسال PDF (واتساب)",print:"طباعة / حفظ PDF",sendImg:"إرسال كصورة",copyText:"نسخ كنص",
   back:"رجوع للتعديل",prevHint:"الملف بيتحفظ ويتبعت باسم العميل، والعرض بيتحفظ في «المحفوظة» تلقائيًا.",backup:"نسخة احتياطية",backupSmall:"العروض متخزنة على الجهاز ده بس",
   backupHint:"خد نسخة كل فترة واحفظها على درايف أو واتساب، عشان لو مسحت بيانات المتصفح أو غيرت الموبايل ترجعها.",exportBackup:"تصدير نسخة احتياطية",restore:"استرجاع نسخة",
@@ -392,7 +393,7 @@ const UI={
   synced:(u,d)=>`اتزامن: ${u} اترفع، ${d} اتنزل`,pending:"لسه ماترفعش",
   excelTitle:"ملف Excel",excelHint:"ملف فيه تاب «العروض» بكل العروض، وتاب لكل عميل فيه عرض السعر بتاعه.",excelBtn:"تحميل كل العروض Excel",gasHint:"التطبيق شغال من جوه الشيت بتاعك، وكل عرض بتحفظه بيتسجل فيه في تاب لوحده باسم العميل. افتح الشيت من تطبيق Google Sheets على الموبايل وهتلاقيه.",driveSaved:"نسخة الـPDF اتحفظت على Google Drive.",openDrive:"افتحها"},
  en:{appTitle:"Quotations",startNew:"Start a new quote",quoteInfo:"Quote details",client:"Client name",date:"Date",currency:"Currency",fbName:"Facebook page name",
-  quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",linkLabel:"Linked to sales invoice",linkHint:"Purchase invoices are never sent to the client. They are used only to work out your profit on the sales invoice.",linkAuto:"Automatic: latest sales invoice with the same client name",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Create a sales invoice, then in Saved tap «+ Purchase invoice» on it and enter your purchase prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Hidden from the document",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
+  quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",linkLabel:"Linked to sales invoice",linkHint:"Purchase invoices are never sent to the client. They are used only to work out your profit on the sales invoice.",linkAuto:"Automatic: latest sales invoice with the same client name",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",addSale:"+ Sales invoice",saleReady:"Enter the selling price for each item and save",boughtAt:(p,g)=>`Bought at ${p}`+(g==null?"":` · profit ${g}`),pendingSale:"Waiting for the sales invoice",invProfit:"Profit",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Start with a purchase invoice at your cost prices, then in Saved tap «+ Sales invoice» on it and enter your selling prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Hidden from the document",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
   total:"Total",preview:"Preview",save:"Save quote",newQuote:"New quote",sendPdf:"Send PDF (WhatsApp)",print:"Print / Save PDF",sendImg:"Send as image",copyText:"Copy as text",
   back:"Back to editing",prevHint:"Files are named after the client, and the quote is saved to Saved automatically.",backup:"Backup",backupSmall:"Quotes are stored on this device only",
   backupHint:"Export a backup now and then and keep it on Drive or WhatsApp, so you can restore it if browser data is cleared or you change phones.",exportBackup:"Export backup",restore:"Restore backup",
@@ -478,6 +479,7 @@ function renderItems(){
         <label class="f">${esc(t("price"))}<input data-k="p" inputmode="decimal" value="${esc(it.p)}" id="it-p-${i}"></label>
         <div class="lt" data-lt></div>
       </div>
+      <div class="bh" data-bh hidden></div>
       <div class="msg" data-msg hidden></div>
       <button class="x" data-del type="button">${esc(t("delItem"))}</button>
     </div></div>`).join("");
@@ -487,7 +489,11 @@ function refreshRows(){
   document.querySelectorAll(".item").forEach(el=>{const s=rowState(cur.items[+el.dataset.i]);
     el.classList.toggle("bad",!!s.msg);el.querySelector("[data-lt]").textContent=s.ok?fmt(s.t):"—";
     const m=el.querySelector("[data-msg]");m.hidden=!s.msg;m.textContent=s.msg?t(s.msg):""});
+  const bm=buyMap();
+  document.querySelectorAll(".item").forEach(el=>{const it=cur.items[+el.dataset.i];const h=el.querySelector("[data-bh]");const b=bm&&bm.get(normDesc(it.d));
+    if(!b){h.hidden=true;return}const s=rowState(it);h.hidden=false;h.textContent=t("boughtAt",fmt(b),s.ok?fmt((s.p-b)*s.q):null)});
   const c=calc();$("#sumTotal").textContent=fmt(c.total);
+  const pf=$("#sumProfit");if(bm){const cost=[...cur.items].reduce((a,it)=>{const s=rowState(it);const b=bm.get(normDesc(it.d));return a+(s.ok&&b!=null?b*s.q:0)},0);pf.hidden=false;const g=c.total-cost;pf.innerHTML=`${t("invProfit")}: <b class="${g<0?"neg":"pos"}">${fmt(g)}</b>`}else pf.hidden=true;
   const w=$("#warn");w.hidden=!c.bad;w.textContent=c.bad?t("fixMissing"):""
 }
 function renderNotes(){
@@ -575,7 +581,8 @@ function saveQuote(silent){
     notes:cur.notes.filter(n=>(n||"").trim()),total:c.total,savedAt:new Date().toISOString()};
   const all=ls("mbq-saved")||[];const i=all.findIndex(x=>x.id===body.id);if(i>=0)all[i]=body;else all.unshift(body);
   if(!writeAll(all))return false;
-  saved=all;cur.id=body.id;persist();renderHead();renderList();if(!silent)toast(t("saved",body.client));pushQuote(body,!silent);return true;
+  let linked=null;if(body.type==="invoice"&&cur.fromPurchase){linked=all.find(x=>x.id===cur.fromPurchase&&x.type==="purchase");if(linked){linked.linkTo=body.id;linked.savedAt=new Date().toISOString();writeAll(all)}cur.fromPurchase=""}
+  saved=all;cur.id=body.id;persist();renderHead();renderList();if(!silent)toast(t("saved",body.client));pushQuote(body,!silent);if(linked)pushQuote(linked,false);return true;
 }
 $("#btnSave").onclick=()=>saveQuote(false);
 
@@ -746,7 +753,7 @@ function renderList(){
     <div class="meta">${esc(t("quoteOf",dmy(x.date)))} · ${esc(t("itemsN",(x.items||[]).length))}</div><div class="meta">${esc(t("lastSave",when(x.savedAt)))}</div>
     <div class="acts">
      ${pendingDelete===x.id?`<span class="confirm">${t("delQ")} <button class="btn danger" data-a="del-yes">${t("delYes")}</button><button class="btn ghost" data-a="del-no">${t("cancel")}</button></span>`:
-     `<button class="btn navy" data-a="open">${t("open")}</button><button class="btn ghost" data-a="view">${t("view")}</button><button class="btn ghost" data-a="dup">${t("dup")}</button>${x.type==="invoice"?`<button class="btn ghost" data-a="buy" style="color:var(--danger)">${t("addPurchase")}</button>`:""}<button class="btn ghost" data-a="del">${t("del")}</button>`}
+     `<button class="btn navy" data-a="open">${t("open")}</button><button class="btn ghost" data-a="view">${t("view")}</button><button class="btn ghost" data-a="dup">${t("dup")}</button>${x.type==="purchase"?`<button class="btn gold" data-a="sell">${t("addSale")}</button>`:""}${x.type==="invoice"?`<button class="btn ghost" data-a="buy" style="color:var(--danger)">${t("addPurchase")}</button>`:""}<button class="btn ghost" data-a="del">${t("del")}</button>`}
     </div></div>`).join("");
 }
 function loadQuote(x,asCopy){cur={id:asCopy?null:x.id,type:["invoice","purchase"].includes(x.type)?x.type:"quote",linkTo:x.linkTo||"",showNotes:x.showNotes!==false,sign:x.sign===true,lang:x.lang||"ar",client:asCopy?"":x.client,date:asCopy?today():x.date,currency:x.currency||CUR[x.lang||"ar"],fb:x.fb||"MB Systems",
@@ -758,6 +765,7 @@ $("#list").addEventListener("click",e=>{
   if(a==="open"){loadQuote(x);show("edit");toast(t("opened",x.client))}
   else if(a==="view"){loadQuote(x);show("prev")}
   else if(a==="dup"){loadQuote(x,true);show("edit");toast(t("dupDone"));$("#fClient").focus()}
+  else if(a==="sell"){const ex=x.linkTo&&saved.find(s=>s.id===x.linkTo&&s.type==="invoice");if(ex){loadQuote(ex)}else{const lastInv=saved.find(s=>s.type==="invoice"&&(s.lang||"ar")===(x.lang||"ar"));loadQuote(x,true);cur.client=x.client;cur.date=today();cur.type="invoice";cur.fromPurchase=x.id;cur.showNotes=true;cur.notes=(lastInv&&lastInv.notes||NOTES[cur.lang]).slice();cur.sign=lastInv?lastInv.sign===true:false;cur.items=cur.items.map(i=>({d:i.d,q:i.q,p:""}));persist();renderEditor()}show("edit");toast(t("saleReady"))}
   else if(a==="buy"){const ex=saved.find(s=>s.type==="purchase"&&s.linkTo===x.id);if(ex){loadQuote(ex)}else{loadQuote(x,true);cur.client=x.client;cur.date=x.date;cur.type="purchase";cur.linkTo=x.id;cur.sign=false;cur.showNotes=false;cur.notes=[];cur.items=cur.items.map(i=>({d:i.d,q:i.q,p:""}));persist();renderEditor()}show("edit");toast(t("purchaseReady"))}
   else if(a==="del"){pendingDelete=x.id;renderList()}
   else if(a==="del-no"){pendingDelete=null;renderList()}
@@ -767,6 +775,12 @@ $("#list").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.classList
 $("#fSearch").addEventListener("input",e=>{filter=e.target.value;renderList()});
 
 /* ---------- profit ---------- */
+/* purchase prices that belong to the sales invoice being edited: desc -> unit cost */
+function buyMap(){if(cur.type!=="invoice")return null;const nm=normName(cur.client);
+  const ps=saved.filter(p=>p.type==="purchase"&&((cur.id&&p.linkTo===cur.id)||p.id===cur.fromPurchase||(!p.linkTo&&nm&&normName(p.client)===nm)));
+  if(!ps.length)return null;const m=new Map(),q=new Map();
+  ps.forEach(p=>(p.items||[]).forEach(it=>{const k=normDesc(it.d),qq=num(it.q)||0,pr=num(it.p)||0;m.set(k,(m.get(k)||0)+qq*pr);q.set(k,(q.get(k)||0)+qq)}));
+  const r=new Map();m.forEach((v,k)=>r.set(k,q.get(k)?v/q.get(k):0));return r}
 const normName=n=>String(n||"").trim().toLowerCase().replace(/\s+/g," ");
 const normDesc=n=>String(n||"").trim().toLowerCase().replace(/\s+/g," ");
 function computeProfit(){
@@ -779,7 +793,7 @@ function computeProfit(){
   const months=new Map();const mk=k=>{if(!months.has(k))months.set(k,{key:k,sales:0,cost:0,deals:[],orphans:[]});return months.get(k)};
   let S=0,C=0;
   deals.forEach(d=>{d.cost=d.buys.reduce((a,p)=>a+(+p.total||0),0);d.sale=+d.s.total||0;d.profit=d.sale-d.cost;const m=mk((d.s.date||"").slice(0,7));m.sales+=d.sale;m.cost+=d.cost;m.deals.push(d);S+=d.sale;C+=d.cost});
-  orphans.forEach(p=>{const m=mk((p.date||"").slice(0,7));m.cost+=+p.total||0;m.orphans.push(p);C+=+p.total||0});
+  orphans.forEach(p=>{mk((p.date||"").slice(0,7)).orphans.push(p)});
   const list=[...months.values()].sort((a,b)=>b.key.localeCompare(a.key));
   list.forEach(m=>{m.profit=m.sales-m.cost;m.deals.sort((a,b)=>(b.s.date||"").localeCompare(a.s.date||""))});
   return{sales:S,cost:C,profit:S-C,months:list};
@@ -808,10 +822,10 @@ function renderProfit(){
     ${m.deals.map(d=>`<div class="inv" data-deal="${esc(d.s.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(d.s.client)}</span><b class="${sgn(d.profit)}">${fmt(d.profit)}</b></div>
       <div class="r2"><span>${esc(dmy(d.s.date))}</span><span>${t("colSell")} ${fmt(d.sale)}</span><span>${t("colBuy")} ${fmt(d.cost)}</span></div>
       ${d.buys.length?"":`<div class="warn2">${t("noCost")}</div>`}${openDeal===d.s.id?itemCompare(d):""}</div>`).join("")}
-    ${m.orphans.map(p=>`<div class="inv"><div class="r1"><span class="nm">${esc(p.client)}</span><b class="neg">-${fmt(p.total)}</b></div><div class="r2"><span>${esc(dmy(p.date))}</span><span class="warn2">${t("orphan")}</span></div></div>`).join("")}
+    ${m.orphans.map(p=>`<div class="inv" data-pend="${esc(p.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(p.client)}</span><b style="color:var(--muted)">${t("colBuy")} ${fmt(p.total)}</b></div><div class="r2"><span>${esc(dmy(p.date))}</span><span class="warn2">${t("pendingSale")} · ${t("addSale")}</span></div></div>`).join("")}
   </div>`).join("");
 }
-$("#pMonths").addEventListener("click",e=>{const el=e.target.closest("[data-deal]");if(!el)return;openDeal=openDeal===el.dataset.deal?null:el.dataset.deal;renderProfit()});
+$("#pMonths").addEventListener("click",e=>{const pe=e.target.closest("[data-pend]");if(pe){const x=saved.find(s=>s.id===pe.dataset.pend);if(x){show("arch");filter="";$("#fSearch").value="";renderList();const card=document.querySelector(`.q[data-id="${CSS.escape(x.id)}"] [data-a="sell"]`);if(card)card.click()}return}const el=e.target.closest("[data-deal]");if(!el)return;openDeal=openDeal===el.dataset.deal?null:el.dataset.deal;renderProfit()});
 $("#pChip").onclick=()=>show("profit");
 
 /* ---------- tabs / toast ---------- */
