@@ -11,6 +11,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>MB System Quotations</title>
+<script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
@@ -176,6 +177,10 @@ button{font:inherit;cursor:pointer}
 .paybox{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
 .payrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pline{display:flex;gap:10px;align-items:center;font-size:13px}.pline b{margin-inline-start:auto;font-variant-numeric:tabular-nums}
+#login{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:16px}
+.lbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}
+.lbox img{height:70px;object-fit:contain;align-self:center}
+.lbox h2{margin:0;text-align:center;font-family:var(--f-display);font-size:18px}
 .empty{text-align:center;color:var(--muted);padding:28px 12px;border:1.5px dashed var(--line);border-radius:var(--r)}
 .empty strong{display:block;color:var(--ink);font-family:var(--f-display);font-size:16px;margin-bottom:4px}
 nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
@@ -343,7 +348,15 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
   <section class="view" id="v-arch" hidden>
     <input id="fSearch" type="search" autocomplete="off">
     <div class="list" id="list"></div>
-    <div class="card">
+    <div class="card" id="sbCard" hidden>
+      <h2><span data-t="cloudTitle"></span><small class="sync" id="sbState"><b></b><span></span></small></h2>
+      <p class="hint" style="margin-bottom:10px"><span data-t="cloudHint"></span> <b id="sbUser" dir="ltr"></b></p>
+      <div class="exp">
+        <button class="btn ghost" id="btnSbSync" type="button" data-t="syncNow"></button>
+        <button class="btn ghost" id="btnLogout" type="button" data-t="logout"></button>
+      </div>
+    </div>
+    <div class="card" id="sheetCard">
       <h2><span data-t="sheetTitle"></span><small class="sync" id="syncState"><b></b><span></span></small></h2>
       <p class="hint" style="margin-bottom:10px" data-t="sheetHint"></p>
       <label class="f"><span data-t="sheetUrl"></span><input id="fSheet" dir="ltr" autocomplete="off" placeholder="https://script.google.com/macros/s/.../exec"></label>
@@ -387,6 +400,16 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
   </section>
 </div>
 
+<div id="login" hidden>
+  <form class="lbox" id="loginForm">
+    <img id="lgLogo" alt="MB System">
+    <h2 data-t="loginTitle"></h2>
+    <label class="f"><span data-t="email"></span><input id="lgEmail" type="email" dir="ltr" autocomplete="username" required></label>
+    <label class="f"><span data-t="password"></span><input id="lgPass" type="password" dir="ltr" autocomplete="current-password" required></label>
+    <button class="btn gold block" type="submit" id="lgBtn" data-t="loginBtn"></button>
+    <p class="warn" id="lgErr" hidden></p>
+  </form>
+</div>
 <div id="sheetHost" aria-hidden="true"></div>
 <datalist id="catalogList"></datalist>
 
@@ -413,7 +436,7 @@ const CUR={ar:"جنيه مصري",en:"EGP"};
 /* ---------- UI text ---------- */
 const UI={
  ar:{appTitle:"عروض الأسعار",startNew:"ابدأ عرض جديد",quoteInfo:"بيانات العرض",client:"اسم العميل",date:"التاريخ",currency:"العملة",fbName:"اسم صفحة فيسبوك",
-  quoteLang:"اللغة",docType:"نوع المستند",tQuote:"عرض سعر",tInvoice:"فاتورة بيع",tPurchase:"فاتورة شراء",saveInv:"حفظ الفاتورة",waitBuy:"مستنية فاتورة الشراء (مش محسوبة في المكسب)",lastBuy:p=>`آخر شراء ${p}`,lastSell:p=>`آخر بيع ${p}`,dueShort:"باقي",cDue:"باقي على العميل",paidL:"مدفوع",dueL:"باقي",fullyPaid:"خالص",payBtn:"تسجيل دفعة",payAmt:"المبلغ",paySave:"حفظ الدفعة",payBad:"اكتب مبلغ صحيح",paySaved:d=>`اتسجلت الدفعة، الباقي ${d}`,toInvoice:"حوّل لفاتورة",convDone:"اتحوّل لفاتورة بيع، راجعه واضغط حفظ الفاتورة",converted:"اتحوّل لفاتورة",outstanding:"فلوس برة (باقي على العملاء)",saveBuy:"حفظ فاتورة الشراء",vatLabel:"ضريبة 14%",vatOn:"مضافة على الإجمالي",vatOff:"مش مضافة",vatSub:"قبل الضريبة",vatShort:"ضريبة",notesShow:"إظهار",notesHide:"إخفاء",cBought:"اشتريت",cSold:"بعت",cProfit:"المكسب",cDocs:n=>`${n} مستند`,openSale:"فاتورة البيع",openBuy:"فاتورة الشراء",cmpItems:"البنود بالتفصيل",more:"المزيد",delSale:"مسح فاتورة البيع",delBuy:"مسح فاتورة الشراء",quoteRow:"عرض سعر",saleRow:"فاتورة بيع",buyRow:"فاتورة شراء",dealRow:"شراء وبيع",linkLabel:"مربوطة بفاتورة البيع",linkHint:"فاتورة الشراء مش بتتبعت للعميل. بتستخدم بس عشان تحسب مكسبك من فاتورة البيع.",linkAuto:"تلقائي: آخر فاتورة بيع بنفس اسم العميل",purchaseTag:"شراء",addPurchase:"+ فاتورة شراء",purchaseReady:"اكتب سعر الشراء لكل بند واحفظ",addSale:"+ فاتورة بيع",saleReady:"اكتب سعر البيع لكل بند واحفظ",boughtAt:(p,g)=>`اشتريته بـ ${p}`+(g==null?"":` · مكسب ${g}`),pendingSale:"مستنية فاتورة البيع",invProfit:"المكسب",tabProfit:"الأرباح",profitTotal:"إجمالي المكسب",salesTotal:"إجمالي المبيعات",costTotal:"إجمالي المشتريات",thisMonth:"مكسب الشهر ده",monthSales:"مبيعات",monthCost:"مشتريات",monthProfit:"المكسب",noCost:"لسه مفيش فاتورة شراء",orphan:"مشتريات مش مربوطة بفاتورة بيع",profitEmpty:"لسه مفيش فواتير بيع",profitEmptyB:"ابدأ بفاتورة شراء بأسعار الشراء، وبعدين من «المحفوظة» اضغط «+ فاتورة بيع» عليها واكتب أسعار البيع.",colItem:"البند",colBuy:"شراء",colSell:"بيع",colGain:"المكسب",invoicesN:n=>`${n} فاتورة`,margin:"نسبة المكسب",profitChip:"المكسب",notesOn:"ظاهرة في الورقة",sigTitle:"التوقيع",sigSmall:"تشغّلها لكل عرض أو فاتورة من زرار «الإمضاء»",sigHint:"امضي بصباعك في المربع.",sigSave:"حفظ التوقيع",sigDraw:"امضي بصباعك",sigUpload:"رفع صورة إمضاء",sigReset:"رجوع لتوقيعي الأصلي",sigLabel:"الإمضاء",sigOn:"ظاهرة مكان Security Solutions",sigOff:"مش ظاهرة",sigResetDone:"رجع التوقيع الأصلي",sigSaved:"التوقيع اتحفظ",sigEmpty:"امضي الأول في المربع",sigRemoved:"التوقيع اتشال",sigBad:"مقدرناش نقرا الصورة دي",notesOff:"مقفولة، دوس عشان تضيف ملاحظات",invoiceTag:"فاتورة",items:"البنود",autoTotal:"الإجمالي بيتحسب لوحده",addItem:"+ إضافة بند",notes:"ملاحظات العميل",notesHint:"بتظهر تحت الجدول",addNote:"+ إضافة ملاحظة",
+  quoteLang:"اللغة",docType:"نوع المستند",tQuote:"عرض سعر",tInvoice:"فاتورة بيع",tPurchase:"فاتورة شراء",saveInv:"حفظ الفاتورة",sbSaved:"اتحفظ في الحساب",loginTitle:"تسجيل الدخول",email:"الإيميل",password:"كلمة السر",loginBtn:"دخول",loginBad:"الإيميل أو كلمة السر غلط",loginNet:"مفيش اتصال بالسيرفر، جرّب تاني",cloudTitle:"الحساب والمزامنة",cloudHint:"العروض محفوظة على قاعدة البيانات ومتزامنة على كل أجهزتك. داخل بـ",logout:"تسجيل خروج",uploaded:n=>`اترفع ${n} مستند من الجهاز للحساب`,waitBuy:"مستنية فاتورة الشراء (مش محسوبة في المكسب)",lastBuy:p=>`آخر شراء ${p}`,lastSell:p=>`آخر بيع ${p}`,dueShort:"باقي",cDue:"باقي على العميل",paidL:"مدفوع",dueL:"باقي",fullyPaid:"خالص",payBtn:"تسجيل دفعة",payAmt:"المبلغ",paySave:"حفظ الدفعة",payBad:"اكتب مبلغ صحيح",paySaved:d=>`اتسجلت الدفعة، الباقي ${d}`,toInvoice:"حوّل لفاتورة",convDone:"اتحوّل لفاتورة بيع، راجعه واضغط حفظ الفاتورة",converted:"اتحوّل لفاتورة",outstanding:"فلوس برة (باقي على العملاء)",saveBuy:"حفظ فاتورة الشراء",vatLabel:"ضريبة 14%",vatOn:"مضافة على الإجمالي",vatOff:"مش مضافة",vatSub:"قبل الضريبة",vatShort:"ضريبة",notesShow:"إظهار",notesHide:"إخفاء",cBought:"اشتريت",cSold:"بعت",cProfit:"المكسب",cDocs:n=>`${n} مستند`,openSale:"فاتورة البيع",openBuy:"فاتورة الشراء",cmpItems:"البنود بالتفصيل",more:"المزيد",delSale:"مسح فاتورة البيع",delBuy:"مسح فاتورة الشراء",quoteRow:"عرض سعر",saleRow:"فاتورة بيع",buyRow:"فاتورة شراء",dealRow:"شراء وبيع",linkLabel:"مربوطة بفاتورة البيع",linkHint:"فاتورة الشراء مش بتتبعت للعميل. بتستخدم بس عشان تحسب مكسبك من فاتورة البيع.",linkAuto:"تلقائي: آخر فاتورة بيع بنفس اسم العميل",purchaseTag:"شراء",addPurchase:"+ فاتورة شراء",purchaseReady:"اكتب سعر الشراء لكل بند واحفظ",addSale:"+ فاتورة بيع",saleReady:"اكتب سعر البيع لكل بند واحفظ",boughtAt:(p,g)=>`اشتريته بـ ${p}`+(g==null?"":` · مكسب ${g}`),pendingSale:"مستنية فاتورة البيع",invProfit:"المكسب",tabProfit:"الأرباح",profitTotal:"إجمالي المكسب",salesTotal:"إجمالي المبيعات",costTotal:"إجمالي المشتريات",thisMonth:"مكسب الشهر ده",monthSales:"مبيعات",monthCost:"مشتريات",monthProfit:"المكسب",noCost:"لسه مفيش فاتورة شراء",orphan:"مشتريات مش مربوطة بفاتورة بيع",profitEmpty:"لسه مفيش فواتير بيع",profitEmptyB:"ابدأ بفاتورة شراء بأسعار الشراء، وبعدين من «المحفوظة» اضغط «+ فاتورة بيع» عليها واكتب أسعار البيع.",colItem:"البند",colBuy:"شراء",colSell:"بيع",colGain:"المكسب",invoicesN:n=>`${n} فاتورة`,margin:"نسبة المكسب",profitChip:"المكسب",notesOn:"ظاهرة في الورقة",sigTitle:"التوقيع",sigSmall:"تشغّلها لكل عرض أو فاتورة من زرار «الإمضاء»",sigHint:"امضي بصباعك في المربع.",sigSave:"حفظ التوقيع",sigDraw:"امضي بصباعك",sigUpload:"رفع صورة إمضاء",sigReset:"رجوع لتوقيعي الأصلي",sigLabel:"الإمضاء",sigOn:"ظاهرة مكان Security Solutions",sigOff:"مش ظاهرة",sigResetDone:"رجع التوقيع الأصلي",sigSaved:"التوقيع اتحفظ",sigEmpty:"امضي الأول في المربع",sigRemoved:"التوقيع اتشال",sigBad:"مقدرناش نقرا الصورة دي",notesOff:"مقفولة، دوس عشان تضيف ملاحظات",invoiceTag:"فاتورة",items:"البنود",autoTotal:"الإجمالي بيتحسب لوحده",addItem:"+ إضافة بند",notes:"ملاحظات العميل",notesHint:"بتظهر تحت الجدول",addNote:"+ إضافة ملاحظة",
   total:"الإجمالي",preview:"معاينة",save:"حفظ العرض",newQuote:"عرض جديد",sendPdf:"إرسال PDF (واتساب)",print:"طباعة / حفظ PDF",sendImg:"إرسال كصورة",copyText:"نسخ كنص",
   back:"رجوع للتعديل",prevHint:"الملف بيتحفظ ويتبعت باسم العميل، والعرض بيتحفظ في «المحفوظة» تلقائيًا.",backup:"نسخة احتياطية",backupSmall:"العروض متخزنة على الجهاز ده بس",
   backupHint:"خد نسخة كل فترة واحفظها على درايف أو واتساب، عشان لو مسحت بيانات المتصفح أو غيرت الموبايل ترجعها.",exportBackup:"تصدير نسخة احتياطية",restore:"استرجاع نسخة",
@@ -432,7 +455,7 @@ const UI={
   synced:(u,d)=>`اتزامن: ${u} اترفع، ${d} اتنزل`,pending:"لسه ماترفعش",
   excelTitle:"ملف Excel",excelHint:"ملف فيه تاب «العروض» بكل العروض، وتاب لكل عميل فيه عرض السعر بتاعه.",excelBtn:"تحميل كل العروض Excel",gasHint:"التطبيق شغال من جوه الشيت بتاعك، وكل عرض بتحفظه بيتسجل فيه في تاب لوحده باسم العميل. افتح الشيت من تطبيق Google Sheets على الموبايل وهتلاقيه.",driveSaved:"نسخة الـPDF اتحفظت على Google Drive.",openDrive:"افتحها"},
  en:{appTitle:"Quotations",startNew:"Start a new quote",quoteInfo:"Quote details",client:"Client name",date:"Date",currency:"Currency",fbName:"Facebook page name",
-  quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",saveInv:"Save invoice",waitBuy:"Waiting for the purchase invoice (not counted)",lastBuy:p=>`Last bought ${p}`,lastSell:p=>`Last sold ${p}`,dueShort:"Due",cDue:"Client owes",paidL:"Paid",dueL:"Due",fullyPaid:"Paid in full",payBtn:"Record payment",payAmt:"Amount",paySave:"Save payment",payBad:"Enter a valid amount",paySaved:d=>`Payment saved, ${d} still due`,toInvoice:"Convert to invoice",convDone:"Converted to a sales invoice; review it and tap Save invoice",converted:"Converted",outstanding:"Outstanding (owed by clients)",saveBuy:"Save purchase invoice",vatLabel:"VAT 14%",vatOn:"Added to the total",vatOff:"Not added",vatSub:"Subtotal",vatShort:"VAT",notesShow:"Show",notesHide:"Hide",cBought:"Bought",cSold:"Sold",cProfit:"Profit",cDocs:n=>`${n} documents`,openSale:"Sales invoice",openBuy:"Purchase invoice",cmpItems:"Item details",more:"More",delSale:"Delete sales invoice",delBuy:"Delete purchase invoice",quoteRow:"Quotation",saleRow:"Sales invoice",buyRow:"Purchase invoice",dealRow:"Purchase & sale",linkLabel:"Linked to sales invoice",linkHint:"Purchase invoices are never sent to the client. They are used only to work out your profit on the sales invoice.",linkAuto:"Automatic: latest sales invoice with the same client name",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",addSale:"+ Sales invoice",saleReady:"Enter the selling price for each item and save",boughtAt:(p,g)=>`Bought at ${p}`+(g==null?"":` · profit ${g}`),pendingSale:"Waiting for the sales invoice",invProfit:"Profit",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Start with a purchase invoice at your cost prices, then in Saved tap «+ Sales invoice» on it and enter your selling prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Off, tap to add notes",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
+  quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",saveInv:"Save invoice",sbSaved:"Saved to your account",loginTitle:"Sign in",email:"Email",password:"Password",loginBtn:"Sign in",loginBad:"Wrong email or password",loginNet:"Can't reach the server, try again",cloudTitle:"Account & sync",cloudHint:"Your documents are stored in the database and synced across your devices. Signed in as",logout:"Sign out",uploaded:n=>`Uploaded ${n} documents from this device`,waitBuy:"Waiting for the purchase invoice (not counted)",lastBuy:p=>`Last bought ${p}`,lastSell:p=>`Last sold ${p}`,dueShort:"Due",cDue:"Client owes",paidL:"Paid",dueL:"Due",fullyPaid:"Paid in full",payBtn:"Record payment",payAmt:"Amount",paySave:"Save payment",payBad:"Enter a valid amount",paySaved:d=>`Payment saved, ${d} still due`,toInvoice:"Convert to invoice",convDone:"Converted to a sales invoice; review it and tap Save invoice",converted:"Converted",outstanding:"Outstanding (owed by clients)",saveBuy:"Save purchase invoice",vatLabel:"VAT 14%",vatOn:"Added to the total",vatOff:"Not added",vatSub:"Subtotal",vatShort:"VAT",notesShow:"Show",notesHide:"Hide",cBought:"Bought",cSold:"Sold",cProfit:"Profit",cDocs:n=>`${n} documents`,openSale:"Sales invoice",openBuy:"Purchase invoice",cmpItems:"Item details",more:"More",delSale:"Delete sales invoice",delBuy:"Delete purchase invoice",quoteRow:"Quotation",saleRow:"Sales invoice",buyRow:"Purchase invoice",dealRow:"Purchase & sale",linkLabel:"Linked to sales invoice",linkHint:"Purchase invoices are never sent to the client. They are used only to work out your profit on the sales invoice.",linkAuto:"Automatic: latest sales invoice with the same client name",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",addSale:"+ Sales invoice",saleReady:"Enter the selling price for each item and save",boughtAt:(p,g)=>`Bought at ${p}`+(g==null?"":` · profit ${g}`),pendingSale:"Waiting for the sales invoice",invProfit:"Profit",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Start with a purchase invoice at your cost prices, then in Saved tap «+ Sales invoice» on it and enter your selling prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Off, tap to add notes",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
   total:"Total",preview:"Preview",save:"Save quote",newQuote:"New quote",sendPdf:"Send PDF (WhatsApp)",print:"Print / Save PDF",sendImg:"Send as image",copyText:"Copy as text",
   back:"Back to editing",prevHint:"Files are named after the client, and the quote is saved to Saved automatically.",backup:"Backup",backupSmall:"Quotes are stored on this device only",
   backupHint:"Export a backup now and then and keep it on Drive or WhatsApp, so you can restore it if browser data is cleared or you change phones.",exportBackup:"Export backup",restore:"Restore backup",
@@ -721,16 +744,48 @@ $("#fSig").onchange=e=>{const f=e.target.files[0];e.target.value="";if(!f)return
 const SEED={"id": "nagy-2026-10-04", "lang": "ar", "client": "Nagy", "date": "2026-10-04", "currency": "جنيه مصري", "fb": "MB Systems", "items": [{"d": "Cam 2M Hikvision IP", "q": "5", "p": "1750"}, {"d": "Cam 6M Hikvision IP", "q": "2", "p": "2800"}, {"d": "NVR 8 Port Up to 8M", "q": "1", "p": "6300"}, {"d": "HDD 1TB Purple", "q": "1", "p": "2700"}, {"d": "Switch 8 Port POE", "q": "1", "p": "1800"}, {"d": "Cable Cat 6", "q": "1", "p": "3300"}, {"d": "Rack 6U", "q": "1", "p": "2000"}, {"d": "Box 10*10 Waterproof", "q": "7", "p": "75"}, {"d": "RJ", "q": "20", "p": "5"}, {"d": "installation", "q": "7", "p": "500"}], "notes": ["يرجي العلم أن هذه الأسعار بتاريخ 2/10/2026  و قابلة للزيادة في حاله تغير الاسعار قبل الحجز", "يرجي العلم أن هذا الأسعار لا تشمل ( شاشة ـ داكتات ـ خراطيم فليكسيبل - و اي مستلزمات تثبيت )"], "total": 34575, "savedAt": "2026-10-04T09:02:08.000Z"};
 function writeAll(all){all.sort((a,b)=>(b.savedAt||"").localeCompare(a.savedAt||""));if(!ls("mbq-saved",all)){toast(t("storeFail"));return false}return true}
 function initStore(){
-  let all=ls("mbq-saved");if(!all){all=[SEED];writeAll(all)}
+  let all=ls("mbq-saved");if(!all){all=(window.MB_CONFIG&&window.MB_CONFIG.supabaseUrl)?[]:[SEED];writeAll(all)}
   saved=all;renderList();
   try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
 }
 /* ---------- Google Sheet sync ---------- */
 const IS_GAS=typeof google!=="undefined"&&!!(google.script&&google.script.run);
 function gasRun(fn,...args){return new Promise((res,rej)=>google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn](...args))}
-const sheetUrl=()=>IS_GAS?"gas":(ls("mbq-sheet")||"").trim();
-function setSync(state,msg){const el=$("#syncState");el.className="sync"+(state==="ok"?" on":state==="err"?" err":"");el.lastElementChild.textContent=msg||t(state==="ok"?"syncOk":state==="err"?"syncErr":"syncOff")}
+const CFG=window.MB_CONFIG||{};
+const SB_ON=!!(CFG.supabaseUrl&&CFG.supabaseAnonKey&&!IS_GAS);
+let sb=null,sbUser=null,sbChan=null;
+const sheetUrl=()=>SB_ON?(sbUser?"sb":""):IS_GAS?"gas":(ls("mbq-sheet")||"").trim();
+async function sbInit(){
+  await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js");
+  sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true}});
+  const {data}=await sb.auth.getSession();sbUser=data&&data.session?data.session.user:null;
+  sb.auth.onAuthStateChange((ev,ses)=>{sbUser=ses?ses.user:null;if(!sbUser)showLogin(true)});
+  if(!sbUser){showLogin(true);return}
+  afterLogin();
+}
+function showLogin(on){$("#login").hidden=!on;if(on){$("#lgLogo").src=LOGO;setTimeout(()=>$("#lgEmail").focus(),50)}}
+async function afterLogin(){
+  showLogin(false);$("#sbUser").textContent=sbUser.email||"";
+  const fk="mbq-sbinit-"+sbUser.id;let up=0;
+  if(!ls(fk)){const all=ls("mbq-saved")||[];all.forEach(x=>{x.synced=false});up=all.length;writeAll(all);saved=all;ls(fk,true)}
+  await syncAll(false);if(up)toast(t("uploaded",up));
+  if(sbChan)sb.removeChannel(sbChan);
+  let tm;sbChan=sb.channel("docs").on("postgres_changes",{event:"*",schema:"public",table:"documents"},()=>{clearTimeout(tm);tm=setTimeout(()=>syncAll(false),800)}).subscribe();
+}
+$("#loginForm").addEventListener("submit",async e=>{e.preventDefault();const btn=$("#lgBtn");btn.disabled=true;$("#lgErr").hidden=true;
+  try{const {data,error}=await sb.auth.signInWithPassword({email:$("#lgEmail").value.trim(),password:$("#lgPass").value});
+    if(error)throw error;sbUser=data.user;$("#lgPass").value="";afterLogin()}
+  catch(err){const el=$("#lgErr");el.hidden=false;el.textContent=/fetch|network/i.test(String(err&&err.message))?t("loginNet"):t("loginBad")}
+  finally{btn.disabled=false}});
+$("#btnLogout").onclick=async()=>{try{await sb.auth.signOut()}catch(e){}showLogin(true)};
+$("#btnSbSync").onclick=()=>syncAll(true);
+function setSync(state,msg){const el=SB_ON?$("#sbState"):$("#syncState");el.className="sync"+(state==="ok"?" on":state==="err"?" err":"");el.lastElementChild.textContent=msg||t(state==="ok"?"syncOk":state==="err"?"syncErr":"syncOff")}
 async function sheetCall(payload,get){
+  if(SB_ON){if(!sb||!sbUser)throw new Error("auth");
+    if(get){const {data,error}=await sb.from("documents").select("data");if(error)throw error;return{ok:true,quotes:(data||[]).map(r=>r.data)}}
+    if(payload.action==="delete"){const {error}=await sb.from("documents").delete().eq("id",payload.id);if(error)throw error;return{ok:true}}
+    const q=payload.quote;const row={id:q.id,type:q.type||"quote",client:q.client||"",doc_no:q.no||null,doc_date:q.date||null,total:+q.total||0,data:q,updated_at:q.savedAt||new Date().toISOString()};
+    const {error}=await sb.from("documents").upsert(row);if(error)throw error;return{ok:true}}
   if(IS_GAS){const j=get?await gasRun("apiList"):payload.action==="delete"?await gasRun("apiDelete",payload.id):await gasRun("apiSave",payload.quote);if(!j||!j.ok)throw new Error("bad");return j}
   const url=sheetUrl();if(!url)throw new Error("nourl");
   const r=get?await fetch(url+(url.includes("?")?"&":"?")+"action=list&t="+Date.now())
@@ -740,7 +795,7 @@ async function sheetCall(payload,get){
 function markSynced(id,ok){const all=ls("mbq-saved")||[];const q=all.find(x=>x.id===id);if(q){q.synced=ok;writeAll(all);saved=all;renderList()}}
 async function pushQuote(q,announce){
   if(!sheetUrl())return;
-  try{const body={...q};delete body.synced;await sheetCall({action:"save",quote:body});markSynced(q.id,true);setSync("ok");if(announce)toast(t("sheetSaved"))}
+  try{const body={...q};delete body.synced;await sheetCall({action:"save",quote:body});markSynced(q.id,true);setSync("ok");if(announce)toast(t(SB_ON?"sbSaved":"sheetSaved"))}
   catch(e){markSynced(q.id,false);setSync("err");if(announce)toast(t("sheetFail"))}
 }
 async function syncAll(announce){
@@ -753,6 +808,7 @@ async function syncAll(announce){
       else if((r.savedAt||"")>(all[i].savedAt||"")){all[i]={...r,synced:true};down++}
       else if((r.savedAt||"")===(all[i].savedAt||""))all[i].synced=true});
     const remote=new Set((j.quotes||[]).map(r=>r.id));
+    if(SB_ON)all=all.filter(x=>remote.has(x.id)||x.synced!==true);
     const toPush=all.filter(x=>x.synced===false||(!remote.has(x.id)&&x.synced!==true));
     writeAll(all);saved=all;renderList();
     for(const q of toPush){const body={...q};delete body.synced;await sheetCall({action:"save",quote:body});q.synced=true;up++}
@@ -790,8 +846,8 @@ $("#btnBackup").onclick=()=>{const blob=new Blob([JSON.stringify({app:"mb-quotes
   shareFile(blob,`MB-Quotes-Backup-${today()}.json`,"application/json")};
 $("#btnRestore").onclick=()=>$("#fRestore").click();
 $("#fRestore").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text());const list=Array.isArray(j)?j:j.quotes;if(!Array.isArray(list))throw 0;
-  const all=ls("mbq-saved")||[];let n=0;list.forEach(q=>{if(!q||!q.id||!q.client)return;const i=all.findIndex(x=>x.id===q.id);if(i>=0)all[i]=q;else all.push(q);n++});
-  writeAll(all);saved=all;renderList();toast(t("restored",n))}catch(err){toast(t("badBackup"))}e.target.value=""};
+  const all=ls("mbq-saved")||[];let n=0;list.forEach(q=>{if(!q||!q.id||!q.client)return;q={...q,synced:false};const i=all.findIndex(x=>x.id===q.id);if(i>=0)all[i]=q;else all.push(q);n++});
+  writeAll(all);saved=all;renderList();toast(t("restored",n));if(sheetUrl())syncAll(false)}catch(err){toast(t("badBackup"))}e.target.value=""};
 
 /* ---------- archive ---------- */
 function when(iso){try{const d=new Date(iso);return d.toLocaleDateString("en-GB")+" "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}catch(e){return""}}
@@ -951,7 +1007,9 @@ let tt;function toast(m){const el=$("#toast");el.textContent=m;el.hidden=false;c
 
 $("#hdLogo").src=LOGO;
 if(IS_GAS){$("#fSheet").closest("label").hidden=true;$("#btnSheetSave").hidden=true;const h=document.querySelector('[data-t="sheetHint"]');h.dataset.t="gasHint"}
-initStore();applyUI();$("#fSheet").value=IS_GAS?"":sheetUrl();setSync(sheetUrl()?"":"off",sheetUrl()?t("syncing"):undefined);if(sheetUrl())syncAll(false);
+initStore();applyUI();
+if(SB_ON){$("#sheetCard").hidden=true;$("#sbCard").hidden=false;setSync("",t("syncing"));sbInit().catch(e=>{console.error(e);setSync("err");toast(t("loginNet"))})}
+else{$("#fSheet").value=IS_GAS?"":sheetUrl();setSync(sheetUrl()?"":"off",sheetUrl()?t("syncing"):undefined);if(sheetUrl())syncAll(false)}
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>

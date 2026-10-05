@@ -1,0 +1,71 @@
+MB System — النقل لـ Vercel + Supabase
+=========================================
+كله من الكمبيوتر، ومرة واحدة بس (حوالي 15 دقيقة).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+الجزء ١: قاعدة البيانات (Supabase)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1) ادخل supabase.com ← Start your project ← سجّل بحساب GitHub بتاعك.
+2) New project:
+   - Name: mb-system
+   - Database Password: اكتب أي كلمة سر قوية واحفظها عندك
+   - Region: اختار أقرب حاجة (مثلا Frankfurt أو Central EU)
+   - Create new project، واستنى دقيقتين لحد ما يجهز.
+3) من القايمة اللي على الشمال: SQL Editor ← New query
+   افتح ملف supabase-setup.sql بالـNotepad، انسخ كل اللي فيه، الزقه، واضغط Run.
+   لازم يكتب Success.
+4) اعمل حسابك اللي هتدخل بيه:
+   Authentication ← Users ← Add user ← Create new user
+   - اكتب إيميلك وكلمة سر
+   - علّم على Auto Confirm User
+   - Create user
+5) اقفل التسجيل لأي حد تاني (مهم للأمان):
+   Authentication ← Sign In / Providers ← Email ← اقفل "Allow new users to sign up" ← Save
+6) هات بيانات الربط:
+   Project Settings (الترس) ← API (أو Data API)
+   - انسخ Project URL   (شكله https://xxxx.supabase.co)
+   - انسخ anon public key   (كود طويل بيبدأ بـ eyJ...)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+الجزء ٢: الرفع على GitHub (من غير المفاتيح)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7) المفاتيح مش بتتكتب في أي ملف بيترفع. بتتحط في Vercel بس (خطوة 10)،
+   وفي ملف .env على جهازك لو حبيت تحتفظ بيها.
+   - انسخ .env.example وسمّيه .env، واكتب فيه القيم. ده ملف عندك بس، متترفعوش.
+   - ملف .gitignore بيمنع .env إنه يترفع لو استخدمت git.
+8) على GitHub (مستودع MBSystem-Qoutation):
+   - لو كنت رفعت config.js قبل كده: اضغط عليه ← ⋯ ← Delete file ← Commit.
+   - Add file ← Upload files ← ارمي كل الملفات والفولدرات اللي هنا ماعدا .env ← Commit changes.
+     (لازم فولدر api يترفع بالملف اللي جواه api/config.js)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+الجزء ٣: Vercel
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9) vercel.com ← Add New… ← Project ← Import جنب MBSystem-Qoutation ← Framework Preset: Other.
+10) قبل Deploy افتح Environment Variables وضيف اتنين:
+      Name: SUPABASE_URL        Value: https://xxxx.supabase.co
+      Name: SUPABASE_ANON_KEY   Value: eyJ.....
+    ← Deploy.
+    (لو المشروع معمول قبل كده: Settings ← Environment Variables ← ضيفهم ← Save،
+     وبعدين Deployments ← آخر واحد ← ⋯ ← Redeploy)
+11) اتأكد: افتح  https://اسم-مشروعك.vercel.app/config.js
+    لازم تشوف سطر فيه الـURL بتاعك. لو فاضي، المتغيرات مش متحطة صح أو محتاج Redeploy.
+12) افتح اللينك على الموبايل (واي فاي وباقة نت) ← سجل دخول ← ⋮ ← إضافة إلى الشاشة الرئيسية.
+13) أي تحديث بعد كده: ترفعه على GitHub بس، وVercel بينشره لوحده.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+أول مرة تفتح التطبيق الجديد
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- هيطلب الإيميل وكلمة السر اللي عملتهم في خطوة 4.
+- نقل العروض القديمة:
+  (أ) افتح التطبيق القديم (github.io) على الموبايل اللي عليه العروض ← المحفوظة ← «تصدير نسخة احتياطية».
+  (ب) افتح لينك Vercel وسجل دخول ← المحفوظة ← «استرجاع نسخة» واختار الملف.
+  (ج) كل العروض هتترفع على Supabase لوحدها وتظهر على أي جهاز.
+
+- بعد كده: كل عرض أو فاتورة بتتحفظ على Supabase، وتظهر على كل أجهزتك في نفس اللحظة.
+- لو النت فاصل، التطبيق بيحفظ على الموبايل ويرفع أول ما النت يرجع.
+- Google Sheet مبقاش له لازمة، تقدر تسيبه أرشيف قديم.
+
+أين أشوف البيانات في Supabase؟
+- Table Editor ← documents : كل المستندات.
+- SQL Editor ← اكتب:  select * from monthly_profit;   ← المكسب لكل شهر.
