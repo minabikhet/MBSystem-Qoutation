@@ -476,7 +476,7 @@ const UI={
   sheetUrl:"رابط الشيت (Web app URL)",sheetConnect:"حفظ الرابط",syncNow:"مزامنة الآن",syncOff:"غير مرتبط",syncOk:"متصل",syncErr:"تعذّر الاتصال",syncing:"جارٍ المزامنة…",
   sheetSaved:"تم الحفظ في الشيت",sheetFail:"تم الحفظ على الجهاز فقط، وسيُرفع في المزامنة التالية",linked:"تم الربط بالشيت",linkFail:"هذا الرابط لا يعمل، راجع خطوات الربط",
   synced:(u,d)=>`تمت المزامنة: رُفع ${u}، ونُزّل ${d}`,pending:"لم يُرفع بعد",
-  excelTitle:"ملف Excel",excelHint:"ملف يحتوي على تبويب بجميع المستندات، وتبويب لكل عميل.",excelBtn:"تنزيل جميع المستندات Excel",gasHint:"التطبيق يعمل من داخل الشيت، ويُسجَّل كل مستند في تبويب مستقل باسم العميل.",driveSaved:"تم حفظ نسخة PDF على Google Drive.",openDrive:"فتح"},
+  excelTitle:"ملف Excel",excelHint:"تقرير منظم: ملخص وربح شهري، وفواتير البيع، وفواتير الشراء، وعروض الأسعار، والعملاء، وتفاصيل البنود.",excelBtn:"تنزيل جميع المستندات Excel",gasHint:"التطبيق يعمل من داخل الشيت، ويُسجَّل كل مستند في تبويب مستقل باسم العميل.",driveSaved:"تم حفظ نسخة PDF على Google Drive.",openDrive:"فتح"},
  en:{appTitle:"Quotations",startNew:"Start a new quote",quoteInfo:"Quote details",client:"Client name",date:"Date",currency:"Currency",fbName:"Facebook page name",
   quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",saveInv:"Save invoice",noDue:"Nothing outstanding. When you record a payment below the invoice total, the remainder shows here.",todoTitle:"Waiting on you",todoBuy:(n,d)=>`Purchase for ${n} (${d}) is waiting for its sales invoice`,todoSale:(n,d)=>`Sales invoice for ${n} (${d}) is waiting for its purchase invoice`,todoDue:(n,v)=>`${n} still owes ${v}`,makeSale:"Create sales invoice",makeBuy:"Create purchase invoice",openIt:"Open",savedReset:n=>`Saved ${n}. Ready for a new entry`,lastSaved:"Last saved",sbSaved:"Saved to your account",loginTitle:"Sign in",email:"Email",password:"Password",loginBtn:"Sign in",loginBad:"Wrong email or password",loginNet:"Can't reach the server, try again",cloudTitle:"Account & sync",cloudHint:"Your documents are stored in the database and synced across your devices. Signed in as",logout:"Sign out",uploaded:n=>`Uploaded ${n} documents from this device`,waitBuy:"Waiting for the purchase invoice (not counted)",lastBuy:p=>`Last bought ${p}`,lastSell:p=>`Last sold ${p}`,dueShort:"Due",cDue:"Client owes",paidL:"Paid",dueL:"Due",fullyPaid:"Paid in full",payBtn:"Record payment",payAmt:"Amount",paySave:"Save payment",payBad:"Enter a valid amount",paySaved:d=>`Payment saved, ${d} still due`,toInvoice:"Convert to invoice",convDone:"Converted to a sales invoice; review it and tap Save invoice",converted:"Converted",outstanding:"Outstanding (owed by clients)",saveBuy:"Save purchase invoice",vatLabel:"VAT 14%",vatOn:"Added to the total",vatOff:"Not added",vatSub:"Subtotal",vatShort:"VAT",notesShow:"Show",notesHide:"Hide",cBought:"Bought",cSold:"Sold",cProfit:"Profit",cDocs:n=>`${n} documents`,openSale:"Sales invoice",openBuy:"Purchase invoice",cmpItems:"Item details",more:"More",delSale:"Delete sales invoice",delBuy:"Delete purchase invoice",quoteRow:"Quotation",saleRow:"Sales invoice",buyRow:"Purchase invoice",dealRow:"Purchase & sale",byClient:"By client",byMonth:"By month",mDocs:n=>`${n} docs`,mSales:"Sales",mBuys:"Purchases",dismiss:"Dismiss",delAll:"Delete all",delAllQ:"Permanently delete the sales invoice and its linked purchase invoice?",deletedAll:"Both invoices deleted",allMonths:"All months",errPre:"App error, please send a screenshot of this message",sessionOut:"Session ended due to inactivity. Please sign in again.",linkLabel:"Which purchase invoice is this sale for?",linkHint:"Pick the purchase invoice you bought these goods with, so the app can work out your profit on this invoice.",noLineNew:(a,b)=>`${a} number will be ${b} (assigned on save)`,noLineOld:(a,b)=>`${a} number: ${b}`,nmQuote:"Quote",nmInv:"Invoice",nmBuy:"Purchase",noQ:"Quote No.:",noI:"Invoice No.:",noP:"Bill No.:",linkAuto:"— No purchase invoice —",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",addSale:"+ Sales invoice",saleReady:"Enter the selling price for each item and save",boughtAt:(p,g)=>`Bought at ${p}`+(g==null?"":` · profit ${g}`),pendingSale:"Waiting for the sales invoice",invProfit:"Profit",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Start with a purchase invoice at your cost prices, then in Saved tap «+ Sales invoice» on it and enter your selling prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Off, tap to add notes",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
   total:"Total",preview:"Preview",save:"Save quote",newQuote:"New quote",sendPdf:"Send PDF (WhatsApp)",print:"Print / Save PDF",sendImg:"Send as image",copyText:"Copy as text",
@@ -495,7 +495,7 @@ const UI={
   sheetUrl:"Sheet link (Web app URL)",sheetConnect:"Save link",syncNow:"Sync now",syncOff:"Not linked",syncOk:"Linked",syncErr:"Can't reach the sheet",syncing:"Syncing…",
   sheetSaved:"Saved to the sheet",sheetFail:"Saved on this phone only; it will upload on the next sync",linked:"Linked to the sheet",linkFail:"This link doesn't work, check the setup steps",
   synced:(u,d)=>`Synced: ${u} uploaded, ${d} downloaded`,pending:"Not uploaded yet",
-  excelTitle:"Excel file",excelHint:"A workbook with a «Quotes» tab listing every quote, plus one tab per client with their quotation.",excelBtn:"Download all quotes as Excel",gasHint:"The app runs from your own sheet, and every saved quote is written to it in its own tab named after the client. Open the sheet in the Google Sheets app on your phone to see it.",driveSaved:"A copy of the PDF was saved to Google Drive.",openDrive:"Open it"}
+  excelTitle:"Excel file",excelHint:"An organised report: summary and monthly profit, sales invoices, purchase invoices, quotations, clients and item details.",excelBtn:"Download all quotes as Excel",gasHint:"The app runs from your own sheet, and every saved quote is written to it in its own tab named after the client. Open the sheet in the Google Sheets app on your phone to see it.",driveSaved:"A copy of the PDF was saved to Google Drive.",openDrive:"Open it"}
 };
 /* ---------- quote sheet text ---------- */
 const SHEET={
@@ -881,26 +881,163 @@ $("#btnSheetSave").onclick=async()=>{ls("mbq-sheet",$("#fSheet").value.trim());i
 $("#btnSync").onclick=()=>syncAll(true);
 
 /* ---------- Excel export ---------- */
+/* ---------- Excel export (self-contained styled .xlsx, no external library) ---------- */
+const XL=(()=>{
+  const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+  const crc32=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRC[(c^b[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0};
+  const enc=new TextEncoder();
+  function zip(files){const parts=[],cent=[];let off=0;
+    const u16=v=>[v&255,(v>>>8)&255],u32=v=>[v&255,(v>>>8)&255,(v>>>16)&255,(v>>>24)&255];
+    files.forEach(f=>{const name=enc.encode(f.name),data=enc.encode(f.data),c=crc32(data);
+      const h=new Uint8Array([...u32(0x04034b50),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(c),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0)]);
+      parts.push(h,name,data);
+      cent.push(new Uint8Array([...u32(0x02014b50),...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(c),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(off)]),name);
+      off+=h.length+name.length+data.length});
+    const csz=cent.reduce((a,b)=>a+b.length,0);
+    const end=new Uint8Array([...u32(0x06054b50),...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(csz),...u32(off),...u16(0)]);
+    return new Blob([...parts,...cent,end],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})}
+  const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g,"");
+  const col=n=>{let s="";n++;while(n){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26)}return s};
+  /* style ids: see STYLES below */
+  const S={txt:1,head:2,num:3,date:4,title:5,totL:6,totN:7,int:8,sub:9,kpiL:10,kpiN:11,red:12,green:13,pct:14,txtB:15,section:16,kpiR:17,kpiG:18};
+  const STYLES=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+<numFmts count="3"><numFmt numFmtId="164" formatCode="#,##0.00;[Red]\\-#,##0.00"/><numFmt numFmtId="165" formatCode="dd/mm/yyyy"/><numFmt numFmtId="166" formatCode="0%"/></numFmts>
+<fonts count="8">
+<font><sz val="11"/><name val="Arial"/></font>
+<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Arial"/></font>
+<font><b/><sz val="16"/><color rgb="FF233548"/><name val="Arial"/></font>
+<font><b/><sz val="11"/><color rgb="FF233548"/><name val="Arial"/></font>
+<font><sz val="10"/><color rgb="FF667080"/><name val="Arial"/></font>
+<font><b/><sz val="14"/><color rgb="FF233548"/><name val="Arial"/></font>
+<font><b/><sz val="11"/><color rgb="FFB3412E"/><name val="Arial"/></font>
+<font><b/><sz val="11"/><color rgb="FF2E7D55"/><name val="Arial"/></font>
+</fonts>
+<fills count="5"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>
+<fill><patternFill patternType="solid"><fgColor rgb="FF233548"/><bgColor indexed="64"/></patternFill></fill>
+<fill><patternFill patternType="solid"><fgColor rgb="FFEEF1F5"/><bgColor indexed="64"/></patternFill></fill>
+<fill><patternFill patternType="solid"><fgColor rgb="FFE3E8EF"/><bgColor indexed="64"/></patternFill></fill></fills>
+<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>
+<border><left style="thin"><color rgb="FFD9DEE5"/></left><right style="thin"><color rgb="FFD9DEE5"/></right><top style="thin"><color rgb="FFD9DEE5"/></top><bottom style="thin"><color rgb="FFD9DEE5"/></bottom><diagonal/></border></borders>
+<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
+<cellXfs count="19">
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>
+<xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment vertical="center" wrapText="1"/></xf>
+<xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>
+<xf numFmtId="164" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="165" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/>
+<xf numFmtId="0" fontId="3" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="164" fontId="3" fillId="3" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="1" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="4" fillId="0" borderId="0" xfId="0" applyFont="1"/>
+<xf numFmtId="0" fontId="3" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="164" fontId="5" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="164" fontId="6" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="164" fontId="7" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="166" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="3" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1"><alignment vertical="center" wrapText="1"/></xf>
+<xf numFmtId="0" fontId="3" fillId="4" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="164" fontId="6" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="164" fontId="7" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+</cellXfs>
+<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
+</styleSheet>`;
+  const serial=d=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(d||"");if(!m)return null;return Math.round((Date.UTC(+m[1],+m[2]-1,+m[3])-Date.UTC(1899,11,30))/86400000)};
+  function sheetXML(sh){
+    const rows=sh.rows.map((r,ri)=>{if(!r)return"";const h=sh.heights&&sh.heights[ri]?` ht="${sh.heights[ri]}" customHeight="1"`:"";
+      const cells=r.map((c,ci)=>{if(c==null)return"";if(typeof c!=="object")c={v:c};const ref=col(ci)+(ri+1),st=c.s!=null?` s="${c.s}"`:"";
+        if(c.v==null||c.v==="")return c.s!=null?`<c r="${ref}"${st}/>`:"";
+        if(c.f)return`<c r="${ref}"${st}><f>${esc(c.f)}</f></c>`;
+        if(c.d){const n=serial(c.v);return n==null?`<c r="${ref}"${st} t="inlineStr"><is><t>${esc(c.v)}</t></is></c>`:`<c r="${ref}"${st}><v>${n}</v></c>`}
+        if(typeof c.v==="number"&&isFinite(c.v))return`<c r="${ref}"${st}><v>${c.v}</v></c>`;
+        return`<c r="${ref}"${st} t="inlineStr"><is><t xml:space="preserve">${esc(c.v)}</t></is></c>`}).join("");
+      return`<row r="${ri+1}"${h}>${cells}</row>`}).join("");
+    const fr=sh.freeze?`<pane ySplit="${sh.freeze}" topLeftCell="A${sh.freeze+1}" activePane="bottomLeft" state="frozen"/>`:"";
+    const cols=sh.cols?`<cols>${sh.cols.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join("")}</cols>`:"";
+    const mg=sh.merges&&sh.merges.length?`<mergeCells count="${sh.merges.length}">${sh.merges.map(m=>`<mergeCell ref="${m}"/>`).join("")}</mergeCells>`:"";
+    const af=sh.filter?`<autoFilter ref="${sh.filter}"/>`:"";
+    return`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0"${sh.rtl?' rightToLeft="1"':""} zoomScale="110" zoomScaleNormal="110">${fr}</sheetView></sheetViews><sheetFormatPr defaultRowHeight="20"/>${cols}<sheetData>${rows}</sheetData>${af}${mg}<pageMargins left="0.4" right="0.4" top="0.5" bottom="0.5" header="0.2" footer="0.2"/><pageSetup paperSize="9" orientation="landscape" fitToWidth="1" fitToHeight="0"/></worksheet>`}
+  function build(sheets){
+    const files=[];
+    files.push({name:"[Content_Types].xml",data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join("")}</Types>`});
+    files.push({name:"_rels/.rels",data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`});
+    const defs=sheets.map((s,i)=>s.filter?`<definedName name="_xlnm._FilterDatabase" localSheetId="${i}" hidden="1">'${s.name.replace(/'/g,"''")}'!${s.filter.replace(/([A-Z]+)(\d+)/g,"$$$1$$$2")}</definedName>`:"").join("");
+    files.push({name:"xl/workbook.xml",data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView activeTab="0"/></bookViews><sheets>${sheets.map((s,i)=>`<sheet name="${esc(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join("")}</sheets>${defs?`<definedNames>${defs}</definedNames>`:""}</workbook>`});
+    files.push({name:"xl/_rels/workbook.xml.rels",data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join("")}<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`});
+    files.push({name:"xl/styles.xml",data:STYLES});
+    sheets.forEach((s,i)=>files.push({name:`xl/worksheets/sheet${i+1}.xml`,data:sheetXML(s)}));
+    return zip(files)}
+  return{build,S,col}})();
+
+function excelReport(){
+  const ar=ui!=="en",S=XL.S,T=ar?{
+    sum:"الملخص",sales:"فواتير البيع",buys:"فواتير الشراء",quotes:"عروض الأسعار",clients:"العملاء",items:"تفاصيل البنود",
+    title:"MB System — تقرير المستندات",exported:"تاريخ التصدير: ",no:"م",docNo:"الرقم",date:"التاريخ",client:"العميل",sub:"قبل الضريبة",vat:"الضريبة",total:"الإجمالي",
+    paid:"المدفوع",due:"المتبقي",linkBuy:"فاتورة الشراء",cost:"تكلفة الشراء",profit:"الربح",status:"الحالة",linkSale:"فاتورة البيع المرتبطة",conv:"تم تحويله لفاتورة",notConv:"لم يُحوَّل",
+    ok:"مرتبطة",waitBuy:"في انتظار فاتورة الشراء",waitSale:"في انتظار فاتورة البيع",paidAll:"مسدَّدة",unpaid:"غير مسجل دفع",partly:"متبقٍ",sumRow:"الإجمالي",
+    kSales:"إجمالي المبيعات (كل فواتير البيع، قبل الضريبة)",kBuys:"إجمالي المشتريات (كل فواتير الشراء، قبل الضريبة)",kProfit:"إجمالي الربح (الفواتير المرتبطة بفاتورة شراء)",kDue:"المبالغ المستحقة على العملاء",
+    kQ:"عدد عروض الأسعار",kI:"عدد فواتير البيع",kP:"عدد فواتير الشراء",monthly:"الربح الشهري",month:"الشهر",nInv:"عدد الفواتير",margin:"نسبة الربح",
+    docs:"عدد المستندات",colS:"المبيعات",colB:"المشتريات",type:"النوع",item:"البند",qty:"الكمية",price:"السعر",TY:{quote:"عرض سعر",invoice:"فاتورة بيع",purchase:"فاتورة شراء"}}:{
+    sum:"Summary",sales:"Sales invoices",buys:"Purchase invoices",quotes:"Quotations",clients:"Clients",items:"Item details",
+    title:"MB System — Documents report",exported:"Exported: ",no:"#",docNo:"No.",date:"Date",client:"Client",sub:"Before VAT",vat:"VAT",total:"Total",
+    paid:"Paid",due:"Remaining",linkBuy:"Purchase invoice",cost:"Purchase cost",profit:"Profit",status:"Status",linkSale:"Linked sales invoice",conv:"Converted to invoice",notConv:"Not converted",
+    ok:"Linked",waitBuy:"Waiting for purchase invoice",waitSale:"Waiting for sales invoice",paidAll:"Paid",unpaid:"No payment recorded",partly:"Remaining",sumRow:"Total",
+    kSales:"Total sales (all sales invoices, before VAT)",kBuys:"Total purchases (all purchase invoices, before VAT)",kProfit:"Total profit (invoices linked to a purchase)",kDue:"Outstanding from clients",
+    kQ:"Quotations",kI:"Sales invoices",kP:"Purchase invoices",monthly:"Monthly profit",month:"Month",nInv:"Invoices",margin:"Margin",
+    docs:"Documents",colS:"Sales",colB:"Purchases",type:"Type",item:"Item",qty:"Qty",price:"Price",TY:{quote:"Quotation",invoice:"Sales invoice",purchase:"Purchase invoice"}};
+  const H=a=>a.map(v=>({v,s:S.head})),byDate=(a,b)=>(a.date||"").localeCompare(b.date||"")||(a.no||"").localeCompare(b.no||"");
+  const vatOf=x=>+(x.vatAmount||0)||0,r2=v=>Math.round(v*100)/100;
+  const P=computeProfit(),dealOf=new Map();P.months.forEach(m=>m.deals.forEach(d=>dealOf.set(d.s.id,d)));
+  const byId=new Map(saved.map(x=>[x.id,x]));
+  const sales=saved.filter(x=>x.type==="invoice").sort(byDate),buys=saved.filter(x=>x.type==="purchase").sort(byDate),quotes=saved.filter(x=>x.type!=="invoice"&&x.type!=="purchase").sort(byDate);
+  const sumF=(c,a,b,rows)=>{const ci=c.charCodeAt(0)-65;let t=0;for(let r=a-1;r<b;r++){const x=rows[r]&&rows[r][ci];const v=x&&typeof x==="object"?x.v:x;if(typeof v==="number")t+=v}return{v:Math.round(t*100)/100,s:S.totN}};
+  const sheets=[];
+  /* sales */
+  {const rows=[H([T.no,T.docNo,T.date,T.client,T.sub,T.vat,T.total,T.paid,T.due,T.linkBuy,T.cost,T.profit,T.status])];
+   sales.forEach((x,i)=>{const d=dealOf.get(x.id),has=d&&d.buys.length,due=dueOf(x),paid=paidOf(x);
+     rows.push([{v:i+1,s:S.int},{v:x.no||"",s:S.txt},{v:x.date,d:1,s:S.date},{v:x.client,s:S.txtB},{v:net(x),s:S.num},{v:vatOf(x),s:S.num},{v:+x.total||0,s:S.num},{v:paid,s:S.num},{v:due,s:due>0?S.red:S.num},
+       {v:has?d.buys.map(p=>p.no||"").join("، "):"",s:S.txt},{v:has?r2(d.cost):"",s:S.num},{v:has?r2(d.profit):"",s:has?S.green:S.num},{v:has?T.ok:T.waitBuy,s:S.txt}])});
+   const n=rows.length;rows.push([{v:"",s:S.totL},{v:"",s:S.totL},{v:"",s:S.totL},{v:T.sumRow,s:S.totL},sumF("E",2,n,rows),sumF("F",2,n,rows),sumF("G",2,n,rows),sumF("H",2,n,rows),sumF("I",2,n,rows),{v:"",s:S.totL},sumF("K",2,n,rows),sumF("L",2,n,rows),{v:"",s:S.totL}]);
+   sheets.push({name:T.sales,rtl:ar,freeze:1,filter:`A1:M${n}`,cols:[6,15,13,24,14,12,14,13,13,18,14,13,24],rows,heights:{0:30}})}
+  /* purchases */
+  {const rows=[H([T.no,T.docNo,T.date,T.client,T.sub,T.vat,T.total,T.linkSale,T.status])];
+   buys.forEach((x,i)=>{const s=x.linkTo&&byId.get(x.linkTo);rows.push([{v:i+1,s:S.int},{v:x.no||"",s:S.txt},{v:x.date,d:1,s:S.date},{v:x.client,s:S.txtB},{v:net(x),s:S.num},{v:vatOf(x),s:S.num},{v:+x.total||0,s:S.num},{v:s?(s.no||""):"",s:S.txt},{v:s?T.ok:T.waitSale,s:S.txt}])});
+   const n=rows.length;rows.push([{v:"",s:S.totL},{v:"",s:S.totL},{v:"",s:S.totL},{v:T.sumRow,s:S.totL},sumF("E",2,n,rows),sumF("F",2,n,rows),sumF("G",2,n,rows),{v:"",s:S.totL},{v:"",s:S.totL}]);
+   sheets.push({name:T.buys,rtl:ar,freeze:1,filter:`A1:I${n}`,cols:[6,15,13,24,14,12,14,20,24],rows,heights:{0:30}})}
+  /* quotes */
+  {const rows=[H([T.no,T.docNo,T.date,T.client,T.total,T.status])];
+   quotes.forEach((x,i)=>{const cv=saved.some(s=>s.fromQuote===x.id);rows.push([{v:i+1,s:S.int},{v:x.no||"",s:S.txt},{v:x.date,d:1,s:S.date},{v:x.client,s:S.txtB},{v:+x.total||0,s:S.num},{v:cv?T.conv:T.notConv,s:S.txt}])});
+   const n=rows.length;rows.push([{v:"",s:S.totL},{v:"",s:S.totL},{v:"",s:S.totL},{v:T.sumRow,s:S.totL},sumF("E",2,n,rows),{v:"",s:S.totL}]);
+   sheets.push({name:T.quotes,rtl:ar,freeze:1,filter:`A1:F${n}`,cols:[6,15,13,26,15,20],rows,heights:{0:30}})}
+  /* clients */
+  {const m=new Map();saved.forEach(x=>{const k=normName(x.client)||"—";if(!m.has(k))m.set(k,{name:x.client||"—",n:0,s:0,b:0,p:0,d:0});const o=m.get(k);o.n++;
+     if(x.type==="invoice"){o.s+=net(x);o.d+=dueOf(x);const dd=dealOf.get(x.id);if(dd&&dd.buys.length)o.p+=dd.profit}else if(x.type==="purchase")o.b+=net(x)});
+   const list=[...m.values()].sort((a,b)=>b.s-a.s||a.name.localeCompare(b.name));
+   const rows=[H([T.client,T.docs,T.colS,T.colB,T.profit,T.due])];
+   list.forEach(o=>rows.push([{v:o.name,s:S.txtB},{v:o.n,s:S.int},{v:r2(o.s),s:S.num},{v:r2(o.b),s:S.num},{v:r2(o.p),s:S.green},{v:r2(o.d),s:o.d>0?S.red:S.num}]));
+   const n=rows.length;rows.push([{v:T.sumRow,s:S.totL},{...sumF("B",2,n,rows),s:S.int},sumF("C",2,n,rows),sumF("D",2,n,rows),sumF("E",2,n,rows),sumF("F",2,n,rows)]);
+   sheets.push({name:T.clients,rtl:ar,freeze:1,filter:`A1:F${n}`,cols:[28,14,16,16,16,16],rows,heights:{0:30}})}
+  /* items */
+  {const rows=[H([T.docNo,T.type,T.date,T.client,T.item,T.qty,T.price,T.total])];
+   saved.slice().sort(byDate).forEach(x=>(x.items||[]).forEach(it=>{const st=rowState(it);if(!st.ok)return;rows.push([{v:x.no||"",s:S.txt},{v:T.TY[x.type]||T.TY.quote,s:S.txt},{v:x.date,d:1,s:S.date},{v:x.client,s:S.txt},{v:it.d,s:S.txt},{v:st.q,s:S.int},{v:st.p,s:S.num},{v:st.t,s:S.num}])}));
+   sheets.push({name:T.items,rtl:ar,freeze:1,filter:`A1:H${rows.length}`,cols:[15,14,13,22,40,9,13,14],rows,heights:{0:30}})}
+  /* summary (first) */
+  {const totS=sales.reduce((a,x)=>a+net(x),0),totB=buys.reduce((a,x)=>a+net(x),0),totD=sales.reduce((a,x)=>a+dueOf(x),0);
+   const rows=[[{v:T.title,s:S.title}],[{v:T.exported+dmy(today()),s:S.sub}],null,
+     [{v:T.kSales,s:S.kpiL},{v:r2(totS),s:S.kpiN}],[{v:T.kBuys,s:S.kpiL},{v:r2(totB),s:S.kpiN}],[{v:T.kProfit,s:S.kpiL},{v:r2(P.profit),s:S.kpiG}],[{v:T.kDue,s:S.kpiL},{v:r2(totD),s:totD>0?S.kpiR:S.kpiN}],
+     [{v:T.kQ,s:S.kpiL},{v:quotes.length,s:S.int}],[{v:T.kI,s:S.kpiL},{v:sales.length,s:S.int}],[{v:T.kP,s:S.kpiL},{v:buys.length,s:S.int}],null,
+     [{v:T.monthly,s:S.section},{v:"",s:S.section},{v:"",s:S.section},{v:"",s:S.section},{v:"",s:S.section},{v:"",s:S.section}],
+     H([T.month,T.nInv,T.colS,T.colB,T.profit,T.margin])];
+   const start=rows.length+1;
+   P.months.filter(m=>m.deals.length).slice().reverse().forEach(m=>rows.push([{v:monthName(m.key),s:S.txtB},{v:m.deals.length,s:S.int},{v:r2(m.sales),s:S.num},{v:r2(m.cost),s:S.num},{v:r2(m.profit),s:S.green},{v:m.sales?r2(m.profit/m.sales):0,s:S.pct}]));
+   const end=rows.length;if(end>=start)rows.push([{v:T.sumRow,s:S.totL},{...sumF("B",start,end,rows),s:S.int},sumF("C",start,end,rows),sumF("D",start,end,rows),sumF("E",start,end,rows),{v:"",s:S.totL}]);
+   sheets.unshift({name:T.sum,rtl:ar,cols:[46,16,16,16,16,12],rows,merges:["A1:F1","A2:F2",`A${start-2}:F${start-2}`],heights:{0:30,[start-3]:24,[start-2]:28}})}
+  return XL.build(sheets)}
 $("#btnExcel").onclick=e=>busy(e.currentTarget,async()=>{
-  await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js");
-  const wb=XLSX.utils.book_new();const used=new Set(["العروض","الأرباح"]);
-  const nameFor=q=>{let b=(q.client||"Quote").replace(/[\[\]\*\?\/\\:]/g," ").trim().slice(0,24)||"Quote";let n=b,i=2;while(used.has(n)){n=`${b} (${i++})`}used.add(n);return n};
-  const index=[["العميل","النوع","التاريخ","الإجمالي","العملة","اللغة","عدد البنود","آخر حفظ","التبويب"]];const TYPEN={quote:"عرض سعر",invoice:"فاتورة بيع",purchase:"فاتورة شراء"};
-  const tabs=[];
-  saved.forEach(q=>{const tab=nameFor(q);const L=SHEET[q.lang||"ar"];
-    index.push([q.client,TYPEN[q.type]||TYPEN.quote,dmy(q.date),q.total,q.currency,q.lang==="en"?"English":"عربي",(q.items||[]).length,when(q.savedAt),tab]);
-    const rows=[[docTitle(q).replace(/ـ/g,"")+" - MB System"],[],[L.client.replace(/[\/:]/g,"").trim(),q.client],[L.date.replace(":",""),dmy(q.date)],[],[L.no,L.desc,L.qty,L.price,L.total]];
-    let k=0;(q.items||[]).forEach(it=>{const s=rowState(it);if(s.ok)rows.push([++k,it.d,s.q,s.p,s.t])});
-    rows.push([],["",L.total,"","",q.total],["","",""," ",q.currency]);
-    const n=q.showNotes===false?[]:(q.notes||[]).filter(Boolean);if(n.length){rows.push([],[L.notes]);n.forEach(x=>rows.push(["",x]))}
-    const ws=XLSX.utils.aoa_to_sheet(rows);ws["!cols"]=[{wch:5},{wch:46},{wch:9},{wch:13},{wch:15}];
-    if(q.lang!=="en")ws["!views"]=[{RTL:true}];tabs.push([ws,tab])});
-  const wi=XLSX.utils.aoa_to_sheet(index);wi["!cols"]=[{wch:24},{wch:12},{wch:13},{wch:12},{wch:9},{wch:10},{wch:18},{wch:24}];wi["!views"]=[{RTL:true}];
-  XLSX.utils.book_append_sheet(wb,wi,"العروض");
-  {const P=computeProfit();const pr=[["إجمالي الربح","",P.sales,P.cost,P.profit],["","","المبيعات","المشتريات","الربح"],[]];P.months.forEach(m=>{pr.push([m.key,"",m.sales,m.cost,m.profit],["التاريخ","العميل","البيع","الشراء","المكسب"]);m.deals.forEach(d=>pr.push([dmy(d.s.date),d.s.client,d.sale,d.cost,d.profit]));m.orphans.forEach(p=>pr.push([dmy(p.date),p.client,0,+p.total||0,-(+p.total||0)]));pr.push([])});const wp=XLSX.utils.aoa_to_sheet(pr);wp["!cols"]=[{wch:12},{wch:24},{wch:14},{wch:14},{wch:14}];wp["!views"]=[{RTL:true}];XLSX.utils.book_append_sheet(wb,wp,"الأرباح");used.add("الأرباح")}tabs.forEach(([ws,n])=>XLSX.utils.book_append_sheet(wb,ws,n));
-  wb.Workbook={Views:[{RTL:true}]};
-  const out=XLSX.write(wb,{type:"array",bookType:"xlsx"});
-  await shareFile(new Blob([out],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}),`MB-Quotes-${today()}.xlsx`,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+  const blob=excelReport();
+  await shareFile(blob,`MB-System-${today()}.xlsx`,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 });
 
 if($("#btnBackup"))$("#btnBackup").onclick=()=>{const blob=new Blob([JSON.stringify({app:"mb-quotes",v:2,exported:new Date().toISOString(),quotes:saved},null,1)],{type:"application/json"});
