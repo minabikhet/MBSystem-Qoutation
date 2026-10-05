@@ -41,6 +41,9 @@ header.top h1{font-family:var(--f-display);font-size:19px;font-weight:800;margin
 header.top p{margin:0;color:var(--muted);font-size:12.5px}
 @media (max-width:440px){header.top p{display:none}header.top h1{font-size:16px}}
 header.top h1{white-space:nowrap}
+.gear{background:var(--surface);border:1px solid var(--line);border-radius:10px;width:40px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+.gear svg{width:20px;height:20px}
+.gear[aria-pressed="true"]{background:var(--navy);color:var(--on-navy);border-color:var(--navy)}
 .langsw{margin-inline-start:auto;display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;flex-shrink:0}
 .langsw button{background:transparent;border:0;padding:7px 11px;font-weight:700;font-size:13px;color:var(--muted)}
 .langsw button[aria-pressed="true"]{background:var(--navy);color:var(--on-navy)}
@@ -70,13 +73,13 @@ input[inputmode="decimal"]{direction:ltr;font-variant-numeric:tabular-nums}
 [dir="rtl"] .ptot .big strong{text-align:right}
 .ptot .sm{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px}
 .ptot .sm span{font-size:12px;color:var(--muted);display:block}
-.ptot .sm strong{font-family:var(--f-display);font-size:18px;font-variant-numeric:tabular-nums;direction:ltr;display:block}
+.ptot .sm strong{font-family:var(--f-display);font-size:18px;font-variant-numeric:tabular-nums;unicode-bidi:isolate;display:block}
 .month{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .month h3{margin:0;padding:12px 14px;font-family:var(--f-display);font-size:16px;display:flex;align-items:center;gap:8px;background:var(--gold-soft)}
 .month h3 small{font-family:var(--f-body);font-size:12px;color:var(--muted);font-weight:400}
 .month h3 b{margin-inline-start:auto;font-variant-numeric:tabular-nums;direction:ltr}
-.msum{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
-.msum b{display:block;color:var(--ink);font-size:14px;font-variant-numeric:tabular-nums;direction:ltr}
+.msum{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px 14px;text-align:start;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+.msum b{display:block;color:var(--ink);font-size:14px;font-variant-numeric:tabular-nums;unicode-bidi:isolate}
 .inv{padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer}
 .inv:last-child{border-bottom:0}
 .inv .r1{display:flex;gap:8px;align-items:center}
@@ -159,7 +162,7 @@ button{font:inherit;cursor:pointer}
 .chd b{margin-inline-start:auto;font-variant-numeric:tabular-nums;direction:ltr}
 .chd[aria-expanded="true"]{background:var(--gold-soft)}
 .csum{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:8px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
-.csum b{display:block;color:var(--ink);font-size:14px;font-variant-numeric:tabular-nums;direction:ltr}
+.csum b{display:block;color:var(--ink);font-size:14px;font-variant-numeric:tabular-nums;unicode-bidi:isolate}
 .crow{padding:10px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
 .crow:last-child{border-bottom:0}
 .crow .r1{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -181,6 +184,21 @@ button{font:inherit;cursor:pointer}
 .lbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}
 .lbox img{height:70px;object-fit:contain;align-self:center}
 .lbox h2{margin:0;text-align:center;font-family:var(--f-display);font-size:18px}
+.alert{display:inline-flex;align-items:center;gap:4px;background:var(--danger-soft);color:var(--danger);border:1px solid var(--danger);border-radius:8px;padding:2px 8px;font-size:12px;font-weight:700}
+.act{color:var(--gold);font-weight:700;font-size:12.5px;text-decoration:underline}
+.dueCard{grid-column:1/-1;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.dueCard .dhd{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.dueCard .dhd span{font-size:13px;color:var(--muted)}
+.dueCard .dhd strong{margin-inline-start:auto;font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
+.drow{padding:10px 14px;border-top:1px solid var(--line)}
+.drow .r1{display:flex;gap:8px;font-weight:700}.drow .r1 b{margin-inline-start:auto}
+.drow .r2{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+.todo{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.todo h3{margin:0;padding:10px 14px;font-family:var(--f-display);font-size:14px;background:var(--gold-soft)}
+.todo .ti{display:flex;align-items:center;gap:8px;padding:9px 14px;border-top:1px solid var(--line);font-size:13px;flex-wrap:wrap}
+.todo .ti span{flex:1;min-width:0}
+.todo .ti .btn{min-height:34px;padding:5px 12px;font-size:12.5px}
+.todo .last{color:var(--muted);font-size:12.5px}
 .empty{text-align:center;color:var(--muted);padding:28px 12px;border:1.5px dashed var(--line);border-radius:var(--r)}
 .empty strong{display:block;color:var(--ink);font-family:var(--f-display);font-size:16px;margin-bottom:4px}
 nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
@@ -254,15 +272,16 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
 <div class="wrap">
   <header class="top">
     <img id="hdLogo" alt="MB System">
-    <div><h1 data-t="appTitle"></h1><p>MB System · Security Solutions</p></div>
-    <button type="button" class="pchip" id="pChip"><small data-t="profitChip"></small><b id="pChipVal">0.00</b></button>
-    <div class="langsw" role="group" aria-label="Language" style="margin-inline-start:0">
+    <div><h1 id="pageTitle"></h1><p>MB System · Security Solutions</p></div>
+    <div class="langsw" role="group" aria-label="Language">
       <button type="button" data-ui="ar">ع</button><button type="button" data-ui="en">EN</button>
     </div>
+    <button type="button" class="gear" id="btnGear" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   </header>
 
   <!-- EDITOR -->
   <section class="view" id="v-edit">
+    <div id="todo" class="todo" hidden></div>
     <div class="editing" id="editingBar" hidden><span id="editingTxt"></span><button id="btnNew2" type="button" data-t="startNew"></button></div>
     <div class="card">
       <h2 data-t="quoteInfo"></h2>
@@ -338,16 +357,8 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
     <div class="pvwrap" id="pvwrap"><div class="pvscale" id="pvscale"></div></div>
   </section>
 
-  <!-- PROFIT -->
-  <section class="view" id="v-profit" hidden>
-    <div class="ptot" id="pTot"></div>
-    <div class="list" id="pMonths"></div>
-  </section>
-
-  <!-- ARCHIVE -->
-  <section class="view" id="v-arch" hidden>
-    <input id="fSearch" type="search" autocomplete="off">
-    <div class="list" id="list"></div>
+  <!-- SETTINGS -->
+  <section class="view" id="v-set" hidden>
     <div class="card" id="sbCard" hidden>
       <h2><span data-t="cloudTitle"></span><small class="sync" id="sbState"><b></b><span></span></small></h2>
       <p class="hint" style="margin-bottom:10px"><span data-t="cloudHint"></span> <b id="sbUser" dir="ltr"></b></p>
@@ -398,6 +409,18 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
       <input type="file" id="fRestore" accept=".json,application/json" hidden>
     </div>
   </section>
+
+  <!-- PROFIT -->
+  <section class="view" id="v-profit" hidden>
+    <div class="ptot" id="pTot"></div>
+    <div class="list" id="pMonths"></div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section class="view" id="v-arch" hidden>
+    <input id="fSearch" type="search" autocomplete="off">
+    <div class="list" id="list"></div>
+  </section>
 </div>
 
 <div id="login" hidden>
@@ -436,11 +459,11 @@ const CUR={ar:"جنيه مصري",en:"EGP"};
 /* ---------- UI text ---------- */
 const UI={
  ar:{appTitle:"عروض الأسعار",startNew:"ابدأ عرض جديد",quoteInfo:"بيانات العرض",client:"اسم العميل",date:"التاريخ",currency:"العملة",fbName:"اسم صفحة فيسبوك",
-  quoteLang:"اللغة",docType:"نوع المستند",tQuote:"عرض سعر",tInvoice:"فاتورة بيع",tPurchase:"فاتورة شراء",saveInv:"حفظ الفاتورة",sbSaved:"اتحفظ في الحساب",loginTitle:"تسجيل الدخول",email:"الإيميل",password:"كلمة السر",loginBtn:"دخول",loginBad:"الإيميل أو كلمة السر غلط",loginNet:"مفيش اتصال بالسيرفر، جرّب تاني",cloudTitle:"الحساب والمزامنة",cloudHint:"العروض محفوظة على قاعدة البيانات ومتزامنة على كل أجهزتك. داخل بـ",logout:"تسجيل خروج",uploaded:n=>`اترفع ${n} مستند من الجهاز للحساب`,waitBuy:"مستنية فاتورة الشراء (مش محسوبة في المكسب)",lastBuy:p=>`آخر شراء ${p}`,lastSell:p=>`آخر بيع ${p}`,dueShort:"باقي",cDue:"باقي على العميل",paidL:"مدفوع",dueL:"باقي",fullyPaid:"خالص",payBtn:"تسجيل دفعة",payAmt:"المبلغ",paySave:"حفظ الدفعة",payBad:"اكتب مبلغ صحيح",paySaved:d=>`اتسجلت الدفعة، الباقي ${d}`,toInvoice:"حوّل لفاتورة",convDone:"اتحوّل لفاتورة بيع، راجعه واضغط حفظ الفاتورة",converted:"اتحوّل لفاتورة",outstanding:"فلوس برة (باقي على العملاء)",saveBuy:"حفظ فاتورة الشراء",vatLabel:"ضريبة 14%",vatOn:"مضافة على الإجمالي",vatOff:"مش مضافة",vatSub:"قبل الضريبة",vatShort:"ضريبة",notesShow:"إظهار",notesHide:"إخفاء",cBought:"اشتريت",cSold:"بعت",cProfit:"المكسب",cDocs:n=>`${n} مستند`,openSale:"فاتورة البيع",openBuy:"فاتورة الشراء",cmpItems:"البنود بالتفصيل",more:"المزيد",delSale:"مسح فاتورة البيع",delBuy:"مسح فاتورة الشراء",quoteRow:"عرض سعر",saleRow:"فاتورة بيع",buyRow:"فاتورة شراء",dealRow:"شراء وبيع",linkLabel:"مربوطة بفاتورة البيع",linkHint:"فاتورة الشراء مش بتتبعت للعميل. بتستخدم بس عشان تحسب مكسبك من فاتورة البيع.",linkAuto:"تلقائي: آخر فاتورة بيع بنفس اسم العميل",purchaseTag:"شراء",addPurchase:"+ فاتورة شراء",purchaseReady:"اكتب سعر الشراء لكل بند واحفظ",addSale:"+ فاتورة بيع",saleReady:"اكتب سعر البيع لكل بند واحفظ",boughtAt:(p,g)=>`اشتريته بـ ${p}`+(g==null?"":` · مكسب ${g}`),pendingSale:"مستنية فاتورة البيع",invProfit:"المكسب",tabProfit:"الأرباح",profitTotal:"إجمالي المكسب",salesTotal:"إجمالي المبيعات",costTotal:"إجمالي المشتريات",thisMonth:"مكسب الشهر ده",monthSales:"مبيعات",monthCost:"مشتريات",monthProfit:"المكسب",noCost:"لسه مفيش فاتورة شراء",orphan:"مشتريات مش مربوطة بفاتورة بيع",profitEmpty:"لسه مفيش فواتير بيع",profitEmptyB:"ابدأ بفاتورة شراء بأسعار الشراء، وبعدين من «المحفوظة» اضغط «+ فاتورة بيع» عليها واكتب أسعار البيع.",colItem:"البند",colBuy:"شراء",colSell:"بيع",colGain:"المكسب",invoicesN:n=>`${n} فاتورة`,margin:"نسبة المكسب",profitChip:"المكسب",notesOn:"ظاهرة في الورقة",sigTitle:"التوقيع",sigSmall:"تشغّلها لكل عرض أو فاتورة من زرار «الإمضاء»",sigHint:"امضي بصباعك في المربع.",sigSave:"حفظ التوقيع",sigDraw:"امضي بصباعك",sigUpload:"رفع صورة إمضاء",sigReset:"رجوع لتوقيعي الأصلي",sigLabel:"الإمضاء",sigOn:"ظاهرة مكان Security Solutions",sigOff:"مش ظاهرة",sigResetDone:"رجع التوقيع الأصلي",sigSaved:"التوقيع اتحفظ",sigEmpty:"امضي الأول في المربع",sigRemoved:"التوقيع اتشال",sigBad:"مقدرناش نقرا الصورة دي",notesOff:"مقفولة، دوس عشان تضيف ملاحظات",invoiceTag:"فاتورة",items:"البنود",autoTotal:"الإجمالي بيتحسب لوحده",addItem:"+ إضافة بند",notes:"ملاحظات العميل",notesHint:"بتظهر تحت الجدول",addNote:"+ إضافة ملاحظة",
+  quoteLang:"اللغة",docType:"نوع المستند",tQuote:"عرض سعر",tInvoice:"فاتورة بيع",tPurchase:"فاتورة شراء",saveInv:"حفظ الفاتورة",noDue:"مفيش فلوس برة. لما تسجل دفعة أقل من قيمة الفاتورة، الباقي هيظهر هنا.",todoTitle:"مستني منك",todoBuy:(n,d)=>`فاتورة شراء ${n} (${d}) مستنية فاتورة البيع`,todoSale:(n,d)=>`فاتورة بيع ${n} (${d}) مستنية فاتورة الشراء`,todoDue:(n,v)=>`${n} لسه عليه ${v}`,makeSale:"اعمل فاتورة البيع",makeBuy:"اعمل فاتورة الشراء",openIt:"افتح",savedReset:n=>`اتحفظ ${n}. الصفحة جاهزة لإضافة جديدة`,lastSaved:"آخر حاجة اتحفظت",sbSaved:"اتحفظ في الحساب",loginTitle:"تسجيل الدخول",email:"الإيميل",password:"كلمة السر",loginBtn:"دخول",loginBad:"الإيميل أو كلمة السر غلط",loginNet:"مفيش اتصال بالسيرفر، جرّب تاني",cloudTitle:"الحساب والمزامنة",cloudHint:"العروض محفوظة على قاعدة البيانات ومتزامنة على كل أجهزتك. داخل بـ",logout:"تسجيل خروج",uploaded:n=>`اترفع ${n} مستند من الجهاز للحساب`,waitBuy:"في انتظار فاتورة الشراء",lastBuy:p=>`آخر شراء ${p}`,lastSell:p=>`آخر بيع ${p}`,dueShort:"باقي",cDue:"باقي على العميل",paidL:"مدفوع",dueL:"باقي",fullyPaid:"خالص",payBtn:"تسجيل دفعة",payAmt:"المبلغ",paySave:"حفظ الدفعة",payBad:"اكتب مبلغ صحيح",paySaved:d=>`اتسجلت الدفعة، الباقي ${d}`,toInvoice:"حوّل لفاتورة",convDone:"اتحوّل لفاتورة بيع، راجعه واضغط حفظ الفاتورة",converted:"اتحوّل لفاتورة",outstanding:"فلوس برة (باقي على العملاء)",saveBuy:"حفظ فاتورة الشراء",vatLabel:"ضريبة 14%",vatOn:"مضافة على الإجمالي",vatOff:"مش مضافة",vatSub:"قبل الضريبة",vatShort:"ضريبة",notesShow:"إظهار",notesHide:"إخفاء",cBought:"اشتريت",cSold:"بعت",cProfit:"المكسب",cDocs:n=>`${n} مستند`,openSale:"فاتورة البيع",openBuy:"فاتورة الشراء",cmpItems:"البنود بالتفصيل",more:"المزيد",delSale:"مسح فاتورة البيع",delBuy:"مسح فاتورة الشراء",quoteRow:"عرض سعر",saleRow:"فاتورة بيع",buyRow:"فاتورة شراء",dealRow:"شراء وبيع",linkLabel:"مربوطة بفاتورة البيع",linkHint:"فاتورة الشراء مش بتتبعت للعميل. بتستخدم بس عشان تحسب مكسبك من فاتورة البيع.",linkAuto:"مش مربوطة (مستنية فاتورة البيع)",purchaseTag:"شراء",addPurchase:"+ فاتورة شراء",purchaseReady:"اكتب سعر الشراء لكل بند واحفظ",addSale:"+ فاتورة بيع",saleReady:"اكتب سعر البيع لكل بند واحفظ",boughtAt:(p,g)=>`اشتريته بـ ${p}`+(g==null?"":` · مكسب ${g}`),pendingSale:"في انتظار فاتورة البيع",invProfit:"المكسب",tabProfit:"الأرباح",profitTotal:"إجمالي المكسب",salesTotal:"إجمالي المبيعات",costTotal:"إجمالي المشتريات",thisMonth:"مكسب الشهر ده",monthSales:"مبيعات",monthCost:"مشتريات",monthProfit:"المكسب",noCost:"لسه مفيش فاتورة شراء",orphan:"مشتريات مش مربوطة بفاتورة بيع",profitEmpty:"لسه مفيش فواتير بيع",profitEmptyB:"ابدأ بفاتورة شراء بأسعار الشراء، وبعدين من «المحفوظة» اضغط «+ فاتورة بيع» عليها واكتب أسعار البيع.",colItem:"البند",colBuy:"شراء",colSell:"بيع",colGain:"المكسب",invoicesN:n=>`${n} فاتورة`,margin:"نسبة المكسب",profitChip:"المكسب",notesOn:"ظاهرة في الورقة",sigTitle:"التوقيع",sigSmall:"تشغّلها لكل عرض أو فاتورة من زرار «الإمضاء»",sigHint:"امضي بصباعك في المربع.",sigSave:"حفظ التوقيع",sigDraw:"امضي بصباعك",sigUpload:"رفع صورة إمضاء",sigReset:"رجوع لتوقيعي الأصلي",sigLabel:"الإمضاء",sigOn:"ظاهرة مكان Security Solutions",sigOff:"مش ظاهرة",sigResetDone:"رجع التوقيع الأصلي",sigSaved:"التوقيع اتحفظ",sigEmpty:"امضي الأول في المربع",sigRemoved:"التوقيع اتشال",sigBad:"مقدرناش نقرا الصورة دي",notesOff:"مقفولة، دوس عشان تضيف ملاحظات",invoiceTag:"فاتورة",items:"البنود",autoTotal:"الإجمالي بيتحسب لوحده",addItem:"+ إضافة بند",notes:"ملاحظات العميل",notesHint:"بتظهر تحت الجدول",addNote:"+ إضافة ملاحظة",
   total:"الإجمالي",preview:"معاينة",save:"حفظ العرض",newQuote:"عرض جديد",sendPdf:"إرسال PDF (واتساب)",print:"طباعة / حفظ PDF",sendImg:"إرسال كصورة",copyText:"نسخ كنص",
   back:"رجوع للتعديل",prevHint:"الملف بيتحفظ ويتبعت باسم العميل، والعرض بيتحفظ في «المحفوظة» تلقائيًا.",backup:"نسخة احتياطية",backupSmall:"العروض متخزنة على الجهاز ده بس",
   backupHint:"خد نسخة كل فترة واحفظها على درايف أو واتساب، عشان لو مسحت بيانات المتصفح أو غيرت الموبايل ترجعها.",exportBackup:"تصدير نسخة احتياطية",restore:"استرجاع نسخة",
-  tabEdit:"العرض",tabPrev:"المعاينة",tabArch:"المحفوظة",search:"ابحث باسم العميل…",desc:"البيان والمواصفات",qty:"الكمية",price:"السعر",delItem:"حذف البند",note:"ملاحظة",
+  tabEdit:"إضافة",tabPrev:"المعاينة",tabArch:"السجل",tabSet:"الإعدادات",search:"ابحث باسم العميل…",desc:"البيان والمواصفات",qty:"الكمية",price:"السعر",delItem:"حذف البند",note:"ملاحظة",
   needDesc:"أدخل وصف البند",needQP:"أدخل الكمية والسعر",checkQP:"راجع الكمية أو السعر",fixMissing:"استكمل البيانات الناقصة قبل الحفظ",needClient:"اكتب اسم العميل الأول",
   needItem:"ضيف بند واحد على الأقل",saved:n=>`اتحفظ عرض ${n}`,editing:n=>`بتعدّل عرض محفوظ: ${n}`,newReady:"عرض جديد جاهز",preparing:"جارٍ التجهيز…",
   prepFail:"حصلت مشكلة في التجهيز، جرّب تاني",needNet:"محتاج نت أول مرة عشان تجهيز الـPDF، أو استخدم «طباعة / حفظ PDF»",downloaded:"الملف اتحمّل، ابعته من التنزيلات",
@@ -455,11 +478,11 @@ const UI={
   synced:(u,d)=>`اتزامن: ${u} اترفع، ${d} اتنزل`,pending:"لسه ماترفعش",
   excelTitle:"ملف Excel",excelHint:"ملف فيه تاب «العروض» بكل العروض، وتاب لكل عميل فيه عرض السعر بتاعه.",excelBtn:"تحميل كل العروض Excel",gasHint:"التطبيق شغال من جوه الشيت بتاعك، وكل عرض بتحفظه بيتسجل فيه في تاب لوحده باسم العميل. افتح الشيت من تطبيق Google Sheets على الموبايل وهتلاقيه.",driveSaved:"نسخة الـPDF اتحفظت على Google Drive.",openDrive:"افتحها"},
  en:{appTitle:"Quotations",startNew:"Start a new quote",quoteInfo:"Quote details",client:"Client name",date:"Date",currency:"Currency",fbName:"Facebook page name",
-  quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",saveInv:"Save invoice",sbSaved:"Saved to your account",loginTitle:"Sign in",email:"Email",password:"Password",loginBtn:"Sign in",loginBad:"Wrong email or password",loginNet:"Can't reach the server, try again",cloudTitle:"Account & sync",cloudHint:"Your documents are stored in the database and synced across your devices. Signed in as",logout:"Sign out",uploaded:n=>`Uploaded ${n} documents from this device`,waitBuy:"Waiting for the purchase invoice (not counted)",lastBuy:p=>`Last bought ${p}`,lastSell:p=>`Last sold ${p}`,dueShort:"Due",cDue:"Client owes",paidL:"Paid",dueL:"Due",fullyPaid:"Paid in full",payBtn:"Record payment",payAmt:"Amount",paySave:"Save payment",payBad:"Enter a valid amount",paySaved:d=>`Payment saved, ${d} still due`,toInvoice:"Convert to invoice",convDone:"Converted to a sales invoice; review it and tap Save invoice",converted:"Converted",outstanding:"Outstanding (owed by clients)",saveBuy:"Save purchase invoice",vatLabel:"VAT 14%",vatOn:"Added to the total",vatOff:"Not added",vatSub:"Subtotal",vatShort:"VAT",notesShow:"Show",notesHide:"Hide",cBought:"Bought",cSold:"Sold",cProfit:"Profit",cDocs:n=>`${n} documents`,openSale:"Sales invoice",openBuy:"Purchase invoice",cmpItems:"Item details",more:"More",delSale:"Delete sales invoice",delBuy:"Delete purchase invoice",quoteRow:"Quotation",saleRow:"Sales invoice",buyRow:"Purchase invoice",dealRow:"Purchase & sale",linkLabel:"Linked to sales invoice",linkHint:"Purchase invoices are never sent to the client. They are used only to work out your profit on the sales invoice.",linkAuto:"Automatic: latest sales invoice with the same client name",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",addSale:"+ Sales invoice",saleReady:"Enter the selling price for each item and save",boughtAt:(p,g)=>`Bought at ${p}`+(g==null?"":` · profit ${g}`),pendingSale:"Waiting for the sales invoice",invProfit:"Profit",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Start with a purchase invoice at your cost prices, then in Saved tap «+ Sales invoice» on it and enter your selling prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Off, tap to add notes",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
+  quoteLang:"Language",docType:"Document type",tQuote:"Quotation",tInvoice:"Sales invoice",tPurchase:"Purchase invoice",saveInv:"Save invoice",noDue:"Nothing outstanding. When you record a payment below the invoice total, the remainder shows here.",todoTitle:"Waiting on you",todoBuy:(n,d)=>`Purchase for ${n} (${d}) is waiting for its sales invoice`,todoSale:(n,d)=>`Sales invoice for ${n} (${d}) is waiting for its purchase invoice`,todoDue:(n,v)=>`${n} still owes ${v}`,makeSale:"Create sales invoice",makeBuy:"Create purchase invoice",openIt:"Open",savedReset:n=>`Saved ${n}. Ready for a new entry`,lastSaved:"Last saved",sbSaved:"Saved to your account",loginTitle:"Sign in",email:"Email",password:"Password",loginBtn:"Sign in",loginBad:"Wrong email or password",loginNet:"Can't reach the server, try again",cloudTitle:"Account & sync",cloudHint:"Your documents are stored in the database and synced across your devices. Signed in as",logout:"Sign out",uploaded:n=>`Uploaded ${n} documents from this device`,waitBuy:"Waiting for the purchase invoice (not counted)",lastBuy:p=>`Last bought ${p}`,lastSell:p=>`Last sold ${p}`,dueShort:"Due",cDue:"Client owes",paidL:"Paid",dueL:"Due",fullyPaid:"Paid in full",payBtn:"Record payment",payAmt:"Amount",paySave:"Save payment",payBad:"Enter a valid amount",paySaved:d=>`Payment saved, ${d} still due`,toInvoice:"Convert to invoice",convDone:"Converted to a sales invoice; review it and tap Save invoice",converted:"Converted",outstanding:"Outstanding (owed by clients)",saveBuy:"Save purchase invoice",vatLabel:"VAT 14%",vatOn:"Added to the total",vatOff:"Not added",vatSub:"Subtotal",vatShort:"VAT",notesShow:"Show",notesHide:"Hide",cBought:"Bought",cSold:"Sold",cProfit:"Profit",cDocs:n=>`${n} documents`,openSale:"Sales invoice",openBuy:"Purchase invoice",cmpItems:"Item details",more:"More",delSale:"Delete sales invoice",delBuy:"Delete purchase invoice",quoteRow:"Quotation",saleRow:"Sales invoice",buyRow:"Purchase invoice",dealRow:"Purchase & sale",linkLabel:"Linked to sales invoice",linkHint:"Purchase invoices are never sent to the client. They are used only to work out your profit on the sales invoice.",linkAuto:"Not linked yet (waiting for the sales invoice)",purchaseTag:"Purchase",addPurchase:"+ Purchase invoice",purchaseReady:"Enter the purchase price for each item and save",addSale:"+ Sales invoice",saleReady:"Enter the selling price for each item and save",boughtAt:(p,g)=>`Bought at ${p}`+(g==null?"":` · profit ${g}`),pendingSale:"Waiting for the sales invoice",invProfit:"Profit",tabProfit:"Profit",profitTotal:"Total profit",salesTotal:"Total sales",costTotal:"Total purchases",thisMonth:"This month's profit",monthSales:"Sales",monthCost:"Purchases",monthProfit:"Profit",noCost:"No purchase invoice yet",orphan:"Purchases not linked to a sales invoice",profitEmpty:"No sales invoices yet",profitEmptyB:"Start with a purchase invoice at your cost prices, then in Saved tap «+ Sales invoice» on it and enter your selling prices.",colItem:"Item",colBuy:"Buy",colSell:"Sell",colGain:"Profit",invoicesN:n=>`${n} invoices`,margin:"Margin",profitChip:"Profit",notesOn:"Shown on the document",sigTitle:"Signature",sigSmall:"Turn it on per document with the Signature switch",sigHint:"Sign with your finger in the box.",sigSave:"Save signature",sigDraw:"Sign with finger",sigUpload:"Upload signature photo",sigReset:"Back to my original signature",sigLabel:"Signature",sigOn:"Shown in place of Security Solutions",sigOff:"Not shown",sigResetDone:"Original signature restored",sigSaved:"Signature saved",sigEmpty:"Sign in the box first",sigRemoved:"Signature removed",sigBad:"Couldn't read this image",notesOff:"Off, tap to add notes",invoiceTag:"Invoice",items:"Items",autoTotal:"Totals are calculated automatically",addItem:"+ Add item",notes:"Client notes",notesHint:"Shown under the table",addNote:"+ Add note",
   total:"Total",preview:"Preview",save:"Save quote",newQuote:"New quote",sendPdf:"Send PDF (WhatsApp)",print:"Print / Save PDF",sendImg:"Send as image",copyText:"Copy as text",
   back:"Back to editing",prevHint:"Files are named after the client, and the quote is saved to Saved automatically.",backup:"Backup",backupSmall:"Quotes are stored on this device only",
   backupHint:"Export a backup now and then and keep it on Drive or WhatsApp, so you can restore it if browser data is cleared or you change phones.",exportBackup:"Export backup",restore:"Restore backup",
-  tabEdit:"Quote",tabPrev:"Preview",tabArch:"Saved",search:"Search by client name…",desc:"Description",qty:"Qty",price:"Price",delItem:"Remove item",note:"Note",
+  tabEdit:"Add",tabPrev:"Preview",tabArch:"Records",tabSet:"Settings",search:"Search by client name…",desc:"Description",qty:"Qty",price:"Price",delItem:"Remove item",note:"Note",
   needDesc:"Enter the item description",needQP:"Enter quantity and price",checkQP:"Check quantity or price",fixMissing:"Complete the missing data before saving",needClient:"Enter the client name first",
   needItem:"Add at least one item",saved:n=>`Saved quote for ${n}`,editing:n=>`Editing saved quote: ${n}`,newReady:"New quote ready",preparing:"Preparing…",
   prepFail:"Something went wrong, try again",needNet:"The first PDF needs an internet connection. You can use Print / Save PDF instead.",downloaded:"File downloaded, send it from Downloads",
@@ -499,6 +522,7 @@ const t=(k,...a)=>{const v=UI[ui][k];return typeof v==="function"?v(...a):v};
 function blank(lang,notes){lang=lang||"ar";return{id:null,type:"quote",showNotes:false,sign:false,vat:false,lang,client:"",date:today(),currency:CUR[lang],fb:"MB Systems",items:[{d:"",q:"",p:""},{d:"",q:"",p:""},{d:"",q:"",p:""}],notes:(notes&&notes.length?notes:NOTES[lang]).slice()}}
 let cur=ls("mbq-draft")||blank(ui);
 if(!cur.lang)cur.lang="ar";
+const vis=a=>(a||[]).filter(x=>!x.deleted);
 let saved=[]; let filter=""; let pendingDelete=null;
 
 function rowState(it){
@@ -521,7 +545,7 @@ function applyUI(){
   document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
   document.querySelectorAll("[data-ui]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.ui===ui)));
   $("#fSearch").placeholder=t("search");$("#fClient").placeholder=t("clientPh");
-  renderEditor();renderList();if(!$("#v-prev").hidden)renderPreview();
+  renderEditor();renderList();if(!$("#v-prev").hidden)renderPreview();if(!$("#v-profit").hidden)renderProfit();setTitle();renderTodo();
 }
 document.querySelectorAll("[data-ui]").forEach(b=>b.onclick=()=>{ui=b.dataset.ui;ls("mbq-ui",ui);applyUI()});
 
@@ -658,9 +682,11 @@ function saveQuote(silent){
   const all=ls("mbq-saved")||[];const i=all.findIndex(x=>x.id===body.id);if(i>=0)all[i]=body;else all.unshift(body);
   if(!writeAll(all))return false;
   let linked=null;if(body.type==="invoice"&&cur.fromPurchase){linked=all.find(x=>x.id===cur.fromPurchase&&x.type==="purchase");if(linked){linked.linkTo=body.id;linked.savedAt=new Date().toISOString();writeAll(all)}cur.fromPurchase=""}
-  saved=all;cur.id=body.id;cur.no=body.no;persist();renderHead();renderList();if(!silent)toast(t("saved",body.client));pushQuote(body,!silent);if(linked)pushQuote(linked,false);return true;
+  saved=vis(all);cur.id=body.id;cur.no=body.no;persist();renderHead();renderList();if(!silent)toast(t("saved",body.client));pushQuote(body,!silent);if(linked)pushQuote(linked,false);return true;
 }
-$("#btnSave").onclick=()=>saveQuote(false);
+$("#btnSave").onclick=()=>{const ty=cur.type,lang=cur.lang,sg=cur.sign,nm=cur.client;if(!saveQuote(false))return;
+  const last=saved.find(q=>(q.lang||"ar")===lang&&q.type!=="purchase"&&(q.notes||[]).length);cur=blank(lang,last&&last.notes);cur.type=ty;cur.sign=sg===true;
+  lastSavedNote=`${t("lastSaved")}: ${t(ty==="invoice"?"saleRow":ty==="purchase"?"buyRow":"quoteRow")} · ${nm}`;persist();renderEditor();renderTodo();window.scrollTo(0,0);toast(t("savedReset",nm))};
 
 /* ---------- export ---------- */
 function loadScript(src){return new Promise((res,rej)=>{if(document.querySelector(`script[src="${src}"]`))return res();const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("load"));document.head.appendChild(s)})}
@@ -745,7 +771,7 @@ const SEED={"id": "nagy-2026-10-04", "lang": "ar", "client": "Nagy", "date": "20
 function writeAll(all){all.sort((a,b)=>(b.savedAt||"").localeCompare(a.savedAt||""));if(!ls("mbq-saved",all)){toast(t("storeFail"));return false}return true}
 function initStore(){
   let all=ls("mbq-saved");if(!all){all=(window.MB_CONFIG&&window.MB_CONFIG.supabaseUrl)?[]:[SEED];writeAll(all)}
-  saved=all;renderList();
+  saved=vis(all);renderList();
   try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
 }
 /* ---------- Google Sheet sync ---------- */
@@ -767,7 +793,7 @@ function showLogin(on){$("#login").hidden=!on;if(on){$("#lgLogo").src=LOGO;setTi
 async function afterLogin(){
   showLogin(false);$("#sbUser").textContent=sbUser.email||"";
   const fk="mbq-sbinit-"+sbUser.id;let up=0;
-  if(!ls(fk)){const all=ls("mbq-saved")||[];all.forEach(x=>{x.synced=false});up=all.length;writeAll(all);saved=all;ls(fk,true)}
+  if(!ls(fk)){const all=ls("mbq-saved")||[];all.forEach(x=>{x.synced=false});up=all.length;writeAll(all);saved=vis(all);ls(fk,true)}
   await syncAll(false);if(up)toast(t("uploaded",up));
   if(sbChan)sb.removeChannel(sbChan);
   let tm;sbChan=sb.channel("docs").on("postgres_changes",{event:"*",schema:"public",table:"documents"},()=>{clearTimeout(tm);tm=setTimeout(()=>syncAll(false),800)}).subscribe();
@@ -786,13 +812,14 @@ async function sheetCall(payload,get){
     if(payload.action==="delete"){const {error}=await sb.from("documents").delete().eq("id",payload.id);if(error)throw error;return{ok:true}}
     const q=payload.quote;const row={id:q.id,type:q.type||"quote",client:q.client||"",doc_no:q.no||null,doc_date:q.date||null,total:+q.total||0,data:q,updated_at:q.savedAt||new Date().toISOString()};
     const {error}=await sb.from("documents").upsert(row);if(error)throw error;return{ok:true}}
+  if(!get&&payload&&payload.action==="save"&&payload.quote&&payload.quote.deleted&&!SB_ON)payload={action:"delete",id:payload.quote.id};
   if(IS_GAS){const j=get?await gasRun("apiList"):payload.action==="delete"?await gasRun("apiDelete",payload.id):await gasRun("apiSave",payload.quote);if(!j||!j.ok)throw new Error("bad");return j}
   const url=sheetUrl();if(!url)throw new Error("nourl");
   const r=get?await fetch(url+(url.includes("?")?"&":"?")+"action=list&t="+Date.now())
              :await fetch(url,{method:"POST",body:JSON.stringify(payload)});
   const j=await r.json();if(!j||!j.ok)throw new Error("bad");return j;
 }
-function markSynced(id,ok){const all=ls("mbq-saved")||[];const q=all.find(x=>x.id===id);if(q){q.synced=ok;writeAll(all);saved=all;renderList()}}
+function markSynced(id,ok){const all=ls("mbq-saved")||[];const q=all.find(x=>x.id===id);if(q){q.synced=ok;writeAll(all);saved=vis(all);renderList()}}
 async function pushQuote(q,announce){
   if(!sheetUrl())return;
   try{const body={...q};delete body.synced;await sheetCall({action:"save",quote:body});markSynced(q.id,true);setSync("ok");if(announce)toast(t(SB_ON?"sbSaved":"sheetSaved"))}
@@ -808,10 +835,10 @@ async function syncAll(announce){
       else if((r.savedAt||"")>(all[i].savedAt||"")){all[i]={...r,synced:true};down++}
       else if((r.savedAt||"")===(all[i].savedAt||""))all[i].synced=true});
     const remote=new Set((j.quotes||[]).map(r=>r.id));
-    const toPush=all.filter(x=>x.synced===false||!remote.has(x.id)||(SB_ON&&x.synced!==true));
-    writeAll(all);saved=all;renderList();
+    const toPush=all.filter(x=>x.synced===false||!remote.has(x.id));
+    writeAll(all);saved=vis(all);renderList();
     for(const q of toPush){const body={...q};delete body.synced;await sheetCall({action:"save",quote:body});q.synced=true;up++}
-    writeAll(all);saved=all;renderList();setSync("ok");if(announce)toast(t("synced",up,down));
+    writeAll(all);saved=vis(all);renderList();setSync("ok");if(announce)toast(t("synced",up,down));
   }catch(e){console.error("sync failed",e);setSync("err",SB_ON&&e&&e.message?String(e.message).slice(0,80):undefined);if(announce)toast(SB_ON&&e&&e.message?String(e.message).slice(0,120):t("linkFail"))}
 }
 $("#btnSheetSave").onclick=async()=>{ls("mbq-sheet",$("#fSheet").value.trim());if(!sheetUrl()){setSync("off");return}
@@ -846,7 +873,7 @@ $("#btnBackup").onclick=()=>{const blob=new Blob([JSON.stringify({app:"mb-quotes
 $("#btnRestore").onclick=()=>$("#fRestore").click();
 $("#fRestore").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text());const list=Array.isArray(j)?j:j.quotes;if(!Array.isArray(list))throw 0;
   const all=ls("mbq-saved")||[];let n=0;list.forEach(q=>{if(!q||!q.id||!q.client)return;q={...q,synced:false};const i=all.findIndex(x=>x.id===q.id);if(i>=0)all[i]=q;else all.push(q);n++});
-  writeAll(all);saved=all;renderList();toast(t("restored",n));if(sheetUrl())syncAll(false)}catch(err){toast(t("badBackup"))}e.target.value=""};
+  writeAll(all);saved=vis(all);renderList();toast(t("restored",n));if(sheetUrl())syncAll(false)}catch(err){toast(t("badBackup"))}e.target.value=""};
 
 /* ---------- archive ---------- */
 function when(iso){try{const d=new Date(iso);return d.toLocaleDateString("en-GB")+" "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})}catch(e){return""}}
@@ -876,10 +903,10 @@ function renderList(){
      ${open?`<div class="csum"><div>${t("cBought")}<b>${fmt(bought)}</b></div><div>${t("cSold")}<b>${fmt(sold)}</b></div><div>${t("cProfit")}<b class="${sgn(profit)}">${fmt(profit)}</b></div>${due>0?`<div style="grid-column:1/-1">${t("cDue")}<b class="neg">${fmt(due)}</b></div>`:""}</div>
      ${rows.map(r=>rowHTML(r)).join("")}`:""}</div>`}).join("");
 }
-function payLine(x){if(x.type!=="invoice")return"";const pd=paidOf(x),du=dueOf(x);
+function payLine(x){if(x.type!=="invoice"||!(x.payments&&x.payments.length))return"";const pd=paidOf(x),du=dueOf(x);
   return`<div class="r2">${du<=0?`<span class="paidtag">${t("fullyPaid")}</span>`:`<span>${t("paidL")} <b>${fmt(pd)}</b></span><span>${t("dueL")} <b class="neg">${fmt(du)}</b></span>`}</div>`}
 function payPanel(x){if(openPay!==x.id)return"";const list=(x.payments||[]).map((p,i)=>`<div class="pline"><span>${esc(dmy(p.date))}</span><b>${fmt(p.amt)}</b><button class="x" data-a="paydel" data-id="${esc(x.id)}" data-i="${i}">✕</button></div>`).join("");
-  return`<div class="paybox">${list}<div class="payrow"><input id="payAmt" inputmode="decimal" placeholder="${esc(t("payAmt"))}" value="${dueOf(x)>0?dueOf(x):""}"><input id="payDate" type="date" value="${today()}"></div>
+  return`<div class="paybox">${list}<div class="payrow"><input id="payAmt" inputmode="decimal" placeholder="${esc(t("payAmt"))}" value=""><input id="payDate" type="date" value="${today()}"></div>
    <div class="acts">${docBtn("gold","paysave",x.id,t("paySave"))}${docBtn("ghost","pay",x.id,t("cancel"))}</div></div>`}
 function rowHTML(r){
   const x=r.x;const lang=`<span class="tag">${x.lang==="en"?"EN":"ع"}</span>`;const pend=sheetUrl()&&x.synced===false?`<span class="tag" style="color:var(--danger)">${t("pending")}</span>`:"";
@@ -887,16 +914,17 @@ function rowHTML(r){
     return`<div class="crow deal"><div class="r1"><span class="kind">${t("dealRow")}</span>${x.no?`<span class="dt" dir="ltr">${esc(x.no)}</span>`:""}${lang}${pend}<span class="dt">${esc(dmy(x.date))}</span></div>
      <div class="r2"><span>${t("colBuy")} <b>${fmt(d.cost)}</b></span><span>${t("colSell")} <b>${fmt(d.sale)}</b></span><span>${t("colGain")} <b class="${sgn(d.profit)}">${fmt(d.profit)}</b></span></div>
      ${payLine(x)}
-     <div class="acts">${docBtn("navy","open",x.id,t("openSale"))}${docBtn("ghost buyb","open",p.id,t("openBuy"))}${docBtn("ghost","cmp",x.id,t("cmpItems"))}${dueOf(x)>0?docBtn("ghost","pay",x.id,t("payBtn")):""}${docBtn("ghost","more",x.id,"⋯")}</div>
+     <div class="acts">${docBtn("navy","open",x.id,t("openSale"))}${docBtn("ghost buyb","open",p.id,t("openBuy"))}${docBtn("ghost","cmp",x.id,t("cmpItems"))}${docBtn("ghost","pay",x.id,t("payBtn"))}${docBtn("ghost","more",x.id,"⋯")}</div>
      ${payPanel(x)}
      ${openCmp===x.id?itemCompare(d):""}
      ${more?`<div class="acts">${docBtn("ghost","view",x.id,t("view"))}${docBtn("ghost","dup",x.id,t("dup"))}${pendingDelete===x.id?confirmRow(x.id):docBtn("ghost","del",x.id,t("delSale"))}${pendingDelete===p.id?confirmRow(p.id):docBtn("ghost","del",p.id,t("delBuy"))}</div>`:""}</div>`}
   const label={quote:t("quoteRow"),sale:t("saleRow"),buy:t("buyRow")}[r.kind];
   const conv=x.type==="quote"&&saved.some(s=>s.fromQuote===x.id);
-  const extra=r.kind==="buy"?docBtn("gold","sell",x.id,t("addSale")):r.kind==="sale"?docBtn("ghost buyb","buy",x.id,t("addPurchase"))+(dueOf(x)>0?docBtn("ghost","pay",x.id,t("payBtn")):""):r.kind==="quote"?docBtn("gold","conv",x.id,t("toInvoice")):"";
+  const extra=r.kind==="buy"?docBtn("gold","sell",x.id,t("addSale")):r.kind==="sale"?docBtn("ghost buyb","buy",x.id,t("addPurchase"))+docBtn("ghost","pay",x.id,t("payBtn")):r.kind==="quote"?docBtn("gold","conv",x.id,t("toInvoice")):"";
   const more=openMore===x.id;
+  const al=r.kind==="buy"?`<span class="alert">⚠ ${t("pendingSale")}</span>`:r.kind==="sale"?`<span class="alert">⚠ ${t("waitBuy")}</span>`:"";
   return`<div class="crow ${r.kind}"><div class="r1"><span class="kind">${label}</span>${x.no?`<span class="dt" dir="ltr">${esc(x.no)}</span>`:""}${lang}${pend}${conv?`<span class="tag">${t("converted")}</span>`:""}<span class="dt">${esc(dmy(x.date))}</span><b class="amt">${fmt(x.total)}</b></div>
-   ${payLine(x)}
+   ${al?`<div>${al}</div>`:""}${payLine(x)}
    <div class="acts">${docBtn("navy","open",x.id,t("open"))}${extra}${docBtn("ghost","more",x.id,"⋯")}</div>
    ${payPanel(x)}
    ${more?`<div class="acts">${docBtn("ghost","view",x.id,t("view"))}${docBtn("ghost","dup",x.id,t("dup"))}${pendingDelete===x.id?confirmRow(x.id):docBtn("ghost","del",x.id,t("del"))}</div>`:""}</div>`;
@@ -904,7 +932,7 @@ function rowHTML(r){
 function loadQuote(x,asCopy){cur={no:asCopy?"":(x.no||""),payments:asCopy?[]:(x.payments||[]).slice(),fromQuote:asCopy?"":(x.fromQuote||""),vat:x.vat===true,id:asCopy?null:x.id,type:["invoice","purchase"].includes(x.type)?x.type:"quote",linkTo:x.linkTo||"",showNotes:x.showNotes!==false,sign:x.sign===true,lang:x.lang||"ar",client:asCopy?"":x.client,date:asCopy?today():x.date,currency:x.currency||CUR[x.lang||"ar"],fb:x.fb||"MB Systems",
   items:(x.items||[]).map(i=>({d:i.d||"",q:String(i.q??""),p:String(i.p??"")})),notes:(x.notes||[]).slice()};
   if(!cur.items.length)cur.items.push({d:"",q:"",p:""});persist();renderEditor()}
-$("#list").addEventListener("click",e=>{
+function docAction(e){
   const ch=e.target.closest("[data-client]");if(ch){const k=ch.dataset.client;openClients.has(k)?openClients.delete(k):openClients.add(k);renderList();return}
   const btn=e.target.closest("[data-a]");if(!btn)return;const x=saved.find(s=>s.id===btn.dataset.id);if(!x)return;const a=btn.dataset.a;
   if(a==="open"){loadQuote(x);show("edit");toast(t("opened",x.client))}
@@ -914,15 +942,17 @@ $("#list").addEventListener("click",e=>{
   else if(a==="more"){openMore=openMore===x.id?null:x.id;pendingDelete=null;renderList()}
   else if(a==="sell"){const ex=x.linkTo&&saved.find(s=>s.id===x.linkTo&&s.type==="invoice");if(ex){loadQuote(ex)}else{const lastInv=saved.find(s=>s.type==="invoice"&&(s.lang||"ar")===(x.lang||"ar"));loadQuote(x,true);cur.client=x.client;cur.date=today();cur.type="invoice";cur.fromPurchase=x.id;cur.showNotes=false;cur.notes=(lastInv&&lastInv.notes||NOTES[cur.lang]).slice();cur.sign=lastInv?lastInv.sign===true:false;cur.items=cur.items.map(i=>({d:i.d,q:i.q,p:""}));persist();renderEditor()}show("edit");toast(t("saleReady"))}
   else if(a==="buy"){const ex=saved.find(s=>s.type==="purchase"&&s.linkTo===x.id);if(ex){loadQuote(ex)}else{loadQuote(x,true);cur.client=x.client;cur.date=x.date;cur.type="purchase";cur.linkTo=x.id;cur.sign=false;cur.showNotes=false;cur.notes=[];cur.items=cur.items.map(i=>({d:i.d,q:i.q,p:""}));persist();renderEditor()}show("edit");toast(t("purchaseReady"))}
-  else if(a==="pay"){openPay=openPay===x.id?null:x.id;renderList();const el=$("#payAmt");if(el)el.focus()}
-  else if(a==="paysave"){const amt=num($("#payAmt").value);if(amt==null||amt<=0){toast(t("payBad"));return}const all=ls("mbq-saved")||[];const d=all.find(s=>s.id===x.id);if(!d)return;
-    d.payments=(d.payments||[]).concat([{amt,date:$("#payDate").value||today()}]);d.savedAt=new Date().toISOString();writeAll(all);saved=all;openPay=null;if(cur.id===d.id)cur.payments=d.payments.slice();renderList();pushQuote(d,false);toast(dueOf(d)<=0?t("fullyPaid"):t("paySaved",fmt(dueOf(d))))}
-  else if(a==="paydel"){const all=ls("mbq-saved")||[];const d=all.find(s=>s.id===x.id);if(!d)return;d.payments=(d.payments||[]).filter((_,i)=>i!==+btn.dataset.i);d.savedAt=new Date().toISOString();writeAll(all);saved=all;if(cur.id===d.id)cur.payments=d.payments.slice();renderList();pushQuote(d,false)}
+  else if(a==="pay"){openPay=openPay===x.id?null:x.id;if(curView!=="arch"){openClients.add(normName(x.client));show("arch")}renderList();const el=$("#payAmt");if(el){el.scrollIntoView({block:"center"});el.focus()}}
+  else if(a==="paysave"){const amt=num($("#payAmt").value);if(amt==null||amt<0){toast(t("payBad"));return}const all=ls("mbq-saved")||[];const d=all.find(s=>s.id===x.id);if(!d)return;
+    d.payments=(d.payments||[]).concat([{amt,date:$("#payDate").value||today()}]);d.savedAt=new Date().toISOString();writeAll(all);saved=vis(all);openPay=null;if(cur.id===d.id)cur.payments=d.payments.slice();renderList();pushQuote(d,false);toast(dueOf(d)<=0?t("fullyPaid"):t("paySaved",fmt(dueOf(d))))}
+  else if(a==="paydel"){const all=ls("mbq-saved")||[];const d=all.find(s=>s.id===x.id);if(!d)return;d.payments=(d.payments||[]).filter((_,i)=>i!==+btn.dataset.i);d.savedAt=new Date().toISOString();writeAll(all);saved=vis(all);if(cur.id===d.id)cur.payments=d.payments.slice();renderList();pushQuote(d,false)}
   else if(a==="conv"){const ex=saved.find(s=>s.fromQuote===x.id);if(ex){loadQuote(ex)}else{loadQuote(x,true);cur.client=x.client;cur.type="invoice";cur.fromQuote=x.id;persist();renderEditor()}show("edit");toast(t("convDone"))}
   else if(a==="del"){pendingDelete=x.id;renderList()}
   else if(a==="del-no"){pendingDelete=null;renderList()}
-  else if(a==="del-yes"){pendingDelete=null;sheetCall({action:"delete",id:x.id}).catch(()=>{});const all=saved.filter(s=>s.id!==x.id);writeAll(all);saved=all;if(cur.id===x.id){cur.id=null;persist();renderHead()}renderList();toast(t("deleted"))}
-});
+  else if(a==="del-yes"){pendingDelete=null;const all=ls("mbq-saved")||[];const d=all.find(s=>s.id===x.id);if(d){d.deleted=true;d.savedAt=new Date().toISOString();d.synced=false;writeAll(all);pushQuote(d,false)}saved=vis(all);if(cur.id===x.id){cur.id=null;persist();renderHead()}renderList();toast(t("deleted"))}
+}
+$("#list").addEventListener("click",docAction);
+$("#todo").addEventListener("click",docAction);
 $("#fSearch").addEventListener("input",e=>{filter=e.target.value;renderList()});
 
 /* ---------- numbering: Q-2026-001 / INV-2026-001 / PO-2026-001 ---------- */
@@ -932,7 +962,7 @@ function nextNo(type){const p=NO_PREFIX[type]||"Q",y=new Date().getFullYear(),re
 
 /* ---------- payments ---------- */
 const paidOf=x=>(x.payments||[]).reduce((a,p)=>a+(+p.amt||0),0);
-const dueOf=x=>Math.max(0,Math.round(((+x.total||0)-paidOf(x))*100)/100);
+const dueOf=x=>(x.payments&&x.payments.length)?Math.max(0,Math.round(((+x.total||0)-paidOf(x))*100)/100):0;
 
 /* ---------- item catalog: last buy / sell price per description ---------- */
 function catalog(){const m=new Map();
@@ -943,7 +973,7 @@ function fillCatalogList(){const dl=$("#catalogList");if(!dl)return;dl.innerHTML
 /* ---------- profit ---------- */
 /* purchase prices that belong to the sales invoice being edited: desc -> unit cost */
 function buyMap(){if(cur.type!=="invoice")return null;const nm=normName(cur.client);
-  const ps=saved.filter(p=>p.type==="purchase"&&((cur.id&&p.linkTo===cur.id)||p.id===cur.fromPurchase||(!p.linkTo&&nm&&normName(p.client)===nm)));
+  const ps=saved.filter(p=>p.type==="purchase"&&((cur.id&&p.linkTo===cur.id)||p.id===cur.fromPurchase));
   if(!ps.length)return null;const m=new Map(),q=new Map();
   ps.forEach(p=>(p.items||[]).forEach(it=>{const k=normDesc(it.d),qq=num(it.q)||0,pr=num(it.p)||0;m.set(k,(m.get(k)||0)+qq*pr);q.set(k,(q.get(k)||0)+qq)}));
   const r=new Map();m.forEach((v,k)=>r.set(k,q.get(k)?v/q.get(k):0));return r}
@@ -953,10 +983,7 @@ const net=x=>+(x.sub!=null?x.sub:x.total)||0;
 function computeProfit(){
   const sales=saved.filter(x=>x.type==="invoice"),buys=saved.filter(x=>x.type==="purchase");
   const deals=new Map(sales.map(s=>[s.id,{s,buys:[]}]));const orphans=[];
-  buys.forEach(p=>{let id=p.linkTo&&deals.has(p.linkTo)?p.linkTo:"";
-    if(!id){const nm=normName(p.client);const cands=sales.filter(s=>normName(s.client)===nm);
-      if(cands.length){const pd=Date.parse(p.date)||0;cands.sort((a,b)=>Math.abs((Date.parse(a.date)||0)-pd)-Math.abs((Date.parse(b.date)||0)-pd));id=cands[0].id}}
-    if(id)deals.get(id).buys.push(p);else orphans.push(p)});
+  buys.forEach(p=>{const id=p.linkTo&&deals.has(p.linkTo)?p.linkTo:"";if(id)deals.get(id).buys.push(p);else orphans.push(p)});
   const months=new Map();const mk=k=>{if(!months.has(k))months.set(k,{key:k,sales:0,cost:0,deals:[],orphans:[],waiting:[]});return months.get(k)};
   let S=0,C=0;
   deals.forEach(d=>{d.cost=d.buys.reduce((a,p)=>a+net(p),0);d.sale=net(d.s);d.profit=d.sale-d.cost;const m=mk((d.s.date||"").slice(0,7));if(!d.buys.length){m.waiting.push(d);return}m.sales+=d.sale;m.cost+=d.cost;m.deals.push(d);S+=d.sale;C+=d.cost});
@@ -967,7 +994,7 @@ function computeProfit(){
 }
 function monthName(k){const[y,m]=k.split("-").map(Number);if(!y||!m)return k;return new Date(y,m-1,1).toLocaleDateString(ui==="ar"?"ar-EG-u-nu-latn":"en-GB",{month:"long",year:"numeric"})}
 const sgn=v=>v<0?"neg":"pos";
-function updateChip(){const P=computeProfit();$("#pChipVal").textContent=fmt(P.profit);$("#pChipVal").className=sgn(P.profit)}
+function updateChip(){}
 function itemCompare(d){
   const buy=new Map();d.buys.forEach(p=>(p.items||[]).forEach(it=>{const k=normDesc(it.d);const q=num(it.q)||0,pr=num(it.p)||0;const o=buy.get(k)||{q:0,v:0,d:it.d};o.q+=q;o.v+=q*pr;buy.set(k,o)}));
   const used=new Set();
@@ -977,30 +1004,50 @@ function itemCompare(d){
   return`<div class="cmp"><table><thead><tr><th>${t("colItem")}</th><th>${t("qty")}</th><th>${t("colBuy")}</th><th>${t("colSell")}</th><th>${t("colGain")}</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="d">${esc(r.d)}</td><td>${r.q}</td><td>${r.bp==null?"—":fmt(r.bp)}</td><td>${r.sp==null?"—":fmt(r.sp)}</td><td class="${r.g==null?"":sgn(r.g)}">${r.g==null?"—":fmt(r.g)}</td></tr>`).join("")}</tbody></table></div>`;
 }
 let openDeal=null;
+function dueBlock(){const inv=saved.filter(x=>x.type==="invoice"&&dueOf(x)>0);const tot=inv.reduce((a,x)=>a+dueOf(x),0);
+  const by=new Map();inv.forEach(x=>{const k=normName(x.client);if(!by.has(k))by.set(k,{name:x.client,due:0,list:[]});const o=by.get(k);o.due+=dueOf(x);o.list.push(x)});
+  const rows=[...by.values()].sort((a,b)=>b.due-a.due).map(o=>`<div class="drow"><div class="r1"><span class="nm">${esc(o.name)}</span><b class="neg">${fmt(o.due)}</b></div>${o.list.map(x=>`<div class="r2"><span dir="ltr">${esc(x.no||"")}</span><span>${esc(dmy(x.date))}</span><span>${t("colSell")} ${fmt(x.total)}</span><span>${t("paidL")} ${fmt(paidOf(x))}</span><span class="neg">${t("dueL")} ${fmt(dueOf(x))}</span></div>`).join("")}</div>`).join("");
+  return`<div class="dueCard"><div class="dhd"><span>${t("outstanding")}</span><strong class="${tot>0?"neg":""}">${fmt(tot)}</strong></div>${tot>0?rows:`<p class="hint" style="padding:0 14px 12px">${t("noDue")}</p>`}</div>`}
 function renderProfit(){
   const P=computeProfit();updateChip();
   const thisM=P.months.find(m=>m.key===today().slice(0,7));
   $("#pTot").innerHTML=`<div class="big"><span>${t("profitTotal")}</span><strong class="${P.profit<0?"neg":""}">${fmt(P.profit)}</strong></div>
    <div class="sm"><span>${t("salesTotal")}</span><strong>${fmt(P.sales)}</strong></div><div class="sm"><span>${t("costTotal")}</span><strong>${fmt(P.cost)}</strong></div>
-   <div class="sm"><span>${t("outstanding")}</span><strong class="${saved.some(x=>x.type==="invoice"&&dueOf(x)>0)?"neg":""}">${fmt(saved.filter(x=>x.type==="invoice").reduce((a,x)=>a+dueOf(x),0))}</strong></div>
-   <div class="sm"><span>${t("thisMonth")}</span><strong class="${sgn(thisM?thisM.profit:0)}">${fmt(thisM?thisM.profit:0)}</strong></div>`;
+   <div class="sm"><span>${t("thisMonth")}</span><strong class="${sgn(thisM?thisM.profit:0)}">${fmt(thisM?thisM.profit:0)}</strong></div>
+   ${dueBlock()}`;
   if(!P.months.length){$("#pMonths").innerHTML=`<div class="empty"><strong>${t("profitEmpty")}</strong>${t("profitEmptyB")}</div>`;return}
   $("#pMonths").innerHTML=P.months.map(m=>`<div class="month"><h3>${esc(monthName(m.key))}<small>${t("invoicesN",m.deals.length)}</small><b class="${sgn(m.profit)}">${fmt(m.profit)}</b></h3>
     <div class="msum"><div>${t("monthSales")}<b>${fmt(m.sales)}</b></div><div>${t("monthCost")}<b>${fmt(m.cost)}</b></div><div>${t("margin")}<b>${m.sales?Math.round(m.profit/m.sales*100):0}%</b></div></div>
     ${m.deals.map(d=>`<div class="inv" data-deal="${esc(d.s.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(d.s.client)}</span><b class="${sgn(d.profit)}">${fmt(d.profit)}</b></div>
       <div class="r2"><span>${esc(dmy(d.s.date))}</span><span>${t("colSell")} ${fmt(d.sale)}</span><span>${t("colBuy")} ${fmt(d.cost)}</span></div>
-      ${d.buys.length?"":`<div class="warn2">${t("noCost")}</div>`}${openDeal===d.s.id?itemCompare(d):""}</div>`).join("")}
-    ${m.waiting.map(d=>`<div class="inv" data-wait="${esc(d.s.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(d.s.client)}</span><b style="color:var(--muted)">${t("colSell")} ${fmt(d.sale)}</b></div><div class="r2"><span>${esc(dmy(d.s.date))}</span><span class="warn2">${t("waitBuy")} · ${t("addPurchase")}</span></div></div>`).join("")}
-    ${m.orphans.map(p=>`<div class="inv" data-pend="${esc(p.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(p.client)}</span><b style="color:var(--muted)">${t("colBuy")} ${fmt(p.total)}</b></div><div class="r2"><span>${esc(dmy(p.date))}</span><span class="warn2">${t("pendingSale")} · ${t("addSale")}</span></div></div>`).join("")}
+      ${openDeal===d.s.id?itemCompare(d):""}</div>`).join("")}
+    ${m.waiting.map(d=>`<div class="inv" data-wait="${esc(d.s.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(d.s.client)}</span><b style="color:var(--muted)">${t("colSell")} ${fmt(d.sale)}</b></div><div class="r2"><span>${esc(dmy(d.s.date))}</span><span class="alert">⚠ ${t("waitBuy")}</span><span class="act">${t("addPurchase")}</span></div></div>`).join("")}
+    ${m.orphans.map(p=>`<div class="inv" data-pend="${esc(p.id)}" role="button" tabindex="0"><div class="r1"><span class="nm">${esc(p.client)}</span><b style="color:var(--muted)">${t("colBuy")} ${fmt(p.total)}</b></div><div class="r2"><span>${esc(dmy(p.date))}</span><span class="alert">⚠ ${t("pendingSale")}</span><span class="act">${t("addSale")}</span></div></div>`).join("")}
   </div>`).join("");
 }
 $("#pMonths").addEventListener("click",e=>{const wt=e.target.closest("[data-wait]");if(wt){const x=saved.find(s=>s.id===wt.dataset.wait);if(x){show("arch");filter="";$("#fSearch").value="";openClients.add(normName(x.client));renderList();const bb=document.querySelector(`[data-a="buy"][data-id="${CSS.escape(x.id)}"]`);if(bb)bb.click()}return}const pe=e.target.closest("[data-pend]");if(pe){const x=saved.find(s=>s.id===pe.dataset.pend);if(x){show("arch");filter="";$("#fSearch").value="";openClients.add(normName(x.client));renderList();const card=document.querySelector(`[data-a="sell"][data-id="${CSS.escape(x.id)}"]`);if(card)card.click()}return}const el=e.target.closest("[data-deal]");if(!el)return;openDeal=openDeal===el.dataset.deal?null:el.dataset.deal;renderProfit()});
-$("#pChip").onclick=()=>show("profit");
+
+/* ---------- "waiting on you" panel on the Add tab ---------- */
+let lastSavedNote="";
+function renderTodo(){const el=$("#todo");if(!el)return;let P;try{P=computeProfit()}catch(e){return}
+  const items=[];
+  P.months.forEach(m=>{m.orphans.forEach(p=>items.push({d:p.savedAt,h:`<span>⚠ ${esc(t("todoBuy",p.client,dmy(p.date)))}</span>${docBtn("gold","sell",p.id,t("makeSale"))}`}));
+    m.waiting.forEach(w=>items.push({d:w.s.savedAt,h:`<span>⚠ ${esc(t("todoSale",w.s.client,dmy(w.s.date)))}</span>${docBtn("ghost buyb","buy",w.s.id,t("makeBuy"))}`}))});
+  saved.filter(x=>x.type==="invoice"&&dueOf(x)>0).forEach(x=>items.push({d:x.savedAt,h:`<span class="neg">● ${esc(t("todoDue",x.client,fmt(dueOf(x))))}</span>${docBtn("ghost","pay",x.id,t("payBtn"))}`}));
+  items.sort((a,b)=>(b.d||"").localeCompare(a.d||""));
+  const last=lastSavedNote?`<div class="ti last">✓ ${esc(lastSavedNote)}</div>`:"";
+  if(!items.length&&!last){el.hidden=true;return}
+  el.hidden=false;el.innerHTML=`${items.length?`<h3>${t("todoTitle")} (${items.length})</h3>`:""}${items.slice(0,5).map(i=>`<div class="ti">${i.h}</div>`).join("")}${last}`}
 
 /* ---------- tabs / toast ---------- */
-function show(v){["edit","prev","arch","profit"].forEach(k=>{$("#v-"+k).hidden=k!==v});
+let curView="edit";
+const VIEW_T={edit:"tabEdit",prev:"tabPrev",arch:"tabArch",profit:"tabProfit",set:"tabSet"};
+function setTitle(){$("#pageTitle").textContent=t(VIEW_T[curView]||"tabEdit")}
+function show(v){curView=v;["edit","prev","arch","profit","set"].forEach(k=>{$("#v-"+k).hidden=k!==v});
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.v===v)));
-  window.scrollTo(0,0);if(v==="prev")renderPreview();if(v==="arch")renderSig();if(v==="profit")renderProfit()}
+  $("#btnGear").setAttribute("aria-pressed",String(v==="set"));setTitle();
+  window.scrollTo(0,0);if(v==="prev")renderPreview();if(v==="set")renderSig();if(v==="profit")renderProfit();if(v==="arch")renderList();if(v==="edit")renderTodo()}
+$("#btnGear").onclick=()=>show(curView==="set"?"edit":"set");
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>show(b.dataset.v));
 let tt;function toast(m){const el=$("#toast");el.textContent=m;el.hidden=false;clearTimeout(tt);tt=setTimeout(()=>el.hidden=true,2600)}
 
