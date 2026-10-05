@@ -125,6 +125,8 @@ button{font:inherit;cursor:pointer}
 .btn.gold{background:var(--gold);color:#fff}
 .btn.navy{background:var(--navy);color:var(--on-navy)}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.pact{background:var(--navy);color:var(--on-navy);border-color:var(--navy);transition:opacity .12s}
+.btn.pact:active,.btn.pact:disabled{opacity:.75}
 .btn.danger{background:var(--danger);color:#fff}
 .btn.block{width:100%}
 .btn[disabled]{opacity:.5;cursor:default}
@@ -293,8 +295,8 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
       <div class="grid2">
         <label class="f"><span data-t="client"></span><input id="fClient" autocomplete="off"></label>
         <label class="f"><span data-t="date"></span><input id="fDate" type="date"></label>
-        <label class="f"><span data-t="currency"></span><input id="fCur" autocomplete="off"></label>
-        <label class="f"><span data-t="fbName"></span><input id="fFb" autocomplete="off"></label>
+        <label class="f" hidden><span data-t="currency"></span><input id="fCur" autocomplete="off"></label>
+        <label class="f" hidden><span data-t="fbName"></span><input id="fFb" autocomplete="off"></label>
       </div>
       <div style="margin-top:12px">
         <div class="f" style="font-size:12.5px;color:var(--muted);margin-bottom:4px" data-t="docType"></div>
@@ -349,10 +351,10 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
   <!-- PREVIEW -->
   <section class="view" id="v-prev" hidden>
     <div class="exp">
-      <button class="btn gold" id="btnShare" type="button" data-t="sendPdf"></button>
-      <button class="btn navy" id="btnPrint" type="button" data-t="print"></button>
-      <button class="btn ghost" id="btnPng" type="button" data-t="sendImg"></button>
-      <button class="btn ghost" id="btnCopy" type="button" data-t="copyText"></button>
+      <button class="btn pact" id="btnShare" type="button" data-t="sendPdf"></button>
+      <button class="btn pact" id="btnPrint" type="button" data-t="print"></button>
+      <button class="btn pact" id="btnPng" type="button" data-t="sendImg"></button>
+      <button class="btn pact" id="btnCopy" type="button" data-t="copyText"></button>
     </div>
     <div class="seg" role="group" style="grid-template-columns:1fr 1fr 1fr"><button type="button" data-dt="quote" data-t="tQuote"></button><button type="button" data-dt="invoice" data-t="tInvoice"></button><button type="button" data-dt="purchase" data-t="tPurchase"></button></div>
     <div class="seg" role="group" aria-label="Language"><button type="button" data-ql="ar">العربية</button><button type="button" data-ql="en">In English</button></div>
@@ -549,7 +551,7 @@ document.querySelectorAll("[data-ui]").forEach(b=>b.onclick=()=>{ui=b.dataset.ui
 
 /* ---------- editor ---------- */
 function updNo(){const nm=t(cur.type==="invoice"?"nmInv":cur.type==="purchase"?"nmBuy":"nmQuote");const keep=cur.no&&cur.no.startsWith((NO_PREFIX[cur.type]||"Q")+"-");$("#noLine").textContent=keep?t("noLineOld",nm,cur.no):t("noLineNew",nm,nextNo(cur.type))}
-function renderHead(){$("#fClient").value=cur.client;$("#fDate").value=cur.date;$("#fCur").value=cur.currency;$("#fFb").value=cur.fb;
+function renderHead(){cur.currency=CUR[cur.lang==="en"?"en":"ar"];cur.fb="MB Systems";$("#fClient").value=cur.client;$("#fDate").value=cur.date;$("#fCur").value=cur.currency;$("#fFb").value=cur.fb;
   document.querySelectorAll("[data-ql]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.ql===cur.lang)));
   document.querySelectorAll("[data-dt]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.dt===(cur.type||"quote"))));
   document.querySelectorAll('[data-sw="sig"]').forEach(b=>{const v=cur.sign===true;b.setAttribute("aria-checked",String(v));b.querySelector("[data-swtxt]").textContent=t(v?"sigOn":"sigOff")});
