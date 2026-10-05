@@ -782,7 +782,7 @@ $("#btnSbSync").onclick=()=>syncAll(true);
 function setSync(state,msg){const el=SB_ON?$("#sbState"):$("#syncState");el.className="sync"+(state==="ok"?" on":state==="err"?" err":"");el.lastElementChild.textContent=msg||t(state==="ok"?"syncOk":state==="err"?"syncErr":"syncOff")}
 async function sheetCall(payload,get){
   if(SB_ON){if(!sb||!sbUser)throw new Error("auth");
-    if(get){const {data,error}=await sb.from("documents").select("data");if(error)throw error;return{ok:true,quotes:(data||[]).map(r=>r.data)}}
+    if(get){const {data,error}=await sb.from("documents").select("data");if(error)throw error;return{ok:true,quotes:(data||[]).map(r=>r.data).filter(Boolean)}}
     if(payload.action==="delete"){const {error}=await sb.from("documents").delete().eq("id",payload.id);if(error)throw error;return{ok:true}}
     const q=payload.quote;const row={id:q.id,type:q.type||"quote",client:q.client||"",doc_no:q.no||null,doc_date:q.date||null,total:+q.total||0,data:q,updated_at:q.savedAt||new Date().toISOString()};
     const {error}=await sb.from("documents").upsert(row);if(error)throw error;return{ok:true}}
@@ -796,7 +796,7 @@ function markSynced(id,ok){const all=ls("mbq-saved")||[];const q=all.find(x=>x.i
 async function pushQuote(q,announce){
   if(!sheetUrl())return;
   try{const body={...q};delete body.synced;await sheetCall({action:"save",quote:body});markSynced(q.id,true);setSync("ok");if(announce)toast(t(SB_ON?"sbSaved":"sheetSaved"))}
-  catch(e){markSynced(q.id,false);setSync("err");if(announce)toast(t("sheetFail"))}
+  catch(e){console.error("save failed",e);markSynced(q.id,false);setSync("err",SB_ON&&e&&e.message?String(e.message).slice(0,80):undefined);if(announce)toast(SB_ON&&e&&e.message?t("sheetFail")+" — "+String(e.message).slice(0,90):t("sheetFail"))}
 }
 async function syncAll(announce){
   if(!sheetUrl()){setSync("off");return}
@@ -808,12 +808,11 @@ async function syncAll(announce){
       else if((r.savedAt||"")>(all[i].savedAt||"")){all[i]={...r,synced:true};down++}
       else if((r.savedAt||"")===(all[i].savedAt||""))all[i].synced=true});
     const remote=new Set((j.quotes||[]).map(r=>r.id));
-    if(SB_ON)all=all.filter(x=>remote.has(x.id)||x.synced!==true);
-    const toPush=all.filter(x=>x.synced===false||(!remote.has(x.id)&&x.synced!==true));
+    const toPush=all.filter(x=>x.synced===false||!remote.has(x.id)||(SB_ON&&x.synced!==true));
     writeAll(all);saved=all;renderList();
     for(const q of toPush){const body={...q};delete body.synced;await sheetCall({action:"save",quote:body});q.synced=true;up++}
     writeAll(all);saved=all;renderList();setSync("ok");if(announce)toast(t("synced",up,down));
-  }catch(e){setSync("err");if(announce)toast(t("linkFail"))}
+  }catch(e){console.error("sync failed",e);setSync("err",SB_ON&&e&&e.message?String(e.message).slice(0,80):undefined);if(announce)toast(SB_ON&&e&&e.message?String(e.message).slice(0,120):t("linkFail"))}
 }
 $("#btnSheetSave").onclick=async()=>{ls("mbq-sheet",$("#fSheet").value.trim());if(!sheetUrl()){setSync("off");return}
   try{await sheetCall(null,true);toast(t("linked"));syncAll(false)}catch(e){setSync("err");toast(t("linkFail"))}};
