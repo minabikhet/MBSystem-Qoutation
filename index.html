@@ -274,8 +274,13 @@ nav.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--surface);border
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<style>#splash{display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:#f4f5f7;z-index:100}
+html.boot body>*:not(#splash){visibility:hidden}html.boot #splash{display:flex}
+@media (prefers-color-scheme: dark){#splash{background:#0f1419}}</style>
+<script>document.documentElement.classList.add("boot");setTimeout(function(){document.documentElement.classList.remove("boot")},10000);</script>
 </head>
 <body>
+<div id="splash" aria-hidden="true"><img src="icon-192.png" width="88" height="88" alt="" style="border-radius:20px"></div>
 <div class="wrap">
   <header class="top">
     <img id="hdLogo" alt="MB System">
@@ -814,9 +819,10 @@ function sessionExpire(){if(!SB_ON||!sbUser)return;sbUser=null;if(sbChan&&sb){tr
 ["pointerdown","keydown","touchstart"].forEach(ev=>addEventListener(ev,()=>{if(SB_ON&&sbUser&&idleTooLong()){sessionExpire();return}touch()},{passive:true,capture:true}));
 setInterval(()=>{if(SB_ON&&sbUser&&idleTooLong())sessionExpire()},15000);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState!=="visible"||!SB_ON||!sbUser)return;if(idleTooLong()){sessionExpire();return}syncAll(false)});
-function showLogin(on){$("#login").hidden=!on;if(on){$("#lgLogo").src=LOGO;setTimeout(()=>$("#lgEmail").focus(),50)}}
+function bootDone(){document.documentElement.classList.remove("boot")}
+function showLogin(on){bootDone();$("#login").hidden=!on;if(on){$("#lgLogo").src=LOGO;setTimeout(()=>$("#lgEmail").focus(),50)}}
 async function afterLogin(){
-  showLogin(false);$("#sbUser").textContent=sbUser.email||"";
+  showLogin(false);bootDone();$("#sbUser").textContent=sbUser.email||"";
   const fk="mbq-sbinit-"+sbUser.id;let up=0;
   if(!ls(fk)){const all=ls("mbq-saved")||[];all.forEach(x=>{x.synced=false});up=all.length;writeAll(all);saved=vis(all);ls(fk,true)}
   await syncAll(false);if(up)toast(t("uploaded",up));
@@ -1255,8 +1261,8 @@ addEventListener("unhandledrejection",e=>{const m=String(e.reason&&e.reason.mess
 $("#hdLogo").src=LOGO;
 if(IS_GAS){$("#fSheet").closest("label").hidden=true;$("#btnSheetSave").hidden=true;const h=document.querySelector('[data-t="sheetHint"]');h.dataset.t="gasHint"}
 initStore();applyUI();if(cur._reset)resetAdd();
-if(SB_ON){$("#sheetCard").hidden=true;$("#sbCard").hidden=false;setSync("",t("syncing"));sbInit().catch(e=>{console.error(e);setSync("err");toast(t("loginNet"))})}
-else{$("#fSheet").value=IS_GAS?"":sheetUrl();setSync(sheetUrl()?"":"off",sheetUrl()?t("syncing"):undefined);if(sheetUrl())syncAll(false)}
+if(SB_ON){$("#sheetCard").hidden=true;$("#sbCard").hidden=false;setSync("",t("syncing"));sbInit().catch(e=>{console.error(e);bootDone();setSync("err");toast(t("loginNet"))})}
+else{bootDone();$("#fSheet").value=IS_GAS?"":sheetUrl();setSync(sheetUrl()?"":"off",sheetUrl()?t("syncing"):undefined);if(sheetUrl())syncAll(false)}
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>
