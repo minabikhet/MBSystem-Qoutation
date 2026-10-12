@@ -821,7 +821,7 @@ async function sbInit(){
 const IDLE_MS=5*60*1000;let lastAct=(()=>{try{return +localStorage.getItem("mbq-act")||Date.now()}catch(e){return Date.now()}})();
 function touch(){const n=Date.now();if(n-lastAct>5000){lastAct=n;try{localStorage.setItem("mbq-act",String(n))}catch(e){}}}
 function idleTooLong(){let l=lastAct;try{l=Math.max(l,+localStorage.getItem("mbq-act")||0)}catch(e){}return Date.now()-l>IDLE_MS}
-function sessionExpire(){if(!SB_ON||!sbUser)return;sbUser=null;if(sbChan&&sb){try{sb.removeChannel(sbChan)}catch(e){}sbChan=null}showLogin(true);toast(t("sessionOut"));try{sb.auth.signOut({scope:"local"})}catch(e){}}
+function sessionExpire(){if(!SB_ON||!sbUser)return;sbUser=null;keepOrFresh();show("edit");if(sbChan&&sb){try{sb.removeChannel(sbChan)}catch(e){}sbChan=null}showLogin(true);toast(t("sessionOut"));try{sb.auth.signOut({scope:"local"})}catch(e){}}
 ["pointerdown","keydown","touchstart"].forEach(ev=>addEventListener(ev,()=>{if(SB_ON&&sbUser&&idleTooLong()){sessionExpire();return}touch()},{passive:true,capture:true}));
 setInterval(()=>{if(SB_ON&&sbUser&&idleTooLong())sessionExpire()},15000);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState!=="visible"||!SB_ON||!sbUser)return;if(idleTooLong()){sessionExpire();return}syncAll(false)});
@@ -840,7 +840,7 @@ $("#loginForm").addEventListener("submit",async e=>{e.preventDefault();const btn
     if(error)throw error;sbUser=data.user;$("#lgPass").value="";lastAct=0;touch();afterLogin()}
   catch(err){const el=$("#lgErr");el.hidden=false;el.textContent=/fetch|network/i.test(String(err&&err.message))?t("loginNet"):t("loginBad")}
   finally{btn.disabled=false}});
-$("#btnLogout").onclick=()=>{sbUser=null;if(sbChan&&sb){try{sb.removeChannel(sbChan)}catch(e){}sbChan=null}showLogin(true);try{sb.auth.signOut({scope:"local"})}catch(e){}};
+$("#btnLogout").onclick=()=>{sbUser=null;keepOrFresh();show("edit");if(sbChan&&sb){try{sb.removeChannel(sbChan)}catch(e){}sbChan=null}showLogin(true);try{sb.auth.signOut({scope:"local"})}catch(e){}};
 $("#btnSbSync").onclick=()=>syncAll(true);
 function setSync(state,msg){const el=SB_ON?$("#sbState"):$("#syncState");el.className="sync"+(state==="ok"?" on":state==="err"?" err":"");el.lastElementChild.textContent=msg||t(state==="ok"?"syncOk":state==="err"?"syncErr":"syncOff")}
 const TMO=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")),ms||15000))]);
@@ -1254,6 +1254,15 @@ function show(v){if(v==="edit"&&cur._reset)resetAdd();curView=v;["edit","prev","
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.v===v)));
   $("#btnGear").setAttribute("aria-pressed",String(v==="set"));setTitle();
   window.scrollTo(0,0);if(v==="prev")renderPreview();if(v==="set")renderSig();if(v==="profit")renderProfit();if(v==="arch")renderList();if(v==="edit")renderTodo()}
+function freshAdd(){const lang=cur.lang==="en"?"en":"ar";const last=saved.find(q=>(q.lang||"ar")===lang&&q.type!=="purchase"&&(q.notes||[]).length);cur=blank(lang,last&&last.notes);lastSavedNote="";persist();renderEditor();try{renderTodo()}catch(e){}}
+function docSig(q){return JSON.stringify([(q.client||"").trim(),q.date||"",q.type||"quote",q.lang||"ar",q.vat===true,q.sign===true,q.showNotes!==false,
+  (q.items||[]).filter(i=>(i.d||"").trim()||String(i.q||"").trim()||String(i.p||"").trim()).map(i=>[(i.d||"").trim(),String(i.q??"").trim(),String(i.p??"").trim()]),
+  (q.notes||[]).map(n=>(n||"").trim()).filter(Boolean)])}
+function keepOrFresh(){
+  if(cur._reset){freshAdd();return}
+  if(cur.id){const x=saved.find(s=>s.id===cur.id);if(!x||docSig(x)===docSig(cur)){freshAdd();return}}
+  else{const empty=!(cur.client||"").trim()&&!(cur.items||[]).some(i=>(i.d||"").trim()||String(i.p||"").trim());if(empty){freshAdd();return}}
+  renderEditor()}
 function resetAdd(){const ty=cur.type,lang=cur.lang,sg=cur.sign,nm=cur.client;
   const last=saved.find(q=>(q.lang||"ar")===lang&&q.type!=="purchase"&&(q.notes||[]).length);cur=blank(lang,last&&last.notes);cur.type=ty;cur.sign=sg===true;
   lastSavedNote=`${t("lastSaved")}: ${t(ty==="invoice"?"saleRow":ty==="purchase"?"buyRow":"quoteRow")} · ${nm}`;persist();renderEditor()}
@@ -1266,7 +1275,7 @@ addEventListener("error",e=>{try{toast("⚠ "+(UI[ui].errPre||"Error")+": "+Stri
 addEventListener("unhandledrejection",e=>{const m=String(e.reason&&e.reason.message||e.reason||"");if(/timeout|fetch|network|auth/i.test(m))return;try{toast("⚠ "+(UI[ui].errPre||"Error")+": "+m.slice(0,140))}catch(_){}});
 $("#hdLogo").src=LOGO;
 if(IS_GAS){$("#fSheet").closest("label").hidden=true;$("#btnSheetSave").hidden=true;const h=document.querySelector('[data-t="sheetHint"]');h.dataset.t="gasHint"}
-initStore();applyUI();if(cur._reset)resetAdd();
+initStore();applyUI();keepOrFresh();
 if(SB_ON){$("#sheetCard").hidden=true;$("#sbCard").hidden=false;setSync("",t("syncing"));sbInit().catch(e=>{console.error(e);bootDone();setSync("err");toast(t("loginNet"))})}
 else{bootDone();$("#fSheet").value=IS_GAS?"":sheetUrl();setSync(sheetUrl()?"":"off",sheetUrl()?t("syncing"):undefined);if(sheetUrl())syncAll(false)}
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
